@@ -1,0 +1,41 @@
+name: Update Artificial Analysis LLMs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  update-artificial-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r api/requirements.txt
+
+      - name: Generate Artificial Analysis leaderboard JSON
+        env:
+          ARTIFICIAL_ANALYSIS_API_KEY: ${{ secrets.ARTIFICIAL_ANALYSIS_API_KEY }}
+          ARTIFICIAL_ANALYSIS_PROMPT_LENGTH: ${{ vars.ARTIFICIAL_ANALYSIS_PROMPT_LENGTH || 'medium' }}
+          ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES: ${{ vars.ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES || '1' }}
+          ARTIFICIAL_ANALYSIS_MODEL_LIMIT: ${{ vars.ARTIFICIAL_ANALYSIS_MODEL_LIMIT || '500' }}
+        run: python api/artificial_analysis.py
+
+      - name: Commit updated JSON if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/artificial-analysis-llms.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: update artificial analysis leaderboard data"
+          git push

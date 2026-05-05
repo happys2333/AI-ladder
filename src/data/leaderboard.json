@@ -1,0 +1,125 @@
+{
+  "categories": [
+    { "key": "overall", "label": "综合" },
+    { "key": "coding", "label": "代码" },
+    { "key": "reasoning", "label": "推理" },
+    { "key": "efficiency", "label": "效率" },
+    { "key": "context", "label": "长上下文" },
+    { "key": "multimodal", "label": "多模态" }
+  ],
+  "regions": [
+    { "key": "cn", "label": "中国阵营" },
+    { "key": "global", "label": "全球阵营" }
+  ],
+  "models": [
+    {
+      "id": "deepseek-r1",
+      "name": "DeepSeek-R1",
+      "region": "cn",
+      "vendor": "DeepSeek",
+      "summary": "推理性能强，成本控制优秀",
+      "tags": ["MoE", "Reasoning", "Value"],
+      "pricing": "$0.55 / 1M in",
+      "latency": "1.4s",
+      "scores": {
+        "overall": 97.6,
+        "coding": 95.8,
+        "reasoning": 99.1,
+        "efficiency": 93.7,
+        "context": 90.4,
+        "multimodal": 68.0
+      }
+    },
+    {
+      "id": "qwen-max",
+      "name": "Qwen2.5-Max",
+      "region": "cn",
+      "vendor": "Alibaba",
+      "summary": "综合均衡，适合企业场景",
+      "tags": ["Dense", "Enterprise"],
+      "pricing": "$1.20 / 1M in",
+      "latency": "1.7s",
+      "scores": {
+        "overall": 94.2,
+        "coding": 92.4,
+        "reasoning": 94.8,
+        "efficiency": 88.5,
+        "context": 91.2,
+        "multimodal": 82.6
+      }
+    },
+    {
+      "id": "glm-4.5",
+      "name": "GLM-4.5",
+      "region": "cn",
+      "vendor": "Zhipu",
+      "summary": "工具调用和中文任务表现稳定",
+      "tags": ["Chinese", "Agents"],
+      "pricing": "$0.90 / 1M in",
+      "latency": "1.8s",
+      "scores": {
+        "overall": 90.8,
+        "coding": 88.9,
+        "reasoning": 90.7,
+        "efficiency": 86.4,
+        "context": 87.5,
+        "multimodal": 79.3
+      }
+    },
+    {
+      "id": "claude-37-sonnet",
+      "name": "Claude 3.7 Sonnet",
+      "region": "global",
+      "vendor": "Anthropic",
+      "summary": "代码质量高，长文本与代理任务稳定",
+      "tags": ["Coding", "Agentic"],
+      "pricing": "$3.00 / 1M in",
+      "latency": "1.9s",
+      "scores": {
+        "overall": 98.4,
+        "coding": 99.0,
+        "reasoning": 97.8,
+        "efficiency": 84.2,
+        "context": 95.6,
+        "multimodal": 86.4
+      }
+    },
+    {
+      "id": "gpt-4o",
+      "name": "GPT-4o",
+      "region": "global",
+      "vendor": "OpenAI",
+      "summary": "交互速度快，多模态能力突出",
+      "tags": ["Omni", "Fast"],
+      "pricing": "$2.50 / 1M in",
+      "latency": "1.2s",
+      "scores": {
+        "overall": 97.9,
+        "coding": 96.1,
+        "reasoning": 96.7,
+        "efficiency": 87.6,
+        "context": 92.5,
+        "multimodal": 98.8
+      }
+    },
+    {
+      "id": "gemini-15-pro",
+      "name": "Gemini 1.5 Pro",
+      "region": "global",
+      "vendor": "Google",
+      "summary": "超长上下文和多模态理解强",
+      "tags": ["2M Context", "Vision"],
+      "pricing": "$3.50 / 1M in",
+      "latency": "2.1s",
+      "scores": {
+        "overall": 93.8,
+        "coding": 89.8,
+        "reasoning": 92.0,
+        "efficiency": 81.2,
+        "context": 99.1,
+        "multimodal": 95.4
+      }
+    }
+  ],
+  "lastUpdated": "2026-05-04T10:30:00+08:00"
+}
