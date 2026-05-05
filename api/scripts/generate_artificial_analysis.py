@@ -24,18 +24,19 @@ SOURCE_INFO = {
 CATEGORIES = [
     {'key': 'overall', 'label': '智能指数'},
     {'key': 'coding', 'label': '代码'},
-    {'key': 'math', 'label': '数学'},
     {'key': 'reasoning', 'label': '推理'},
-    {'key': 'knowledge', 'label': '知识'},
-    {'key': 'agentic', 'label': '代理任务'},
+    {'key': 'price', 'label': '价格'},
+    {'key': 'speed', 'label': '速度'},
 ]
 
 CN_CREATOR_KEYWORDS = (
-    'alibaba', 'deepseek', 'minimax', 'kimi', 'moonshot', 'z.ai', 'zhipu', 'baidu',
+    'alibaba', 'deepseek', 'minimax', 'kimi', 'moonshot', 'z.ai', 'z ai', 'zai', 'zhipu', 'baidu',
     'tencent', 'xiaomi', '01.ai', 'stepfun', 'hailuo', 'doubao', 'bytedance',
 )
 
-OPEN_WEIGHT_KEYWORDS = ('open', 'open-weight', 'open weights', 'oss', 'open source')
+OPEN_WEIGHT_KEYWORDS = ('open-weight', 'open weights', 'open source', 'open-weights')
+PROPRIETARY_KEYWORDS = ('closed', 'proprietary', 'api-only')
+OPEN_WEIGHT_CREATORS = ('meta', 'deepseek', 'mistral', 'alibaba', 'qwen', 'z.ai')
 
 
 def parse_args() -> argparse.Namespace:
@@ -98,6 +99,33 @@ def normalize_number(value: Any, multiplier: float = 1.0) -> float:
         return 0.0
 
 
+def normalize_text(value: Any) -> str:
+    if value is None:
+        return ''
+
+    if isinstance(value, str):
+        return value.strip().lower()
+
+    if isinstance(value, bool):
+        return 'true' if value else 'false'
+
+    if isinstance(value, (int, float)):
+        return str(value).strip().lower()
+
+    if isinstance(value, dict):
+        parts = []
+        for nested_key in ('value', 'label', 'name', 'slug', 'type', 'category', 'description'):
+            nested_value = normalize_text(value.get(nested_key))
+            if nested_value:
+                parts.append(nested_value)
+        return ' '.join(parts)
+
+    if isinstance(value, (list, tuple, set)):
+        return ' '.join(filter(None, (normalize_text(item) for item in value)))
+
+    return str(value).strip().lower()
+
+
 def detect_region(model: dict[str, Any]) -> str:
     creator_name = (model.get('model_creator', {}) or {}).get('name', '')
     name = model.get('name', '')
@@ -109,25 +137,32 @@ def detect_openness(model: dict[str, Any]) -> str:
     direct_candidates = [
         model.get('openness'),
         model.get('open_weights'),
+        model.get('open_source_categorization'),
         model.get('open_source'),
         model.get('weights_available'),
         model.get('weights_access'),
         model.get('weights_type'),
         model.get('model_access'),
+        (model.get('metadata') or {}).get('open_weights'),
+        (model.get('metadata') or {}).get('open_source_categorization'),
     ]
 
     for candidate in direct_candidates:
         if isinstance(candidate, bool):
             return 'open' if candidate else 'other'
 
-        if isinstance(candidate, str):
-            normalized = candidate.strip().lower()
-            if not normalized:
-                continue
-            if any(keyword in normalized for keyword in ('open', 'open-weight', 'commercial use restricted')):
-                return 'open'
-            if any(keyword in normalized for keyword in ('closed', 'proprietary', 'api-only')):
-                return 'other'
+        normalized = normalize_text(candidate)
+        if not normalized:
+            continue
+
+        if normalized in {'true', '1'}:
+            return 'open'
+        if normalized in {'false', '0'}:
+            return 'other'
+        if any(keyword in normalized for keyword in OPEN_WEIGHT_KEYWORDS) or 'commercial use restricted' in normalized:
+            return 'open'
+        if any(keyword in normalized for keyword in PROPRIETARY_KEYWORDS):
+            return 'other'
 
     name = model.get('name', '').lower()
     slug = model.get('slug', '').lower()
@@ -137,8 +172,7 @@ def detect_openness(model: dict[str, Any]) -> str:
     if any(keyword in haystack for keyword in OPEN_WEIGHT_KEYWORDS):
         return 'open'
 
-    open_weight_creators = ('meta', 'deepseek', 'mistral', 'alibaba', 'qwen', 'z.ai')
-    if any(keyword in haystack for keyword in open_weight_creators):
+    if any(keyword in haystack for keyword in OPEN_WEIGHT_CREATORS):
         return 'open'
 
     return 'other'
@@ -156,9 +190,6 @@ def build_tags(model: dict[str, Any]) -> list[str]:
     evaluations = model.get('evaluations', {}) or {}
     if normalize_number(evaluations.get('artificial_analysis_coding_index')) >= 50:
         tags.append('Coding+')
-    if normalize_number(evaluations.get('artificial_analysis_math_index')) >= 70:
-        tags.append('Math+')
-
     pricing = model.get('pricing', {}) or {}
     if normalize_number(pricing.get('price_1m_blended_3_to_1')) > 0:
         tags.append(f"${normalize_number(pricing.get('price_1m_blended_3_to_1'))}/1M")
@@ -192,16 +223,30 @@ def map_model(model: dict[str, Any], rank: int) -> dict[str, Any]:
         'scores': {
             'overall': normalize_number(evaluations.get('artificial_analysis_intelligence_index')),
             'coding': normalize_number(evaluations.get('artificial_analysis_coding_index')),
-            'math': normalize_number(evaluations.get('artificial_analysis_math_index')),
             'reasoning': normalize_number(evaluations.get('gpqa'), 100),
-            'knowledge': normalize_number(evaluations.get('mmlu_pro'), 100),
-            'agentic': round((normalize_number(evaluations.get('livecodebench'), 100) + normalize_number(evaluations.get('scicode'), 100)) / 2, 2),
+            'price': normalize_number(pricing.get('price_1m_blended_3_to_1')),
+            'speed': normalize_number(model.get('median_output_tokens_per_second')),
         },
         'meta': {
             'rank': rank,
             'slug': model.get('slug', ''),
             'creatorId': creator.get('id', ''),
             'creatorSlug': creator.get('slug', ''),
+            'openWeights': model.get('open_weights'),
+            'openSourceCategorization': model.get('open_source_categorization'),
+            'modelAccess': model.get('model_access'),
+            'benchmarks': {
+                'artificialAnalysisIntelligenceIndex': normalize_number(evaluations.get('artificial_analysis_intelligence_index')),
+                'artificialAnalysisCodingIndex': normalize_number(evaluations.get('artificial_analysis_coding_index')),
+                'artificialAnalysisMathIndex': normalize_number(evaluations.get('artificial_analysis_math_index')),
+                'mmluPro': normalize_number(evaluations.get('mmlu_pro'), 100),
+                'gpqa': normalize_number(evaluations.get('gpqa'), 100),
+                'hle': normalize_number(evaluations.get('hle'), 100),
+                'liveCodeBench': normalize_number(evaluations.get('livecodebench'), 100),
+                'sciCode': normalize_number(evaluations.get('scicode'), 100),
+                'math500': normalize_number(evaluations.get('math_500'), 100),
+                'aime': normalize_number(evaluations.get('aime'), 100),
+            },
             'inputPrice': normalize_number(pricing.get('price_1m_input_tokens')),
             'outputPrice': normalize_number(pricing.get('price_1m_output_tokens')),
             'blendedPrice': normalize_number(pricing.get('price_1m_blended_3_to_1')),

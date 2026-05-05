@@ -19,6 +19,12 @@ function barWidth(score) {
 function regionLabel(regions, key) {
   return translateRegionLabel(key, regions.find((region) => region.key === key)?.label ?? key)
 }
+
+function formatCategoryValue(categoryKey, value) {
+  if (categoryKey === 'price') return `$${value.toFixed(2)}`
+  if (categoryKey === 'speed') return `${value.toFixed(1)}`
+  return value.toFixed(1)
+}
 </script>
 
 <template>
@@ -49,7 +55,11 @@ function regionLabel(regions, key) {
           </div>
           <div>
             <span>{{ t('compare.latency') }}</span>
-            <strong>{{ model.latency }}</strong>
+            <strong>{{ model.meta?.timeToFirstTokenSeconds?.toFixed?.(2) ?? model.latency }}{{ typeof model.meta?.timeToFirstTokenSeconds === 'number' ? 's' : '' }}</strong>
+          </div>
+          <div>
+            <span>{{ t('compare.speed') }}</span>
+            <strong>{{ typeof model.meta?.tokensPerSecond === 'number' ? `${model.meta.tokensPerSecond.toFixed(2)} tok/s` : 'N/A' }}</strong>
           </div>
         </div>
 
@@ -59,7 +69,7 @@ function regionLabel(regions, key) {
             <div class="bar-track">
               <div class="bar-fill" :style="{ width: barWidth(model.scores[category.key]) }"></div>
             </div>
-            <strong>{{ model.scores[category.key].toFixed(1) }}</strong>
+            <strong>{{ formatCategoryValue(category.key, model.scores[category.key]) }}</strong>
           </div>
         </div>
       </article>

@@ -6,14 +6,16 @@
 
 ## 功能特性
 
-- 多维度榜单切换：综合、代码、推理、效率、长上下文、多模态
+- 多维度榜单切换：综合、代码、推理，以及 API 同步后可直接展示的 benchmark 维度
 - 双阵营展示：左侧中国模型，右侧全球模型
 - 搜索与筛选：支持按模型名、厂商、标签搜索
+- 多指标排序：支持按分数、1M token 综合价格、输出速度、首 token 延迟排序
 - 模型横向对比：最多同时选择 3 个模型进行比较
 - 双视角对比：支持按国家或按开源/其他分组展示
 - 模型详情抽屉：查看单个模型的详细维度分数
 - 数据更新时间展示：支持显示榜单最新更新时间
 - JSON 驱动数据源：可由 GitHub Actions 自动生成并更新
+- 手工补充厂商 Coding Plan：通过独立 JSON 维护
 
 ## 技术栈
 
@@ -81,7 +83,8 @@ npm run preview
 │   └── style.css
 ├── public/
 │   └── data/
-│       └── artificial-analysis-llms.json
+│       ├── artificial-analysis-llms.json
+│       └── coding-plans.json
 ├── api/
 │   ├── artificial_analysis.py
 │   ├── requirements.txt
@@ -166,6 +169,8 @@ npm run preview
 - `pricing`: 价格描述
 - `latency`: 延迟描述
 - `scores`: 各维度分数对象，字段名需与 `categories.key` 对齐
+- `meta`: 原始 API 派生的补充指标，例如价格、速度、延迟与 benchmark 明细
+- `codingPlans`: 手工维护的厂商 coding plan 列表
 
 ### `lastUpdated`
 
@@ -205,7 +210,26 @@ npm run preview
 - `ARTIFICIAL_ANALYSIS_PROMPT_LENGTH`
 - `ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES`
 
-当前策略是每次同步只发起一次主请求，尽量在单次请求里拿到榜单的大部分模型信息，避免逐模型请求导致配额浪费。
+当前策略是每次同步只发起一次主请求，尽量在单次请求里拿到榜单的大部分模型信息，避免逐模型请求导致配额浪费。开源/开放权重分组优先使用 API 直出的字段，只有字段缺失时才做兜底判断。
+
+当前生成器会优先保留官方文档明确给出的 benchmark 与性能字段，包括：
+
+- `artificial_analysis_intelligence_index`
+- `artificial_analysis_coding_index`
+- `artificial_analysis_math_index`
+- `mmlu_pro`
+- `gpqa`
+- `hle`
+- `livecodebench`
+- `scicode`
+- `math_500`
+- `aime`
+- `price_1m_blended_3_to_1`
+- `price_1m_input_tokens`
+- `price_1m_output_tokens`
+- `median_output_tokens_per_second`
+- `median_time_to_first_token_seconds`
+- `median_time_to_first_answer_token`
 
 当前生成器默认只保留综合排序前 `500` 个模型，避免前端数据量过大，同时覆盖大部分榜单头部模型。
 
@@ -218,6 +242,10 @@ npm run update:artificial-analysis
 ### 方式二：直接修改本地 JSON
 
 编辑 `public/data/artificial-analysis-llms.json` 或 `src/data/leaderboard.json` 即可。
+
+手工维护各家 coding plans 时，编辑：
+
+`public/data/coding-plans.json`
 
 适合：
 

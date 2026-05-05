@@ -14,19 +14,40 @@ export function useLeaderboard() {
 
   const activeCategory = ref('overall')
   const compareMode = ref('region')
+  const isPriceAscending = ref(true)
   const search = ref('')
   const selectedIds = ref(defaultSelectedIds)
+
+  function getCategoryValue(model, category) {
+    return model.scores?.[category] ?? 0
+  }
+
+  function sortModels(items) {
+    return [...items].sort((a, b) => {
+      const aValue = getCategoryValue(a, activeCategory.value)
+      const bValue = getCategoryValue(b, activeCategory.value)
+
+      if (activeCategory.value === 'price') {
+        return isPriceAscending.value ? aValue - bValue : bValue - aValue
+      }
+
+      return bValue - aValue
+    })
+  }
 
   const filteredModels = computed(() => {
     const keyword = search.value.trim().toLowerCase()
 
-    return models.value
+    return sortModels(models.value
       .filter((model) => {
+        if (activeCategory.value === 'price' && getCategoryValue(model, 'price') <= 0) {
+          return false
+        }
+
         if (!keyword) return true
         const haystack = [model.name, model.vendor, model.summary, ...model.tags].join(' ').toLowerCase()
         return haystack.includes(keyword)
-      })
-      .sort((a, b) => b.scores[activeCategory.value] - a.scores[activeCategory.value])
+      }))
   })
 
   const selectedModels = computed(() => models.value.filter((model) => selectedIds.value.includes(model.id)))
@@ -38,7 +59,7 @@ export function useLeaderboard() {
       return { leader: '-', avg: '-', spread: '-' }
     }
 
-    const values = visible.map((item) => item.scores[activeCategory.value])
+    const values = visible.map((item) => getCategoryValue(item, activeCategory.value))
     const avg = values.reduce((sum, value) => sum + value, 0) / values.length
 
     return {
@@ -67,6 +88,10 @@ export function useLeaderboard() {
 
   function closeModelDetails() {
     activeModelId.value = ''
+  }
+
+  function togglePriceSortDirection() {
+    isPriceAscending.value = !isPriceAscending.value
   }
 
   function updateModels(nextModels) {
@@ -110,6 +135,7 @@ export function useLeaderboard() {
     activeModel,
     activeCategory,
     compareMode,
+    isPriceAscending,
     search,
     selectedIds,
     filteredModels,
@@ -119,6 +145,7 @@ export function useLeaderboard() {
     clearSelected,
     openModelDetails,
     closeModelDetails,
+    togglePriceSortDirection,
     updateModels,
     loadLeaderboardData,
   }

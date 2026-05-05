@@ -76,6 +76,23 @@ const axisLabels = computed(() => {
   }
 })
 
+const priceRange = computed(() => {
+  if (props.category !== 'price') return null
+
+  const values = visibleModels.value
+    .map(model => model.scores.price)
+    .filter(value => typeof value === 'number' && value > 0)
+
+  if (!values.length) {
+    return { min: 0, max: 0 }
+  }
+
+  return {
+    min: Math.min(...values),
+    max: Math.max(...values),
+  }
+})
+
 function setCardElement(modelId, element) {
   if (element) {
     cardElements.set(modelId, element)
@@ -85,12 +102,59 @@ function setCardElement(modelId, element) {
   cardElements.delete(modelId)
 }
 
+function formatScore(value) {
+  if (props.category === 'price') {
+    return `$${value.toFixed(2)}`
+  }
+
+  if (props.category === 'speed') {
+    return `${value.toFixed(1)}`
+  }
+
+  return value.toFixed(1)
+}
+
+function formatSubValue(value) {
+  return getRelativePercent(value)
+}
+
 function getRelativePercent(score) {
   if (!referenceScore.value) return '100%'
+
+  if (props.category === 'price') {
+    return `${Math.round((score / referenceScore.value) * 100)}%`
+  }
+
   return `${Math.round((score / referenceScore.value) * 100)}%`
 }
 
 function getRelativeScale(score) {
+  if (props.category === 'price') {
+    const range = priceRange.value
+    if (!range || range.max <= 0) return 1
+    if (range.max === range.min) return 1
+
+    const normalized = (score - range.min) / (range.max - range.min)
+    return Math.max(0.74, Math.min(1, Number((0.74 + normalized * 0.26).toFixed(3))))
+  }
+
+  if (props.category === 'speed') {
+    const values = visibleModels.value
+      .map(model => model.scores.speed)
+      .filter(value => typeof value === 'number' && value > 0)
+
+    if (!values.length) return 1
+
+    const max = Math.max(...values)
+    const min = Math.min(...values)
+
+    if (max === min) return 1
+
+    // Speed distribution is usually very skewed, so use log scaling and a higher floor.
+    const normalized = (Math.log(score) - Math.log(min)) / (Math.log(max) - Math.log(min))
+    return Math.max(0.76, Math.min(1, Number((0.76 + normalized * 0.24).toFixed(3))))
+  }
+
   if (!referenceScore.value) return 1
 
   const ratio = score / referenceScore.value
@@ -193,8 +257,8 @@ watch(
               </div>
             </div>
             <div class="score-block">
-              <strong>{{ row.leftModel.scores[category].toFixed(1) }}</strong>
-              <span>{{ getRelativePercent(row.leftModel.scores[category]) }}</span>
+              <strong>{{ formatScore(row.leftModel.scores[category]) }}</strong>
+              <span>{{ formatSubValue(row.leftModel.scores[category]) }}</span>
             </div>
           </button>
         </div>
@@ -224,8 +288,8 @@ watch(
               </div>
             </div>
             <div class="score-block">
-              <strong>{{ row.rightModel.scores[category].toFixed(1) }}</strong>
-              <span>{{ getRelativePercent(row.rightModel.scores[category]) }}</span>
+              <strong>{{ formatScore(row.rightModel.scores[category]) }}</strong>
+              <span>{{ formatSubValue(row.rightModel.scores[category]) }}</span>
             </div>
           </button>
         </div>

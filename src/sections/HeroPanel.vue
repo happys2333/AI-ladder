@@ -7,7 +7,11 @@ defineProps({
   lastUpdated: { type: String, default: '' },
   source: { type: Object, default: null },
   leaderboardStats: { type: Object, default: () => ({}) },
+  activeCategory: { type: String, required: true },
+  isPriceAscending: { type: Boolean, default: true },
 })
+
+defineEmits(['toggle-price-sort'])
 
 function formatUpdateTime(value) {
   if (!value) return '未提供'
@@ -34,6 +38,12 @@ const { locale, t } = useI18n()
       <h1>{{ t('hero.title') }}</h1>
       <p class="hero-updated">{{ t('hero.source') }}: {{ source?.label ?? t('hero.notProvided') }}</p>
       <p class="hero-updated">{{ t('hero.updated') }}: {{ formatUpdateTime(lastUpdated) }}</p>
+    </div>
+
+    <div v-if="activeCategory === 'price'" class="hero-actions">
+      <button class="ghost-action" @click="$emit('toggle-price-sort')">
+        {{ isPriceAscending ? t('hero.priceAsc') : t('hero.priceDesc') }}
+      </button>
     </div>
 
     <div class="stats-grid">
