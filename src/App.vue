@@ -78,24 +78,12 @@ function handleCompareModeUpdate(nextMode) {
 onMounted(() => {
   sidebarMediaQuery = window.matchMedia(SIDEBAR_AUTO_OPEN_QUERY)
   syncSidebarWithViewport(sidebarMediaQuery.matches)
-
-  if (typeof sidebarMediaQuery.addEventListener === 'function') {
-    sidebarMediaQuery.addEventListener('change', handleSidebarViewportChange)
-    return
-  }
-
-  sidebarMediaQuery.addListener(handleSidebarViewportChange)
+  sidebarMediaQuery.addEventListener('change', handleSidebarViewportChange)
 })
 
 onBeforeUnmount(() => {
   if (!sidebarMediaQuery) return
-
-  if (typeof sidebarMediaQuery.removeEventListener === 'function') {
-    sidebarMediaQuery.removeEventListener('change', handleSidebarViewportChange)
-    return
-  }
-
-  sidebarMediaQuery.removeListener(handleSidebarViewportChange)
+  sidebarMediaQuery.removeEventListener('change', handleSidebarViewportChange)
 })
 
 watchEffect(() => {
