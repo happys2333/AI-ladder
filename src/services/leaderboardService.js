@@ -1,4 +1,4 @@
-const GENERATED_LEADERBOARD_PATH = '/data/artificial-analysis-llms.json'
+const GENERATED_LEADERBOARD_PATH = '/public/data/artificial-analysis-llms.json'
 
 export async function fetchLeaderboardData(fetcher = window.fetch) {
   const response = await fetcher(GENERATED_LEADERBOARD_PATH)
