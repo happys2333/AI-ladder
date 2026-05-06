@@ -1,29 +1,51 @@
 # AI Ladder
 
-一个基于 `Vue 3 + Vite` 的 AI 模型天梯榜项目，用于多维度比较不同模型的优劣。
+一个基于 `Vue 3 + Vite` 的 AI 模型信息聚合项目，当前包含两个核心页面：
 
-项目视觉风格重点参考了仓库中的 `code.html` 与 `DESIGN.md`，采用深色、高密度、偏技术面板的排行榜设计，并将榜单数据抽离为 JSON，方便后续通过 API 定时更新。
+- `Leaderboard`：聚合 Artificial Analysis 模型榜单，支持多维排序、搜索、对比与详情查看
+- `Coding Plans`：手工维护各家官方编码订阅 / 席位方案，统一展示价格、配额、适用人群和权益
 
-## 功能特性
+项目目标不是做模型调用网关，而是把分散、难比较、更新频繁的模型信息整理成一个可浏览、可对比、可持续维护的前端站点。
 
-- 多维度榜单切换：综合、代码、推理，以及 API 同步后可直接展示的 benchmark 维度
-- 双阵营展示：左侧中国模型，右侧全球模型
-- 搜索与筛选：支持按模型名、厂商、标签搜索
-- 多指标排序：支持按分数、1M token 综合价格、输出速度、首 token 延迟排序
-- 模型横向对比：最多同时选择 3 个模型进行比较
-- 双视角对比：支持按国家或按开源/其他分组展示
-- 模型详情抽屉：查看单个模型的详细维度分数
-- 数据更新时间展示：支持显示榜单最新更新时间
-- JSON 驱动数据源：可由 GitHub Actions 自动生成并更新
-- 手工补充厂商 Coding Plan：通过独立 JSON 维护
+## 项目解决的核心痛点
+
+- 模型榜单、价格、速度、延迟、编码订阅方案分散在不同来源，横向比较成本高
+- 同一家厂商的编码套餐命名、配额口径、计费方式差异很大，用户很难快速看懂
+- 很多官方页面只给模糊文案或活动页口径，需要统一整理为结构化字段
+- 面向中文用户时，英文原始数据与人民币价格、汇率参考之间存在理解门槛
+
+## 核心逻辑流
+
+项目当前是一个“数据采集与标准化 + 前端展示”的架构，不包含运行时长链推理，也不包含多 Agent 协作编排。
+
+主流程如下：
+
+1. 通过 `api/artificial_analysis.py` 拉取 Artificial Analysis 数据，并转换为前端统一 JSON。
+2. 通过 `public/data/coding-plans.json` 手工维护官方可核对的订阅信息。
+3. 通过 `scripts/update-exchange-rates.mjs` 生成 `USD/CNY` 参考汇率。
+4. 前端在运行时读取 `public/data/*.json`，进行校验、归一化和展示。
+5. `leaderboardService.js` 会按厂商 `vendor / creatorSlug` 将 coding plans 自动挂载到对应模型详情中。
+
+## 功能概览
+
+- 多维榜单切换：综合、代码、推理、价格、速度、复杂任务、多模态等
+- 搜索与筛选：按模型名、厂商、标签搜索
+- 双视角比较：按区域或按开源属性查看模型分组
+- 模型横向对比：最多同时选择 3 个模型
+- 模型详情抽屉：查看价格、延迟、速度、基准分数和关联 coding plans
+- Coding Plans 页面：按厂商查看官方订阅方案、价格、配额、席位和说明
+- 中英双语：静态文案与套餐字段均支持 `zh-CN / en-US`
+- 汇率参考：展示 `USD/CNY` 参考值，帮助理解美元订阅价格
 
 ## 技术栈
 
-- Vue 3
-- Vite
-- 原生 CSS
+- `Vue 3`
+- `Vite`
+- 原生 `CSS`
+- Python 脚本：用于榜单数据抓取与转换
+- Node 脚本：用于汇率数据生成
 
-## 本地开发
+## 快速开始
 
 安装依赖：
 
@@ -43,257 +65,171 @@ npm run dev
 npm run build
 ```
 
-手动刷新 Artificial Analysis 榜单数据：
-
-```bash
-npm run update:artificial-analysis
-```
-
-说明：`api/` 下的数据抓取脚本现在依赖 `requests 2.33+`，本地运行建议使用 `Python 3.10+`。GitHub Actions 已固定使用 `Python 3.11`。
-
-本地预览构建结果：
+本地预览：
 
 ```bash
 npm run preview
 ```
 
-## 项目结构
+## 数据更新
 
-```text
-.
-├── src/
-│   ├── components/          # 通用展示组件
-│   │   ├── BottomActionBar.vue
-│   │   ├── CompareDrawer.vue
-│   │   ├── LadderChart.vue
-│   │   └── ModelDetailDrawer.vue
-│   ├── composables/         # 状态与业务逻辑
-│   │   └── useLeaderboard.js
-│   ├── config/              # 项目配置与默认值
-│   │   └── leaderboard.js
-│   ├── data/                # 手工数据或兼容性数据
-│   │   └── leaderboard.json
-│   ├── layout/              # 页面结构组件
-│   │   ├── AppHeader.vue
-│   │   └── AppSidebar.vue
-│   ├── sections/            # 页面区块组件
-│   │   └── HeroPanel.vue
-│   ├── services/            # 数据服务层
-│   │   └── leaderboardService.js
-│   ├── App.vue
-│   ├── main.js
-│   └── style.css
-├── public/
-│   └── data/
-│       ├── artificial-analysis-llms.json
-│       └── coding-plans.json
-├── api/
-│   ├── artificial_analysis.py
-│   ├── requirements.txt
-│   └── scripts/
-│       └── generate_artificial_analysis.py
-├── .github/
-│   └── workflows/
-│       └── update-artificial-analysis.yml
-├── index.html
-├── package.json
-└── vite.config.js
-```
-
-## 数据来源
-
-当前前端默认读取的数据来自：
-
-`public/data/artificial-analysis-llms.json`
-
-示例结构：
-
-```json
-{
-  "categories": [
-    { "key": "overall", "label": "综合" },
-    { "key": "coding", "label": "代码" }
-  ],
-  "regions": [
-    { "key": "cn", "label": "中国阵营" },
-    { "key": "global", "label": "全球阵营" }
-  ],
-  "models": [
-    {
-      "id": "deepseek-r1",
-      "name": "DeepSeek-R1",
-      "region": "cn",
-      "vendor": "DeepSeek",
-      "summary": "推理性能强，成本控制优秀",
-      "tags": ["MoE", "Reasoning", "Value"],
-      "pricing": "$0.55 / 1M in",
-      "latency": "1.4s",
-      "scores": {
-        "overall": 97.6,
-        "coding": 95.8,
-        "reasoning": 99.1,
-        "efficiency": 93.7,
-        "context": 90.4,
-        "multimodal": 68.0
-      }
-    }
-  ],
-  "lastUpdated": "2026-05-04T10:30:00+08:00"
-}
-```
-
-## 数据字段说明
-
-### `categories`
-
-定义顶部/侧边栏可切换的评分维度。
-
-- `key`: 维度唯一标识，对应 `scores` 中的字段名
-- `label`: 页面展示名称
-
-### `regions`
-
-定义模型所属阵营。
-
-- `key`: 阵营唯一标识
-- `label`: 页面展示名称
-
-### `models`
-
-定义榜单中的模型条目。
-
-- `id`: 模型唯一标识
-- `name`: 模型名称
-- `region`: 模型所属阵营，需要与 `regions.key` 对应
-- `vendor`: 厂商名
-- `summary`: 模型简介
-- `tags`: 标签列表
-- `pricing`: 价格描述
-- `latency`: 延迟描述
-- `scores`: 各维度分数对象，字段名需与 `categories.key` 对齐
-- `meta`: 原始 API 派生的补充指标，例如价格、速度、延迟与 benchmark 明细
-- `codingPlans`: 手工维护的厂商 coding plan 列表
-
-### `lastUpdated`
-
-用于显示榜单更新时间，推荐使用 ISO 时间字符串。
-
-## 如何更新榜单
-
-### 方式一：通过 GitHub Actions 自动生成
-
-当前已实现 `Artificial Analysis` 自动更新链路：
-
-- 工作流：`.github/workflows/update-artificial-analysis.yml`
-- 入口脚本：`api/artificial_analysis.py`
-- 核心生成器：`api/scripts/generate_artificial_analysis.py`
-- 输出文件：`public/data/artificial-analysis-llms.json`
-
-工作流会定时运行 Python 脚本，请求 `https://artificialanalysis.ai/api/v2/data/llms/models`，一次性拉取整批 LLM 榜单数据，转换为前端统一格式，然后自动提交更新后的 JSON 文件。
-
-接口鉴权方式：
-
-- 请求头：`x-api-key`
-- GitHub Actions Secret：`ARTIFICIAL_ANALYSIS_API_KEY`
-
-脚本支持以下可配置参数：
-
-- `--api-key`
-- `--api-url`
-- `--output`
-- `--prompt-length`
-- `--parallel-queries`
-
-对应环境变量：
-
-- `ARTIFICIAL_ANALYSIS_API_KEY`
-- `ARTIFICIAL_ANALYSIS_API_URL`
-- `ARTIFICIAL_ANALYSIS_OUTPUT`
-- `ARTIFICIAL_ANALYSIS_PROMPT_LENGTH`
-- `ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES`
-
-当前策略是每次同步只发起一次主请求，尽量在单次请求里拿到榜单的大部分模型信息，避免逐模型请求导致配额浪费。开源/开放权重分组优先使用 API 直出的字段，只有字段缺失时才做兜底判断。
-
-当前生成器会优先保留官方文档明确给出的 benchmark 与性能字段，包括：
-
-- `artificial_analysis_intelligence_index`
-- `artificial_analysis_coding_index`
-- `artificial_analysis_math_index`
-- `mmlu_pro`
-- `gpqa`
-- `hle`
-- `livecodebench`
-- `scicode`
-- `math_500`
-- `aime`
-- `price_1m_blended_3_to_1`
-- `price_1m_input_tokens`
-- `price_1m_output_tokens`
-- `median_output_tokens_per_second`
-- `median_time_to_first_token_seconds`
-- `median_time_to_first_answer_token`
-
-当前生成器默认只保留综合排序前 `500` 个模型，避免前端数据量过大，同时覆盖大部分榜单头部模型。
-
-本地也可以手动执行：
+刷新 Artificial Analysis 榜单：
 
 ```bash
 npm run update:artificial-analysis
 ```
 
-### 方式二：直接修改本地 JSON
+刷新汇率参考：
 
-编辑 `public/data/artificial-analysis-llms.json` 或 `src/data/leaderboard.json` 即可。
+```bash
+npm run update:exchange-rates
+```
 
-手工维护各家 coding plans 时，编辑：
+Python 脚本建议使用 `Python 3.10+`。仓库内已包含 `api/requirements.txt`。
 
-`public/data/coding-plans.json`
+## 页面结构
 
-适合：
+### `/`
 
-- 手动维护榜单
-- 静态展示项目
-- 先定义数据结构再对接后端
+模型天梯榜主页，核心交互包括：
 
-### 方式三：后续接入更多外部 API
+- 切换评分维度
+- 切换比较视角
+- 搜索模型
+- 价格升降序切换
+- 选择模型进入对比区
+- 打开模型详情抽屉
 
-当前已经预留服务层与脚本层：
+### `/coding-plans`
 
-`src/services/leaderboardService.js`
+编码订阅页，核心交互包括：
 
-`api/artificial_analysis.py`
+- 查看厂商级套餐摘要
+- 展开单个厂商的全部订阅档位
+- 浏览价格、计费周期、席位、权益和配额
+- 跳转官方来源页进行核对
 
-其中包含：
+## 数据文件
 
-- `fetchLeaderboardData()`：读取生成后的 JSON 文件
-- `fetchLeaderboardDataFromApi()`：从 `/api/leaderboard` 拉取数据的预留方法
+### `public/data/artificial-analysis-llms.json`
 
-后续如果你还要接入别的数据源，也可以沿用同一模式：拉取源数据，转换成统一结构，输出到 `public/data/*.json`，再让前端按 source 切换读取。
+前端主榜单数据源，包含：
 
-## 当前交互说明
+- `categories`
+- `regions`
+- `models`
+- `lastUpdated`
+- `source`
+- `stats`
 
-- 单击模型卡片：加入或移出对比区
-- 双击模型卡片：打开模型详情抽屉
-- 底部操作条：快速跳转到对比区、清空选择
+### `public/data/coding-plans.json`
 
-## 设计说明
+手工维护的官方编码订阅数据源，按厂商组织：
 
-本项目重点参考以下设计方向：
+- `providerSlug`
+- `providerName`
+- `productName`
+- `summary`
+- `source`
+- `notes`
+- `plans[]`
 
-- 中轴天梯式排行布局
-- 深色高密度技术面板风格
-- 使用 `Inter` 负责 UI 文案
-- 使用 `Roboto Mono` 展示数值数据
-- 用颜色区分榜单层级与交互状态
+每个 `plan` 当前支持：
 
-## 后续建议
+- `name`
+- `price`
+- `cadence`
+- `seats`
+- `audience`
+- `limits`
+- `access`
+- `notes`
 
-- 增加真实后端 API 接入
-- 增加历史版本榜单对比
-- 增加图表模式，例如雷达图或趋势图
-- 增加导出 JSON / CSV 功能
-- 增加模型详情中的更多 benchmark 指标
+这些字段既可以是纯字符串，也可以是：
 
-## 说明
+```json
+{
+  "zh-CN": "¥49 / 月",
+  "en-US": "¥49 / month"
+}
+```
 
-当前环境里无法直接读取你提到的 `screen.png`，所以现阶段的视觉实现主要基于 `code.html` 与 `DESIGN.md`。如果后续你补充图片中的关键视觉要素，我可以继续把界面向目标稿进一步收敛。
+### `public/data/exchange-rates.json`
+
+汇率参考数据，当前由欧洲央行日更数据生成，主要供 `Coding Plans` 页面展示 `USD/CNY` 参考值。
+
+## 代码结构
+
+```text
+.
+├── api/
+│   ├── artificial_analysis.py
+│   ├── requirements.txt
+│   └── scripts/generate_artificial_analysis.py
+├── public/data/
+│   ├── artificial-analysis-llms.json
+│   ├── coding-plans.json
+│   └── exchange-rates.json
+├── scripts/
+│   └── update-exchange-rates.mjs
+├── src/
+│   ├── components/
+│   ├── composables/
+│   ├── config/
+│   ├── data/
+│   ├── layout/
+│   ├── pages/
+│   ├── sections/
+│   ├── services/
+│   ├── App.vue
+│   ├── main.js
+│   └── style.css
+├── .github/workflows/
+│   ├── update-artificial-analysis.yml
+│   └── update-exchange-rates.yml
+├── package.json
+└── vite.config.js
+```
+
+## 关键实现说明
+
+### `src/services/leaderboardService.js`
+
+负责三类工作：
+
+- 读取榜单、coding plans、汇率数据
+- 对模型和字段做基础校验与归一化
+- 将厂商级 coding plans 自动关联到具体模型详情
+
+### `src/composables/useLeaderboard.js`
+
+负责榜单页状态管理：
+
+- 当前维度
+- 当前比较视角
+- 搜索词
+- 已选模型
+- 模型详情抽屉
+
+### `src/composables/useI18n.js`
+
+负责：
+
+- `zh-CN / en-US` 切换
+- 本地语言持久化
+- 多语言字段解析
+
+## 维护约定
+
+- `Coding Plans` 只收录官网可核对的订阅制或席位制方案
+- 文案优先面向用户理解，不保留“已核对于某日”这类低价值说明
+- 配额描述尽量短，优先写相对关系或关键数字，不堆长段帮助中心口径
+- 所有面向用户展示的价格、限制、备注字段，优先保持中英双语
+
+## 后续可扩展方向
+
+- 引入更多榜单来源并做多源对照
+- 增加历史快照与涨跌变化视图
+- 为 Coding Plans 增加筛选、排序和差异比较
+- 增加更多汇率与地区化价格展示
+- 将手工维护的订阅数据接入后台 CMS 或自动校对流程

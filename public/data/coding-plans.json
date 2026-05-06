@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-06T22:36:00+08:00",
+  "lastUpdated": "2026-05-06T23:01:00+08:00",
   "providers": [
     {
       "providerSlug": "openai",
@@ -417,8 +417,8 @@
       },
       "source": "https://bigmodel.cn/glm-coding",
       "notes": {
-        "zh-CN": "官方页展示 Lite、Pro、Max 三档；价格以下单页为准，限售期间可能按每日 10:00（UTC+8）放量。",
-        "en-US": "The official page shows Lite, Pro, and Max. Pricing should be taken from the checkout page, and limited-sale inventory may be released daily at 10:00 UTC+8."
+        "zh-CN": "官方页展示 Lite、Pro、Max 三档月付套餐；限售期间可能按每日 10:00（UTC+8）放量。",
+        "en-US": "The official page shows Lite, Pro, and Max monthly plans, and limited-sale inventory may be released daily at 10:00 UTC+8."
       },
       "plans": [
         {
@@ -427,8 +427,8 @@
             "en-US": "Lite"
           },
           "price": {
-            "zh-CN": "以下单页为准",
-            "en-US": "See official checkout"
+            "zh-CN": "¥49 / 月",
+            "en-US": "¥49 / month"
           },
           "cadence": {
             "zh-CN": "订阅制",
@@ -461,8 +461,8 @@
             "en-US": "Pro"
           },
           "price": {
-            "zh-CN": "以下单页为准",
-            "en-US": "See official checkout"
+            "zh-CN": "¥149 / 月",
+            "en-US": "¥149 / month"
           },
           "cadence": {
             "zh-CN": "订阅制",
@@ -495,8 +495,8 @@
             "en-US": "Max"
           },
           "price": {
-            "zh-CN": "以下单页为准",
-            "en-US": "See official checkout"
+            "zh-CN": "¥469 / 月",
+            "en-US": "¥469 / month"
           },
           "cadence": {
             "zh-CN": "订阅制",
@@ -1372,83 +1372,151 @@
     {
       "providerSlug": "kimi",
       "providerName": "Moonshot AI / Kimi",
-      "productName": "Kimi K2 会员",
+      "productName": "Kimi 会员",
       "summary": {
-        "zh-CN": "Kimi 官方会员体系中包含 K2 / Coding 相关权益，可作为国内个人开发者的订阅入口。",
-        "en-US": "Kimi's official membership tiers include K2 and coding-related entitlements, making them a subscription entry point for domestic developers."
+        "zh-CN": "Kimi 官方会员体系覆盖 Agent、Kimi Code、Kimi Claw 与专业数据库等能力，按个人订阅分为五档。",
+        "en-US": "Kimi's official membership lineup covers Agent, Kimi Code, Kimi Claw, and professional database access across five individual subscription tiers."
       },
       "source": "https://www.kimi.com/zh-cn/help/membership/membership-pricing",
       "notes": {
-        "zh-CN": "Kimi Code 并非独立购买页，当前按官方会员方案收录。",
-        "en-US": "Kimi Code does not currently have a standalone checkout page, so it is represented here through the membership plans."
+        "zh-CN": "支持连续包月与连续包年；当前页面公开了月付价，包年可享更大折扣，最高立省 ¥1,680。",
+        "en-US": "Supports recurring monthly and annual subscriptions. The current page publicly shows monthly prices, while annual billing offers larger discounts with savings up to CNY 1,680."
       },
       "plans": [
         {
           "name": {
-            "zh-CN": "K2 月付会员",
-            "en-US": "K2 Monthly Membership"
+            "zh-CN": "Andante",
+            "en-US": "Andante"
           },
           "price": {
-            "zh-CN": "¥39 / 月",
-            "en-US": "¥39 / month"
+            "zh-CN": "¥49 / 月",
+            "en-US": "¥49 / month"
           },
           "cadence": {
-            "zh-CN": "按月",
-            "en-US": "Monthly"
+            "zh-CN": "连续包月或连续包年",
+            "en-US": "Recurring monthly or annual"
           },
           "seats": {
             "zh-CN": "个人",
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "个人开发者",
-            "en-US": "Solo"
+            "zh-CN": "日常使用",
+            "en-US": "Everyday use"
           },
           "limits": {
-            "zh-CN": "K2 高级能力与会员额度",
-            "en-US": "K2 advanced capabilities with membership quotas"
+            "zh-CN": "Agent 用量约 30 个，单任务并行；Kimi Code 1 倍额度；专业数据库 1000 次调用。",
+            "en-US": "About 30 Agent runs, single-task concurrency, 1x Kimi Code quota, and 1,000 professional database calls."
           },
           "access": {
-            "zh-CN": "Kimi K2 / Coding 会员权益",
-            "en-US": "Kimi K2 / Coding membership access"
+            "zh-CN": "支持 Agent 优先生成队列、Office 文件处理、深度研究与发布带数据库网站。",
+            "en-US": "Includes Agent priority generation, Office file handling, deep research, and database-backed website publishing."
           },
           "notes": {
-            "zh-CN": "月付定价。",
-            "en-US": "Monthly pricing."
+            "zh-CN": "连续包年更优惠。",
+            "en-US": "Annual billing is discounted."
           }
         },
         {
           "name": {
-            "zh-CN": "K2 季付会员",
-            "en-US": "K2 Quarterly Membership"
+            "zh-CN": "Moderato",
+            "en-US": "Moderato"
           },
           "price": {
-            "zh-CN": "¥108 / 季",
-            "en-US": "¥108 / quarter"
+            "zh-CN": "¥99 / 月",
+            "en-US": "¥99 / month"
           },
           "cadence": {
-            "zh-CN": "按季",
-            "en-US": "Quarterly"
+            "zh-CN": "连续包月或连续包年",
+            "en-US": "Recurring monthly or annual"
           },
           "seats": {
             "zh-CN": "个人",
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "个人开发者",
-            "en-US": "Solo"
+            "zh-CN": "效率升级",
+            "en-US": "Productivity upgrade"
           },
           "limits": {
-            "zh-CN": "K2 高级能力与会员额度",
-            "en-US": "K2 advanced capabilities with membership quotas"
+            "zh-CN": "Agent 用量约 60 个，2 个任务并行；Kimi Code 4 倍额度；专业数据库 2000 次调用。",
+            "en-US": "About 60 Agent runs, 2 concurrent tasks, 4x Kimi Code quota, and 2,000 professional database calls."
           },
           "access": {
-            "zh-CN": "Kimi K2 / Coding 会员权益",
-            "en-US": "Kimi K2 / Coding membership access"
+            "zh-CN": "支持 Agent 优先生成队列、Office 文件处理、深度研究与发布带数据库网站。",
+            "en-US": "Includes Agent priority generation, Office file handling, deep research, and database-backed website publishing."
           },
           "notes": {
-            "zh-CN": "季付定价。",
-            "en-US": "Quarterly pricing."
+            "zh-CN": "连续包年更优惠。",
+            "en-US": "Annual billing is discounted."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Allegretto",
+            "en-US": "Allegretto"
+          },
+          "price": {
+            "zh-CN": "¥199 / 月",
+            "en-US": "¥199 / month"
+          },
+          "cadence": {
+            "zh-CN": "连续包月或连续包年",
+            "en-US": "Recurring monthly or annual"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "专业优选",
+            "en-US": "Professional pick"
+          },
+          "limits": {
+            "zh-CN": "Agent 用量约 150 个，2 个任务并行；Agent 集群可用 50 次、4 个子任务；Kimi Code 20 倍额度；专业数据库 5000 次调用。",
+            "en-US": "About 150 Agent runs, 2 concurrent tasks, 50 Agent cluster runs with 4 subtasks, 20x Kimi Code quota, and 5,000 professional database calls."
+          },
+          "access": {
+            "zh-CN": "额外包含 Kimi Claw、Kimi Claw 安卓端与桌面端、10 个 Kimi Claw 群聊，并支持发布带数据库网站。",
+            "en-US": "Also includes Kimi Claw, Kimi Claw on Android and desktop, 10 Kimi Claw group chats, and database-backed website publishing."
+          },
+          "notes": {
+            "zh-CN": "连续包年更优惠。",
+            "en-US": "Annual billing is discounted."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Allegro",
+            "en-US": "Allegro"
+          },
+          "price": {
+            "zh-CN": "¥699 / 月",
+            "en-US": "¥699 / month"
+          },
+          "cadence": {
+            "zh-CN": "连续包月或连续包年",
+            "en-US": "Recurring monthly or annual"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "全能尊享",
+            "en-US": "All-in premium"
+          },
+          "limits": {
+            "zh-CN": "Agent 用量约 360 个，4 个任务并行；Agent 集群可用 120 次、4 个子任务；Kimi Code 60 倍额度；专业数据库 12000 次调用。",
+            "en-US": "About 360 Agent runs, 4 concurrent tasks, 120 Agent cluster runs with 4 subtasks, 60x Kimi Code quota, and 12,000 professional database calls."
+          },
+          "access": {
+            "zh-CN": "包含 Kimi Claw、Kimi Claw 安卓端与桌面端、10 个 Kimi Claw 群聊，并支持发布带数据库网站。",
+            "en-US": "Includes Kimi Claw, Kimi Claw on Android and desktop, 10 Kimi Claw group chats, and database-backed website publishing."
+          },
+          "notes": {
+            "zh-CN": "连续包年更优惠，最高立省 ¥1,680。",
+            "en-US": "Annual billing is discounted, with savings up to CNY 1,680."
           }
         }
       ]
