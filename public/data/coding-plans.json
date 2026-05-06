@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-06T12:00:00+08:00",
+  "lastUpdated": "2026-05-06T19:42:00+08:00",
   "providers": [
     {
       "providerSlug": "openai",
@@ -11,8 +11,8 @@
       },
       "source": "https://openai.com/chatgpt/pricing/",
       "notes": {
-        "zh-CN": "Codex 可用性已于 2026-05-05 依据 OpenAI Help Center 交叉核对。大多数地区的 ChatGPT Business 标价为月付每用户 25 美元，或年付折合每用户每月 20 美元。当前列表仅统计订阅制或席位制方案，不包含按工作区 credits 计费的按量 seat。",
-        "en-US": "Codex availability was cross-checked against the OpenAI Help Center on 2026-05-05. ChatGPT Business pricing in most countries is listed as $25 per user per month when billed monthly or $20 per user per month when billed annually. This list includes subscription and seat-based plans only, and excludes usage-based seats billed via workspace credits."
+        "zh-CN": "已于 2026-05-06 依据 OpenAI 定价页与 Help Center 交叉核对。OpenAI 对 Plus / Pro 的多数功能只公开“extended limits”或“unlimited access（受 abuse guardrails 限制）”口径，通常不会在定价页写死统一数值上限。当前列表仅统计订阅制或席位制方案，不包含按工作区 credits 计费的按量 seat。",
+        "en-US": "Cross-checked against OpenAI pricing and Help Center pages on 2026-05-06. OpenAI usually describes Plus / Pro feature access as extended limits or unlimited access subject to abuse guardrails, rather than publishing one fixed numeric quota on the pricing page. This list includes subscription and seat-based plans only, and excludes usage-based seats billed via workspace credits."
       },
       "plans": [
         {
@@ -34,8 +34,8 @@
             "en-US": "Solo"
           },
           "limits": {
-            "zh-CN": "高于基础档的使用额度",
-            "en-US": "Higher limits than entry-tier access"
+            "zh-CN": "官网口径：消息、文件上传、数据分析、图片生成均为扩展额度；未公开统一数值上限",
+            "en-US": "Official wording: extended limits on messaging, file uploads, data analysis, and image generation; no single numeric quota is published"
           },
           "access": {
             "zh-CN": "ChatGPT + Codex",
@@ -65,8 +65,8 @@
             "en-US": "Heavy solo"
           },
           "limits": {
-            "zh-CN": "高于 Plus 的使用额度",
-            "en-US": "Higher limits than Plus"
+            "zh-CN": "官网口径：对所有 reasoning models 和 GPT-4o 为 unlimited access；deep research / Sora 为扩展额度；仍受 abuse guardrails 限制",
+            "en-US": "Official wording: unlimited access to all reasoning models and GPT-4o, with extended access to deep research and Sora; still subject to abuse guardrails"
           },
           "access": {
             "zh-CN": "ChatGPT + Codex",
@@ -96,8 +96,8 @@
             "en-US": "Team workspace"
           },
           "limits": {
-            "zh-CN": "按席位计费，并提供工作区管理能力",
-            "en-US": "Per-seat billing with workspace administration"
+            "zh-CN": "官网口径：GPT-4o 与 4.1-mini 为 unlimited access，advanced models 为 generous access",
+            "en-US": "Official wording: unlimited access to GPT-4o and 4.1-mini, with generous access to advanced models"
           },
           "access": {
             "zh-CN": "ChatGPT 工作区 + Codex 访问",
@@ -151,8 +151,8 @@
       },
       "source": "https://claude.com/pricing",
       "notes": {
-        "zh-CN": "价格与 Claude Code 是否包含已于 2026-05-05 依据 Claude 定价页面核实。Enterprise 与 Team 的区别在于，API 使用量可能会单独计费。",
-        "en-US": "Pricing and Claude Code inclusion were verified from Claude pricing pages on 2026-05-05. Enterprise pricing differs from Team because API usage can be billed separately."
+        "zh-CN": "已于 2026-05-06 依据 Claude 定价页与 Help Center 核实。Claude 对个人档公开了按会话倍率口径；Pro 另有每 5 小时重置的会话限额与跨模型周限额。Enterprise 与 Team 的区别在于，API 使用量可能会单独计费。",
+        "en-US": "Verified against Claude pricing and Help Center pages on 2026-05-06. Claude publishes session-based capacity ratios for individual plans; Pro also has a session limit that resets every five hours plus a cross-model weekly limit. Enterprise differs from Team because API usage can be billed separately."
       },
       "plans": [
         {
@@ -174,8 +174,8 @@
             "en-US": "Solo"
           },
           "limits": {
-            "zh-CN": "高于基础档的使用额度",
-            "en-US": "Higher usage than entry-tier access"
+            "zh-CN": "官方帮助中心：至少为免费版的 5 倍按会话用量；会话限额每 5 小时重置，另有跨模型周限额",
+            "en-US": "Help Center wording: at least 5x the free plan's usage per session; session limit resets every 5 hours, plus a cross-model weekly limit"
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code + Claude Code SDK",
@@ -205,16 +205,16 @@
             "en-US": "Heavy solo"
           },
           "limits": {
-            "zh-CN": "约为 Pro 的 5 倍用量",
-            "en-US": "About 5x Pro usage"
+            "zh-CN": "官方定价页：5x Pro capacity per session",
+            "en-US": "Official pricing wording: 5x Pro capacity per session"
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code + Claude Code SDK",
             "en-US": "Claude app + Claude Code + Claude Code SDK"
           },
           "notes": {
-            "zh-CN": "更高使用量的个人方案。",
-            "en-US": "Higher-usage individual plan."
+            "zh-CN": "面向高频个人用户的公开档位。",
+            "en-US": "Public tier for frequent individual users."
           }
         },
         {
@@ -236,8 +236,8 @@
             "en-US": "Power user"
           },
           "limits": {
-            "zh-CN": "约为 Pro 的 20 倍用量",
-            "en-US": "About 20x Pro usage"
+            "zh-CN": "官方定价页：20x Pro capacity per session",
+            "en-US": "Official pricing wording: 20x Pro capacity per session"
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code + Claude Code SDK",
@@ -344,19 +344,252 @@
       ]
     },
     {
+      "providerSlug": "zhipu",
+      "providerName": "Zhipu / GLM",
+      "productName": "GLM Coding Plan",
+      "summary": {
+        "zh-CN": "智谱面向 AI 编码场景提供的官方订阅套餐，当前公开为 Lite、Pro、Max 三档。",
+        "en-US": "Zhipu's official subscription plans for AI coding, currently published as Lite, Pro, and Max."
+      },
+      "source": "https://docs.bigmodel.cn/cn/coding-plan/overview",
+      "notes": {
+        "zh-CN": "已于 2026-05-06 依据智谱开放文档《套餐概览》与《常见问题》核对。官方文档公开了套餐结构、5 小时/周限额和 MCP 额度，但静态页面未稳定公开统一价格，因此价格字段保留为以购买页为准。官方同时说明 Lite / Pro / Max 在限售期间会按每日 10:00（UTC+8）释放库存。",
+        "en-US": "Checked on 2026-05-06 against Zhipu's official Coding Plan overview and FAQ docs. The docs publish plan structure, 5-hour / weekly limits, and MCP quotas, but do not reliably expose one static public price on the docs pages, so pricing is left to the checkout page. The docs also note that Lite / Pro / Max inventory may be released daily at 10:00 UTC+8 during limited-sale periods."
+      },
+      "plans": [
+        {
+          "name": {
+            "zh-CN": "Lite",
+            "en-US": "Lite"
+          },
+          "price": "See official checkout",
+          "cadence": {
+            "zh-CN": "订阅制",
+            "en-US": "Subscription"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "轻量个人开发",
+            "en-US": "Light solo development"
+          },
+          "limits": {
+            "zh-CN": "约 80 prompts / 5 小时，约 400 prompts / 周；联网搜索 / 网页读取 / 开源仓库 MCP 合计 100 次 / 月",
+            "en-US": "About 80 prompts per 5 hours, about 400 prompts per week; 100 monthly combined calls for search / web-reader / open-repo MCPs"
+          },
+          "access": {
+            "zh-CN": "支持 GLM-5.1、GLM-5-Turbo、GLM-4.7、GLM-4.5-Air，以及视觉理解、联网搜索、网页读取、开源仓库 MCP",
+            "en-US": "Includes GLM-5.1, GLM-5-Turbo, GLM-4.7, GLM-4.5-Air, plus vision, web-search, web-reader, and open-repo MCP features"
+          },
+          "notes": {
+            "zh-CN": "官方定位为编码套餐入门档，适用于官方支持的 Coding 工具环境。",
+            "en-US": "Officially positioned as the entry coding tier for supported coding tools."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Pro",
+            "en-US": "Pro"
+          },
+          "price": "See official checkout",
+          "cadence": {
+            "zh-CN": "订阅制",
+            "en-US": "Subscription"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "高频个人开发",
+            "en-US": "Frequent solo development"
+          },
+          "limits": {
+            "zh-CN": "约 400 prompts / 5 小时，约 2000 prompts / 周；联网搜索 / 网页读取 / 开源仓库 MCP 合计 1000 次 / 月",
+            "en-US": "About 400 prompts per 5 hours, about 2000 prompts per week; 1000 monthly combined calls for search / web-reader / open-repo MCPs"
+          },
+          "access": {
+            "zh-CN": "包含 Lite 全部模型与 MCP 能力，并提供更高并发与更高编码额度",
+            "en-US": "Includes all Lite models and MCP capabilities with higher throughput and larger coding quotas"
+          },
+          "notes": {
+            "zh-CN": "官方文档将 Pro 作为高频复杂项目需求的主要升级档。",
+            "en-US": "The official docs position Pro as the main upgrade tier for frequent, more complex project work."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Max",
+            "en-US": "Max"
+          },
+          "price": "See official checkout",
+          "cadence": {
+            "zh-CN": "订阅制",
+            "en-US": "Subscription"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "重度个人开发 / 多项目并发",
+            "en-US": "Heavy solo development / multi-project concurrency"
+          },
+          "limits": {
+            "zh-CN": "约 1600 prompts / 5 小时，约 8000 prompts / 周；联网搜索 / 网页读取 / 开源仓库 MCP 合计 4000 次 / 月",
+            "en-US": "About 1600 prompts per 5 hours, about 8000 prompts per week; 4000 monthly combined calls for search / web-reader / open-repo MCPs"
+          },
+          "access": {
+            "zh-CN": "包含 Pro 全部能力，并提供最高档的 prompt、MCP 与并发资源",
+            "en-US": "Includes everything in Pro with the highest prompt, MCP, and concurrency capacity"
+          },
+          "notes": {
+            "zh-CN": "官方文档说明并发与速率限制基本原则为 Max > Pro > Lite。",
+            "en-US": "The official docs state that concurrency and rate limits generally scale as Max > Pro > Lite."
+          }
+        }
+      ]
+    },
+    {
       "providerSlug": "google",
       "providerName": "Google",
       "productName": "Gemini Code Assist",
       "summary": {
-        "zh-CN": "Google 面向组织的 Gemini Code Assist 付费方案。",
-        "en-US": "Google's coding assistant paid organization plans."
+        "zh-CN": "Google 同时提供个人免费的 Gemini Code Assist、Google AI Plus / Pro / Ultra 个人订阅，以及组织版 Standard / Enterprise；其中官方仅明确 Pro / Ultra 会提升 Code Assist / CLI 日请求上限。",
+        "en-US": "Google offers free Gemini Code Assist for individuals, Google AI Plus / Pro / Ultra personal subscriptions, and Standard / Enterprise organization editions; only Pro and Ultra are explicitly documented as raising Code Assist / CLI daily request limits."
       },
-      "source": "https://cloud.google.com/products/gemini/pricing?hl=en",
+      "source": "https://developers.google.com/gemini-code-assist/resources/quotas",
       "notes": {
-        "zh-CN": "Google 的组织付费方案按月计费，并可选择按月或 12 个月承诺购买。",
-        "en-US": "Google's paid organization plans are billed monthly and can use monthly or 12-month commitments."
+        "zh-CN": "已于 2026-05-06 交叉核对 Gemini Code Assist quotas 页、Gemini 官方 subscriptions 页和 Google Cloud Gemini 定价页。Code Assist / CLI 的精确日请求上限以 quotas 页为准；个人订阅价格与附加权益以 Gemini subscriptions 页为准。Google AI Plus 当前未在 Code Assist quotas 页中列为提升日请求上限的购买路径。",
+        "en-US": "Cross-checked on 2026-05-06 against the Gemini Code Assist quotas page, the official Gemini subscriptions page, and Google Cloud Gemini pricing. Exact Code Assist / CLI daily request limits come from the quotas page; personal subscription pricing and bundled benefits come from the Gemini subscriptions page. Google AI Plus is not currently listed on the Code Assist quotas page as a higher daily-limit purchase path."
       },
       "plans": [
+        {
+          "name": {
+            "zh-CN": "Individuals",
+            "en-US": "Individuals"
+          },
+          "price": "Free",
+          "cadence": {
+            "zh-CN": "免费",
+            "en-US": "Free"
+          },
+          "seats": {
+            "zh-CN": "个人 Google 账号",
+            "en-US": "Personal Google account"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo developer"
+          },
+          "limits": {
+            "zh-CN": "Gemini Code Assist agent mode 与 Gemini CLI 合计 1000 requests / 用户 / 日",
+            "en-US": "1000 requests per user per day shared across Gemini Code Assist agent mode and Gemini CLI"
+          },
+          "access": {
+            "zh-CN": "IDE 代码补全与生成、对话助手、agentic chat、Gemini CLI 配额、smart actions",
+            "en-US": "IDE completions and generation, conversational assistant, agentic chat, Gemini CLI quota, and smart actions"
+          },
+          "notes": {
+            "zh-CN": "官方 FAQ 说明个人免费版面向 personal Google Account，不适用于 Google Workspace 账号。",
+            "en-US": "The official FAQ says the free individual edition is for personal Google Accounts, not Google Workspace accounts."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Google AI Plus",
+            "en-US": "Google AI Plus"
+          },
+          "price": "$7.99 / month (US list price)",
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人 Google 账号",
+            "en-US": "Personal Google account"
+          },
+          "audience": {
+            "zh-CN": "Gemini 个人订阅用户",
+            "en-US": "Gemini personal subscriber"
+          },
+          "limits": {
+            "zh-CN": "Code Assist 官方 quotas 页未将 AI Plus 列为更高日请求上限购买路径；未单独公布 Code Assist / CLI 提升额度",
+            "en-US": "The official Code Assist quotas page does not list AI Plus as a higher daily-limit purchase path and does not publish a separate Code Assist / CLI uplift for it"
+          },
+          "access": {
+            "zh-CN": "增强版 Gemini app、200 monthly AI credits、200 GB 存储、Gemini in Gmail / Vids / Chrome 等个人权益",
+            "en-US": "Enhanced Gemini app access, 200 monthly AI credits, 200 GB storage, and personal benefits such as Gemini in Gmail, Vids, and Chrome"
+          },
+          "notes": {
+            "zh-CN": "Gemini subscriptions 页展示的个人订阅档；当前更偏向通用 AI 权益，不是官方单列的 Code Assist 编码升级档。",
+            "en-US": "A personal subscription tier shown on the Gemini subscriptions page; it is positioned more as a general AI bundle than as a separately published Code Assist coding tier."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Google AI Pro",
+            "en-US": "Google AI Pro"
+          },
+          "price": "$19.99 / month (US list price)",
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人 Google 账号",
+            "en-US": "Personal Google account"
+          },
+          "audience": {
+            "zh-CN": "高频个人开发",
+            "en-US": "Frequent solo development"
+          },
+          "limits": {
+            "zh-CN": "Gemini Code Assist agent mode 与 Gemini CLI 合计 1500 requests / 用户 / 日",
+            "en-US": "1500 requests per user per day shared across Gemini Code Assist agent mode and Gemini CLI"
+          },
+          "access": {
+            "zh-CN": "Gemini Code Assist / CLI 更高日额度、Jules 更高限制、1000 monthly AI credits、5 TB 存储，以及 Google AI Pro 个人订阅权益",
+            "en-US": "Higher daily limits for Gemini Code Assist / CLI, higher Jules limits, 1000 monthly AI credits, 5 TB storage, and broader Google AI Pro personal benefits"
+          },
+          "notes": {
+            "zh-CN": "Gemini subscriptions 页明确列出 Google AI Pro 包含更高的 Gemini Code Assist / CLI 日请求上限。",
+            "en-US": "The Gemini subscriptions page explicitly lists higher Gemini Code Assist / CLI daily request limits as part of Google AI Pro."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Google AI Ultra",
+            "en-US": "Google AI Ultra"
+          },
+          "price": "$249.99 / month (US list price)",
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人 Google 账号",
+            "en-US": "Personal Google account"
+          },
+          "audience": {
+            "zh-CN": "重度个人开发",
+            "en-US": "Power solo developer"
+          },
+          "limits": {
+            "zh-CN": "Gemini Code Assist agent mode 与 Gemini CLI 合计 2000 requests / 用户 / 日",
+            "en-US": "2000 requests per user per day shared across Gemini Code Assist agent mode and Gemini CLI"
+          },
+          "access": {
+            "zh-CN": "包含 Google AI Pro 全部能力，并提供最高级别的 Code Assist / CLI / Jules 限额、25000 monthly AI credits、30 TB 存储、YouTube Premium 个人版等权益",
+            "en-US": "Includes everything in Google AI Pro with the highest Code Assist / CLI / Jules limits, 25000 monthly AI credits, 30 TB storage, YouTube Premium individual, and other bundled benefits"
+          },
+          "notes": {
+            "zh-CN": "Gemini US subscriptions 页当前展示的美国标价为 $249.99 / month；不同地区和促销期可能不同。",
+            "en-US": "The current US list price shown on the Gemini US subscriptions page is $249.99 / month; other regions and promotional periods may differ."
+          }
+        },
         {
           "name": {
             "zh-CN": "Standard",
@@ -376,16 +609,16 @@
             "en-US": "Team"
           },
           "limits": {
-            "zh-CN": "按月计费",
-            "en-US": "Billed monthly"
+            "zh-CN": "Gemini Code Assist agent mode 与 Gemini CLI 合计 1500 requests / 用户 / 日",
+            "en-US": "1500 requests per user per day shared across Gemini Code Assist agent mode and Gemini CLI"
           },
           "access": {
             "zh-CN": "代码补全、生成、IDE 对话、本地代码库感知、Agent 模式、Gemini CLI",
             "en-US": "Code completion, generation, IDE chat, local codebase awareness, agent mode, Gemini CLI"
           },
           "notes": {
-            "zh-CN": "Google Cloud 定价表中的标准版。",
-            "en-US": "Standard edition from the Google Cloud pricing table."
+            "zh-CN": "Google quotas 页将 Standard 列为与 Google AI Pro 同级的 1500 requests / 用户 / 日组织版路径。",
+            "en-US": "The Google quotas page lists Standard as the 1500-requests-per-user-per-day organization path, matching Google AI Pro."
           }
         },
         {
@@ -407,16 +640,16 @@
             "en-US": "Large team"
           },
           "limits": {
-            "zh-CN": "按月计费，并提供更高 Agent 使用量",
-            "en-US": "Billed monthly with increased agent usage"
+            "zh-CN": "Gemini Code Assist agent mode 与 Gemini CLI 合计 2000 requests / 用户 / 日",
+            "en-US": "2000 requests per user per day shared across Gemini Code Assist agent mode and Gemini CLI"
           },
           "access": {
             "zh-CN": "包含 Standard 全部能力，并增加代码定制、Apigee、Application Integration 与 Gemini Cloud Assist 功能",
             "en-US": "Everything in Standard plus code customization, Apigee, Application Integration, Gemini Cloud Assist features"
           },
           "notes": {
-            "zh-CN": "企业版增加仓库感知定制与更广泛的 Google Cloud 集成。",
-            "en-US": "Enterprise edition adds repository-aware customization and broader Google Cloud integrations."
+            "zh-CN": "Google quotas 页将 Enterprise 列为 2000 requests / 用户 / 日，并高于 Standard。",
+            "en-US": "The Google quotas page lists Enterprise at 2000 requests per user per day, above Standard."
           }
         }
       ]
@@ -426,15 +659,77 @@
       "providerName": "GitHub",
       "productName": "GitHub Copilot",
       "summary": {
-        "zh-CN": "Copilot 面向个人、企业和组织部署的官方付费方案。",
-        "en-US": "Official Copilot paid plans for individuals, businesses, and enterprise rollouts."
+        "zh-CN": "GitHub Copilot 当前公开覆盖个人 Free / Student / Pro / Pro+，以及组织 Business / Enterprise。",
+        "en-US": "GitHub Copilot currently spans individual Free / Student / Pro / Pro+ and organization Business / Enterprise plans."
       },
-      "source": "https://docs.github.com/en/copilot/get-started/plans",
+      "source": "https://github.com/features/copilot/plans",
       "notes": {
-        "zh-CN": "GitHub Docs 说明从 2026-06-01 开始引入按用量计费。以下价格为 2026-05-05 官方列出的方案价格；GitHub 也提到部分方案在 2026 年 4 月期间暂停了新用户注册。",
-        "en-US": "GitHub Docs says usage-based billing starts on 2026-06-01. Prices below are the listed plan prices as of 2026-05-05; GitHub also notes that new sign-ups for some plans were paused during April 2026."
+        "zh-CN": "已于 2026-05-06 交叉核对 GitHub Copilot plans 页与 GitHub Docs 计划表。GitHub Docs 说明从 2026-06-01 开始，Copilot 将从 request-based billing 迁移到 usage-based billing；同时，Docs 还注明自 2026-04-20 起 Pro / Pro+ / Student 暂停新注册，自 2026-04-22 起部分 Business 自助注册暂停。",
+        "en-US": "Cross-checked on 2026-05-06 against the GitHub Copilot plans page and GitHub Docs plan tables. GitHub Docs says Copilot moves from request-based billing to usage-based billing on June 1, 2026; the docs also note paused new sign-ups for Pro / Pro+ / Student from April 20, 2026 and for some self-serve Business sign-ups from April 22, 2026."
       },
       "plans": [
+        {
+          "name": {
+            "zh-CN": "Free",
+            "en-US": "Free"
+          },
+          "price": "$0",
+          "cadence": {
+            "zh-CN": "免费",
+            "en-US": "Free"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "试用个人用户",
+            "en-US": "Trial solo user"
+          },
+          "limits": {
+            "zh-CN": "50 premium requests / 月，2000 completions / 月，50 agent mode 或 chat requests / 月",
+            "en-US": "50 premium requests per month, 2000 completions per month, and 50 agent mode or chat requests per month"
+          },
+          "access": {
+            "zh-CN": "基础 Copilot Chat、部分模型、GitHub 平台与 IDE 试用能力",
+            "en-US": "Entry Copilot Chat, selected models, and trial access across GitHub and supported IDEs"
+          },
+          "notes": {
+            "zh-CN": "GitHub plans 页将 Free 作为个人开发者的零成本入门档。",
+            "en-US": "The GitHub plans page positions Free as the zero-cost starting tier for individual developers."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Student",
+            "en-US": "Student"
+          },
+          "price": "Free (verified students)",
+          "cadence": {
+            "zh-CN": "免费",
+            "en-US": "Free"
+          },
+          "seats": {
+            "zh-CN": "已验证学生",
+            "en-US": "Verified student"
+          },
+          "audience": {
+            "zh-CN": "学生开发者",
+            "en-US": "Student developer"
+          },
+          "limits": {
+            "zh-CN": "每月 300 次 premium requests",
+            "en-US": "300 premium requests / month"
+          },
+          "access": {
+            "zh-CN": "无限 completions、Copilot Chat 高级模型、Copilot cloud agent",
+            "en-US": "Unlimited completions, premium models in Copilot Chat, and Copilot cloud agent"
+          },
+          "notes": {
+            "zh-CN": "GitHub Docs 说明 Student 仅向 verified students 开放；GPT-5.3-Codex 不在 model picker 中显示，但可通过自动模型选择使用。新注册自 2026-04-20 起暂停。",
+            "en-US": "GitHub Docs says Student is only for verified students; GPT-5.3-Codex is not shown in the model picker but remains available through automatic model selection. New sign-ups have been paused since 2026-04-20."
+          }
+        },
         {
           "name": {
             "zh-CN": "Pro",
@@ -458,12 +753,12 @@
             "en-US": "300 premium requests / month"
           },
           "access": {
-            "zh-CN": "无限补全与聊天",
-            "en-US": "Unlimited completions and chat"
+            "zh-CN": "Copilot cloud agent、Copilot code review、Claude / Codex 模型、无限 inline suggestions、GPT-5 mini 无限 agent mode 与 chat",
+            "en-US": "Copilot cloud agent, Copilot code review, Claude / Codex access, unlimited inline suggestions, and unlimited GPT-5 mini agent mode and chat"
           },
           "notes": {
-            "zh-CN": "GitHub Docs 标价为每月 10 美元。",
-            "en-US": "Listed by GitHub Docs at $10 per month."
+            "zh-CN": "GitHub plans 页将 Pro 定位为 Most popular 个人档。",
+            "en-US": "The GitHub plans page labels Pro as the most popular individual tier."
           }
         },
         {
@@ -489,12 +784,12 @@
             "en-US": "1,500 premium requests / month"
           },
           "access": {
-            "zh-CN": "更高阶 Copilot 能力",
-            "en-US": "Higher-end Copilot access"
+            "zh-CN": "包含 Pro 全部能力，开放全部模型，并含 GitHub Spark",
+            "en-US": "Everything in Pro, access to all models, and GitHub Spark"
           },
           "notes": {
-            "zh-CN": "面向 Business 之前的最高公开个人档位。",
-            "en-US": "Best public individual tier before business rollout."
+            "zh-CN": "GitHub plans 页说明 Pro+ 提供 Pro 的 5 倍 premium requests。",
+            "en-US": "The GitHub plans page states that Pro+ includes 5x as many premium requests as Pro."
           }
         },
         {
@@ -520,12 +815,12 @@
             "en-US": "300 premium requests / user / month"
           },
           "access": {
-            "zh-CN": "集中化管理 + Copilot 云端代理",
-            "en-US": "Centralized management + Copilot cloud agent"
+            "zh-CN": "集中化管理、Copilot policy control、Copilot cloud agent",
+            "en-US": "Centralized management, Copilot policy control, and Copilot cloud agent"
           },
           "notes": {
-            "zh-CN": "适用于组织统一管理部署。",
-            "en-US": "Available for org-managed deployments."
+            "zh-CN": "GitHub Docs 说明 Business 可额外购买 premium requests，单价 $0.04 / request。",
+            "en-US": "GitHub Docs says Business can purchase additional premium requests at $0.04 per request."
           }
         },
         {
@@ -551,12 +846,12 @@
             "en-US": "1,000 premium requests / user / month"
           },
           "access": {
-            "zh-CN": "Business 功能 + 企业级能力",
-            "en-US": "Business features + enterprise capabilities"
+            "zh-CN": "Business 全部能力 + GitHub.com 深度集成、组织知识定制、企业级扩展能力",
+            "en-US": "Everything in Business plus deeper GitHub.com integration, org knowledge customization, and enterprise-grade capabilities"
           },
           "notes": {
-            "zh-CN": "提供企业级 Copilot 控制能力与推广模型。",
-            "en-US": "Enterprise-grade Copilot controls and rollout model."
+            "zh-CN": "GitHub Docs 说明 Enterprise 仅适用于 GitHub Enterprise Cloud，并可额外购买 premium requests。",
+            "en-US": "GitHub Docs says Enterprise is for GitHub Enterprise Cloud and can also purchase additional premium requests."
           }
         }
       ]
@@ -846,13 +1141,13 @@
       "providerName": "ByteDance / 火山方舟",
       "productName": "Trae / Coding Plan",
       "summary": {
-        "zh-CN": "火山引擎官方文档确认的 Trae 编码订阅体系，包含 Lite、Pro 与企业版。",
-        "en-US": "Trae coding subscriptions documented by ByteDance's official Volcano Engine docs, including Lite, Pro, and enterprise-oriented plans."
+        "zh-CN": "火山方舟面向个人开发者的 Coding Plan 订阅服务，当前活动页与文档口径聚焦 Lite 与 Pro 两档个人套餐。",
+        "en-US": "Volcano Engine's Coding Plan subscription for individual developers, with current official activity and docs focused on Lite and Pro personal tiers."
       },
-      "source": "https://www.volcengine.com/docs/82379/1574248",
+      "source": "https://www.volcengine.com/activity/codingplan?infrom=100003.301.120",
       "notes": {
-        "zh-CN": "套餐层级、自然月规则和请求配额依据火山方舟官方文档于 2026-05-06 核对。静态文档可确认 Lite / Pro / 企业版结构，但价格结账信息在动态购买页中展示，因此当前仅保留官网可静态核对的价格描述。",
-        "en-US": "Plan tiers, natural-month billing behavior, and request quotas were checked against Volcano Engine's official docs on 2026-05-06. The static docs confirm the Lite / Pro / Enterprise structure, while checkout pricing is rendered dynamically, so only statically verifiable pricing descriptors are included here."
+        "zh-CN": "已于 2026-05-06 按你提供的活动页、火山方舟官方文档与火山引擎官方文章口径交叉核对。当前官方口径聚焦个人开发场景，提供 Lite 与 Pro 两档；企业级需求建议通过火山方舟模型 API 获取支持。活动页展示订阅入口与优惠信息，实时价格和结算口径以活动页/下单页为准。",
+        "en-US": "Cross-checked on 2026-05-06 against the activity page you provided, Volcano Engine's official Coding Plan docs, and official Volcano Engine articles. The current official positioning is for individual developer use, with Lite and Pro tiers; enterprise-scale needs are directed to Ark model APIs. Live pricing and checkout terms should be taken from the activity / order page."
       },
       "plans": [
         {
@@ -862,28 +1157,28 @@
           },
           "price": "See official checkout",
           "cadence": {
-            "zh-CN": "按月（自然月）",
-            "en-US": "Monthly (calendar month)"
+            "zh-CN": "订阅制",
+            "en-US": "Subscription"
           },
           "seats": {
             "zh-CN": "个人",
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "个人开发者",
-            "en-US": "Solo"
+            "zh-CN": "中等强度个人开发",
+            "en-US": "Moderate solo development"
           },
           "limits": {
-            "zh-CN": "每自然月约 600 次 Claude 4 Sonnet 请求",
-            "en-US": "About 600 Claude 4 Sonnet requests per calendar month"
+            "zh-CN": "每 5 小时最多约 1200 次请求，每周约 9000 次，每订阅月约 18000 次请求",
+            "en-US": "Up to about 1200 requests per 5 hours, about 9000 per week, and about 18000 per subscription month"
           },
           "access": {
-            "zh-CN": "Trae / Coding 基础订阅",
-            "en-US": "Trae / Coding entry subscription"
+            "zh-CN": "支持 Claude Code、Cursor、Cline、Codex CLI 等工具接入",
+            "en-US": "Supports tools such as Claude Code, Cursor, Cline, and Codex CLI"
           },
           "notes": {
-            "zh-CN": "官方文档确认 Lite 为月度编码套餐，价格以购买页为准。",
-            "en-US": "Official docs confirm Lite as a monthly coding subscription; refer to the checkout page for live pricing."
+            "zh-CN": "价格和优惠信息以活动页/下单页实时展示为准。",
+            "en-US": "Use the live activity / checkout page for current pricing and promotions."
           }
         },
         {
@@ -893,59 +1188,28 @@
           },
           "price": "See official checkout",
           "cadence": {
-            "zh-CN": "按月（自然月）",
-            "en-US": "Monthly (calendar month)"
+            "zh-CN": "订阅制",
+            "en-US": "Subscription"
           },
           "seats": {
             "zh-CN": "个人",
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "高频个人开发者",
-            "en-US": "Power solo"
+            "zh-CN": "高强度个人开发",
+            "en-US": "High-intensity solo development"
           },
           "limits": {
-            "zh-CN": "每自然月约 4,500 次 Claude 4 Sonnet 请求",
-            "en-US": "About 4,500 Claude 4 Sonnet requests per calendar month"
+            "zh-CN": "每 5 小时最多约 6000 次请求，每周约 45000 次，每订阅月约 90000 次请求",
+            "en-US": "Up to about 6000 requests per 5 hours, about 45000 per week, and about 90000 per subscription month"
           },
           "access": {
-            "zh-CN": "Trae / Coding 高阶订阅",
-            "en-US": "Trae / Coding higher-tier subscription"
+            "zh-CN": "包含 Lite 的工具接入能力与更高套餐容量",
+            "en-US": "Includes Lite's tool compatibility with a higher subscription capacity"
           },
           "notes": {
-            "zh-CN": "官方文档确认 Pro 为月度编码套餐，价格以购买页为准。",
-            "en-US": "Official docs confirm Pro as a monthly coding subscription; refer to the checkout page for live pricing."
-          }
-        },
-        {
-          "name": {
-            "zh-CN": "企业版",
-            "en-US": "Enterprise"
-          },
-          "price": "Contact sales",
-          "cadence": {
-            "zh-CN": "定制",
-            "en-US": "Custom"
-          },
-          "seats": {
-            "zh-CN": "企业",
-            "en-US": "Enterprise"
-          },
-          "audience": {
-            "zh-CN": "组织",
-            "en-US": "Organization"
-          },
-          "limits": {
-            "zh-CN": "团队管理、权限与企业支持",
-            "en-US": "Team management, permissions, and enterprise support"
-          },
-          "access": {
-            "zh-CN": "企业编码方案",
-            "en-US": "Enterprise coding plan"
-          },
-          "notes": {
-            "zh-CN": "企业版需走商务流程开通。",
-            "en-US": "Enterprise activation is handled through a sales flow."
+            "zh-CN": "若为企业级开发需求，官方当前建议通过火山方舟模型 API 获取支持。",
+            "en-US": "For enterprise-scale development, current official guidance points users to Ark model APIs."
           }
         }
       ]
