@@ -18,6 +18,7 @@ const localeLabels = {
   'zh-CN': '中文',
   'en-US': 'English',
 }
+const githubRepoUrl = 'https://github.com/happys2333/AI-ladder'
 
 const currentLocaleLabel = computed(() => localeLabels[locale.value] || locale.value)
 
@@ -109,6 +110,22 @@ onBeforeUnmount(() => {
           </div>
         </Transition>
       </div>
+
+      <a
+        class="github-link"
+        :href="githubRepoUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        :aria-label="t('app.githubRepo')"
+        :title="t('app.githubRepo')"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M12 .5C5.65.5.5 5.66.5 12.02c0 5.09 3.29 9.4 7.86 10.92.58.1.79-.25.79-.56 0-.27-.01-1.18-.02-2.14-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.76 1.2 1.76 1.2 1.03 1.78 2.71 1.27 3.37.97.1-.75.4-1.27.73-1.57-2.56-.29-5.26-1.29-5.26-5.75 0-1.27.45-2.31 1.2-3.13-.12-.29-.52-1.47.12-3.07 0 0 .97-.31 3.19 1.19a10.9 10.9 0 0 1 5.82 0c2.22-1.5 3.18-1.19 3.18-1.19.64 1.6.24 2.78.12 3.07.75.82 1.2 1.86 1.2 3.13 0 4.47-2.7 5.45-5.28 5.74.41.36.78 1.08.78 2.18 0 1.58-.02 2.85-.02 3.24 0 .31.21.67.8.56 4.56-1.53 7.84-5.83 7.84-10.92C23.5 5.66 18.35.5 12 .5Z"
+          />
+        </svg>
+      </a>
 
       <label v-if="showSearch" class="search-box">
         <span class="material-symbols-outlined">search</span>
