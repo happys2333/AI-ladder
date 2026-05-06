@@ -35,10 +35,14 @@ function formatFxRate(value) {
   }).format(value)
 }
 
+function displayPrice(value) {
+  return localizedText(value, '')
+}
+
 function inferStartingPrice(plans) {
   const prices = plans
     .map((plan) => {
-      const match = plan.price.match(/([$¥￥])\s?([0-9]+(?:\.[0-9]+)?)/)
+      const match = displayPrice(plan.price).match(/([$¥￥])\s?([0-9]+(?:\.[0-9]+)?)/)
       return match ? { symbol: match[1] === '￥' ? '¥' : match[1], value: Number(match[2]) } : null
     })
     .filter((entry) => entry && Number.isFinite(entry.value))
@@ -171,13 +175,13 @@ onMounted(() => {
             </div>
 
             <div class="plans-grid">
-              <article v-for="plan in provider.plans" :key="`${provider.providerSlug}-${localizedText(plan.name, plan.price)}`" class="plan-card">
+              <article v-for="plan in provider.plans" :key="`${provider.providerSlug}-${localizedText(plan.name, displayPrice(plan.price))}`" class="plan-card">
                 <div class="plan-card-head">
                   <div>
                     <p class="provider-kicker">{{ localizedText(plan.audience) || localizedText(plan.seats) || t('plans.generalAudience') }}</p>
                     <h3>{{ localizedText(plan.name) }}</h3>
                   </div>
-                  <strong class="plan-price">{{ plan.price }}</strong>
+                  <strong class="plan-price">{{ displayPrice(plan.price) || '-' }}</strong>
                 </div>
 
                 <div class="plan-detail-grid">

@@ -119,14 +119,14 @@ function displayModelSummary(summary) {
         <div class="drawer-section">
           <div class="drawer-block-title">{{ t('detail.codingPlans') }}</div>
           <div v-if="model.codingPlans?.length" class="benchmark-list">
-            <div v-for="plan in model.codingPlans" :key="`${plan.providerName}-${localizeText(plan.name, plan.price)}`" class="benchmark-row">
+            <div v-for="plan in model.codingPlans" :key="`${plan.providerName}-${localizeText(plan.name, localizeText(plan.price))}`" class="benchmark-row">
               <span>{{ plan.providerName }} · {{ localizeText(plan.name) }}</span>
               <div class="bar-track">
                 <div class="bar-fill" style="width: 100%"></div>
               </div>
-              <strong>{{ plan.price || localizeText(plan.limits) || '-' }}</strong>
+              <strong>{{ localizeText(plan.price) || localizeText(plan.limits) || '-' }}</strong>
             </div>
-            <div v-for="plan in model.codingPlans" :key="`${plan.providerName}-${localizeText(plan.name, plan.price)}-notes`" class="drawer-summary">
+            <div v-for="plan in model.codingPlans" :key="`${plan.providerName}-${localizeText(plan.name, localizeText(plan.price))}-notes`" class="drawer-summary">
               {{ localizeText(plan.access) || '' }}{{ localizeText(plan.access) && localizeText(plan.limits) ? ' · ' : '' }}{{ localizeText(plan.limits) || '' }}{{ (localizeText(plan.access) || localizeText(plan.limits)) && localizeText(plan.notes) ? ' · ' : '' }}{{ localizeText(plan.notes) || '' }}
               <template v-if="plan.source">
                 · {{ t('detail.providerSource') }}: {{ plan.source }}

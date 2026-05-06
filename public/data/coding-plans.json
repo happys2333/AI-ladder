@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-06T19:42:00+08:00",
+  "lastUpdated": "2026-05-06T22:36:00+08:00",
   "providers": [
     {
       "providerSlug": "openai",
@@ -11,8 +11,8 @@
       },
       "source": "https://openai.com/chatgpt/pricing/",
       "notes": {
-        "zh-CN": "已于 2026-05-06 依据 OpenAI 定价页与 Help Center 交叉核对。OpenAI 对 Plus / Pro 的多数功能只公开“extended limits”或“unlimited access（受 abuse guardrails 限制）”口径，通常不会在定价页写死统一数值上限。当前列表仅统计订阅制或席位制方案，不包含按工作区 credits 计费的按量 seat。",
-        "en-US": "Cross-checked against OpenAI pricing and Help Center pages on 2026-05-06. OpenAI usually describes Plus / Pro feature access as extended limits or unlimited access subject to abuse guardrails, rather than publishing one fixed numeric quota on the pricing page. This list includes subscription and seat-based plans only, and excludes usage-based seats billed via workspace credits."
+        "zh-CN": "个人档分为 Plus、Pro $100、Pro $200；Business 标准 seat 以 Plus 级基础配额为基线，超出内含限额后可通过 workspace credits 扩展。",
+        "en-US": "Individual tiers are Plus, Pro $100, and Pro $200. Business standard seats use Plus-level baseline access and can extend beyond included limits with workspace credits."
       },
       "plans": [
         {
@@ -20,7 +20,10 @@
             "zh-CN": "Plus",
             "en-US": "Plus"
           },
-          "price": "$20 / month",
+          "price": {
+            "zh-CN": "$20 / 月",
+            "en-US": "$20 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -34,8 +37,8 @@
             "en-US": "Solo"
           },
           "limits": {
-            "zh-CN": "官网口径：消息、文件上传、数据分析、图片生成均为扩展额度；未公开统一数值上限",
-            "en-US": "Official wording: extended limits on messaging, file uploads, data analysis, and image generation; no single numeric quota is published"
+            "zh-CN": "标准 Plus 用户额度。",
+            "en-US": "Standard Plus user limits."
           },
           "access": {
             "zh-CN": "ChatGPT + Codex",
@@ -48,10 +51,47 @@
         },
         {
           "name": {
-            "zh-CN": "Pro",
-            "en-US": "Pro"
+            "zh-CN": "Pro $100",
+            "en-US": "Pro $100"
           },
-          "price": "$200 / month",
+          "price": {
+            "zh-CN": "$100 / 月",
+            "en-US": "$100 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "高频个人用户",
+            "en-US": "Frequent solo"
+          },
+          "limits": {
+            "zh-CN": "标准 Plus 用户额度的 5 倍；当前 Codex 活动期间为 Plus 的 10 倍额度。",
+            "en-US": "5x standard Plus user limits; current Codex promotional allowance is 10x Plus."
+          },
+          "access": {
+            "zh-CN": "ChatGPT + Codex",
+            "en-US": "ChatGPT + Codex"
+          },
+          "notes": {
+            "zh-CN": "核心能力与 Pro $200 相同，主要差异在使用额度。",
+            "en-US": "Core capabilities match Pro $200; the main difference is usage allowance."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Pro $200",
+            "en-US": "Pro $200"
+          },
+          "price": {
+            "zh-CN": "$200 / 月",
+            "en-US": "$200 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -65,16 +105,16 @@
             "en-US": "Heavy solo"
           },
           "limits": {
-            "zh-CN": "官网口径：对所有 reasoning models 和 GPT-4o 为 unlimited access；deep research / Sora 为扩展额度；仍受 abuse guardrails 限制",
-            "en-US": "Official wording: unlimited access to all reasoning models and GPT-4o, with extended access to deep research and Sora; still subject to abuse guardrails"
+            "zh-CN": "标准 Plus 用户额度的 20 倍。",
+            "en-US": "20x standard Plus user limits."
           },
           "access": {
             "zh-CN": "ChatGPT + Codex",
             "en-US": "ChatGPT + Codex"
           },
           "notes": {
-            "zh-CN": "OpenAI 公开标价为每月 200 美元。",
-            "en-US": "OpenAI lists Pro at $200 per month."
+            "zh-CN": "最高个人用量档，适合持续并行的高强度工作流。",
+            "en-US": "Highest individual-usage tier for continuous, parallel heavy workflows."
           }
         },
         {
@@ -82,7 +122,10 @@
             "zh-CN": "Business",
             "en-US": "Business"
           },
-          "price": "$25 user / month monthly or $20 user / month annual",
+          "price": {
+            "zh-CN": "每用户 $25 / 月（月付）或每用户 $20 / 月（年付）",
+            "en-US": "$25 / user / month billed monthly or $20 / user / month billed annually"
+          },
           "cadence": {
             "zh-CN": "月付或年付",
             "en-US": "Monthly or annual"
@@ -96,16 +139,16 @@
             "en-US": "Team workspace"
           },
           "limits": {
-            "zh-CN": "官网口径：GPT-4o 与 4.1-mini 为 unlimited access，advanced models 为 generous access",
-            "en-US": "Official wording: unlimited access to GPT-4o and 4.1-mini, with generous access to advanced models"
+            "zh-CN": "与标准的plus用户额度相同。",
+            "en-US": "Same limits as a standard Plus user."
           },
           "access": {
-            "zh-CN": "ChatGPT 工作区 + Codex 访问",
-            "en-US": "ChatGPT workspace + Codex access"
+            "zh-CN": "包含 ChatGPT Plus 与 Business Codex 的能力，外加工作区管理",
+            "en-US": "Includes ChatGPT Plus and Business Codex capabilities, plus workspace management"
           },
           "notes": {
-            "zh-CN": "最终席位价格与税费以当前结账页为准。",
-            "en-US": "Use the current checkout for regional taxes and final seat pricing."
+            "zh-CN": "标准 ChatGPT seat 含基础配额，超出内含限额后可加购 credits。",
+            "en-US": "Standard ChatGPT seats include baseline access, with credits available beyond the included limits."
           }
         },
         {
@@ -113,7 +156,10 @@
             "zh-CN": "Enterprise / Edu",
             "en-US": "Enterprise / Edu"
           },
-          "price": "Contact sales",
+          "price": {
+            "zh-CN": "联系销售",
+            "en-US": "Contact sales"
+          },
           "cadence": {
             "zh-CN": "定制",
             "en-US": "Custom"
@@ -127,16 +173,16 @@
             "en-US": "Large org"
           },
           "limits": {
-            "zh-CN": "定制化安全、合规与部署条款",
-            "en-US": "Custom security, compliance, and deployment terms"
+            "zh-CN": "按合同约定。",
+            "en-US": "Defined by contract."
           },
           "access": {
             "zh-CN": "ChatGPT + Codex",
             "en-US": "ChatGPT + Codex"
           },
           "notes": {
-            "zh-CN": "企业级部署需通过销售流程处理。",
-            "en-US": "Enterprise-scale deployment handled through sales."
+            "zh-CN": "Enterprise / Edu 按合同和工作区策略控制扩展用量、overage 与安全条款。",
+            "en-US": "Enterprise / Edu govern expanded usage, overages, and security terms through contract and workspace policy."
           }
         }
       ]
@@ -151,8 +197,8 @@
       },
       "source": "https://claude.com/pricing",
       "notes": {
-        "zh-CN": "已于 2026-05-06 依据 Claude 定价页与 Help Center 核实。Claude 对个人档公开了按会话倍率口径；Pro 另有每 5 小时重置的会话限额与跨模型周限额。Enterprise 与 Team 的区别在于，API 使用量可能会单独计费。",
-        "en-US": "Verified against Claude pricing and Help Center pages on 2026-05-06. Claude publishes session-based capacity ratios for individual plans; Pro also has a session limit that resets every five hours plus a cross-model weekly limit. Enterprise differs from Team because API usage can be billed separately."
+        "zh-CN": "个人档按会话倍率区分；Pro 另有每 5 小时重置的会话限额与跨模型周限额。Team / Enterprise 侧重组织管理，API 使用量可能单独计费。",
+        "en-US": "Individual tiers are differentiated by per-session capacity. Pro also has a five-hour resetting session limit plus cross-model weekly limits. Team and Enterprise focus on org management, and API usage may be billed separately."
       },
       "plans": [
         {
@@ -160,7 +206,10 @@
             "zh-CN": "Pro",
             "en-US": "Pro"
           },
-          "price": "$20 / month or $17 / month annual",
+          "price": {
+            "zh-CN": "$20 / 月（月付）或 $17 / 月（年付）",
+            "en-US": "$20 / month billed monthly or $17 / month billed annually"
+          },
           "cadence": {
             "zh-CN": "月付或年付",
             "en-US": "Monthly or annual"
@@ -174,8 +223,8 @@
             "en-US": "Solo"
           },
           "limits": {
-            "zh-CN": "官方帮助中心：至少为免费版的 5 倍按会话用量；会话限额每 5 小时重置，另有跨模型周限额",
-            "en-US": "Help Center wording: at least 5x the free plan's usage per session; session limit resets every 5 hours, plus a cross-model weekly limit"
+            "zh-CN": "标准 Pro 用户额度；至少为免费版的 5 倍。",
+            "en-US": "Standard Pro user limits; at least 5x the free plan."
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code + Claude Code SDK",
@@ -191,7 +240,10 @@
             "zh-CN": "Max 5x",
             "en-US": "Max 5x"
           },
-          "price": "$100 person / month",
+          "price": {
+            "zh-CN": "$100 / 人 / 月",
+            "en-US": "$100 / person / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -205,8 +257,8 @@
             "en-US": "Heavy solo"
           },
           "limits": {
-            "zh-CN": "官方定价页：5x Pro capacity per session",
-            "en-US": "Official pricing wording: 5x Pro capacity per session"
+            "zh-CN": "标准 Pro 用户额度的 5 倍。",
+            "en-US": "5x standard Pro user limits."
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code + Claude Code SDK",
@@ -222,7 +274,10 @@
             "zh-CN": "Max 20x",
             "en-US": "Max 20x"
           },
-          "price": "$200 person / month",
+          "price": {
+            "zh-CN": "$200 / 人 / 月",
+            "en-US": "$200 / person / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -236,8 +291,8 @@
             "en-US": "Power user"
           },
           "limits": {
-            "zh-CN": "官方定价页：20x Pro capacity per session",
-            "en-US": "Official pricing wording: 20x Pro capacity per session"
+            "zh-CN": "标准 Pro 用户额度的 20 倍。",
+            "en-US": "20x standard Pro user limits."
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code + Claude Code SDK",
@@ -253,7 +308,10 @@
             "zh-CN": "Team Standard",
             "en-US": "Team Standard"
           },
-          "price": "$25 member / month monthly or $20 member / month annual",
+          "price": {
+            "zh-CN": "每成员 $25 / 月（月付）或每成员 $20 / 月（年付）",
+            "en-US": "$25 / member / month billed monthly or $20 / member / month billed annually"
+          },
           "cadence": {
             "zh-CN": "月付或年付",
             "en-US": "Monthly or annual"
@@ -267,8 +325,8 @@
             "en-US": "Team"
           },
           "limits": {
-            "zh-CN": "每次会话约为 Pro 的 1.25 倍用量",
-            "en-US": "1.25x Pro usage per session"
+            "zh-CN": "标准 Pro 用户额度的 1.25 倍。",
+            "en-US": "1.25x standard Pro user limits."
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code",
@@ -284,7 +342,10 @@
             "zh-CN": "Team Premium",
             "en-US": "Team Premium"
           },
-          "price": "$125 member / month monthly or $100 member / month annual",
+          "price": {
+            "zh-CN": "每成员 $125 / 月（月付）或每成员 $100 / 月（年付）",
+            "en-US": "$125 / member / month billed monthly or $100 / member / month billed annually"
+          },
           "cadence": {
             "zh-CN": "月付或年付",
             "en-US": "Monthly or annual"
@@ -298,8 +359,8 @@
             "en-US": "High-usage team"
           },
           "limits": {
-            "zh-CN": "每次会话约为 Pro 的 6.25 倍用量",
-            "en-US": "6.25x Pro usage per session"
+            "zh-CN": "标准 Pro 用户额度的 6.25 倍。",
+            "en-US": "6.25x standard Pro user limits."
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code",
@@ -315,7 +376,10 @@
             "zh-CN": "Enterprise",
             "en-US": "Enterprise"
           },
-          "price": "Contact sales",
+          "price": {
+            "zh-CN": "联系销售",
+            "en-US": "Contact sales"
+          },
           "cadence": {
             "zh-CN": "定制",
             "en-US": "Custom"
@@ -329,8 +393,8 @@
             "en-US": "Large org"
           },
           "limits": {
-            "zh-CN": "席位条款可定制；API 使用量可能单独计费",
-            "en-US": "Custom seat terms; API usage can be billed separately"
+            "zh-CN": "按合同约定。",
+            "en-US": "Defined by contract."
           },
           "access": {
             "zh-CN": "Claude 应用 + Claude Code",
@@ -351,10 +415,10 @@
         "zh-CN": "智谱面向 AI 编码场景提供的官方订阅套餐，当前公开为 Lite、Pro、Max 三档。",
         "en-US": "Zhipu's official subscription plans for AI coding, currently published as Lite, Pro, and Max."
       },
-      "source": "https://docs.bigmodel.cn/cn/coding-plan/overview",
+      "source": "https://bigmodel.cn/glm-coding",
       "notes": {
-        "zh-CN": "已于 2026-05-06 依据智谱开放文档《套餐概览》与《常见问题》核对。官方文档公开了套餐结构、5 小时/周限额和 MCP 额度，但静态页面未稳定公开统一价格，因此价格字段保留为以购买页为准。官方同时说明 Lite / Pro / Max 在限售期间会按每日 10:00（UTC+8）释放库存。",
-        "en-US": "Checked on 2026-05-06 against Zhipu's official Coding Plan overview and FAQ docs. The docs publish plan structure, 5-hour / weekly limits, and MCP quotas, but do not reliably expose one static public price on the docs pages, so pricing is left to the checkout page. The docs also note that Lite / Pro / Max inventory may be released daily at 10:00 UTC+8 during limited-sale periods."
+        "zh-CN": "官方页展示 Lite、Pro、Max 三档；价格以下单页为准，限售期间可能按每日 10:00（UTC+8）放量。",
+        "en-US": "The official page shows Lite, Pro, and Max. Pricing should be taken from the checkout page, and limited-sale inventory may be released daily at 10:00 UTC+8."
       },
       "plans": [
         {
@@ -362,7 +426,10 @@
             "zh-CN": "Lite",
             "en-US": "Lite"
           },
-          "price": "See official checkout",
+          "price": {
+            "zh-CN": "以下单页为准",
+            "en-US": "See official checkout"
+          },
           "cadence": {
             "zh-CN": "订阅制",
             "en-US": "Subscription"
@@ -376,8 +443,8 @@
             "en-US": "Light solo development"
           },
           "limits": {
-            "zh-CN": "约 80 prompts / 5 小时，约 400 prompts / 周；联网搜索 / 网页读取 / 开源仓库 MCP 合计 100 次 / 月",
-            "en-US": "About 80 prompts per 5 hours, about 400 prompts per week; 100 monthly combined calls for search / web-reader / open-repo MCPs"
+            "zh-CN": "3x Claude Pro 用量额度",
+            "en-US": "3x Claude Pro usage limits."
           },
           "access": {
             "zh-CN": "支持 GLM-5.1、GLM-5-Turbo、GLM-4.7、GLM-4.5-Air，以及视觉理解、联网搜索、网页读取、开源仓库 MCP",
@@ -393,7 +460,10 @@
             "zh-CN": "Pro",
             "en-US": "Pro"
           },
-          "price": "See official checkout",
+          "price": {
+            "zh-CN": "以下单页为准",
+            "en-US": "See official checkout"
+          },
           "cadence": {
             "zh-CN": "订阅制",
             "en-US": "Subscription"
@@ -407,16 +477,16 @@
             "en-US": "Frequent solo development"
           },
           "limits": {
-            "zh-CN": "约 400 prompts / 5 小时，约 2000 prompts / 周；联网搜索 / 网页读取 / 开源仓库 MCP 合计 1000 次 / 月",
-            "en-US": "About 400 prompts per 5 hours, about 2000 prompts per week; 1000 monthly combined calls for search / web-reader / open-repo MCPs"
+            "zh-CN": "5x Lite 用量额度",
+            "en-US": "5x Lite usage limits."
           },
           "access": {
             "zh-CN": "包含 Lite 全部模型与 MCP 能力，并提供更高并发与更高编码额度",
             "en-US": "Includes all Lite models and MCP capabilities with higher throughput and larger coding quotas"
           },
           "notes": {
-            "zh-CN": "官方文档将 Pro 作为高频复杂项目需求的主要升级档。",
-            "en-US": "The official docs position Pro as the main upgrade tier for frequent, more complex project work."
+            "zh-CN": "主要面向高频、复杂项目需求。",
+            "en-US": "Mainly aimed at frequent, more complex project work."
           }
         },
         {
@@ -424,7 +494,10 @@
             "zh-CN": "Max",
             "en-US": "Max"
           },
-          "price": "See official checkout",
+          "price": {
+            "zh-CN": "以下单页为准",
+            "en-US": "See official checkout"
+          },
           "cadence": {
             "zh-CN": "订阅制",
             "en-US": "Subscription"
@@ -438,16 +511,16 @@
             "en-US": "Heavy solo development / multi-project concurrency"
           },
           "limits": {
-            "zh-CN": "约 1600 prompts / 5 小时，约 8000 prompts / 周；联网搜索 / 网页读取 / 开源仓库 MCP 合计 4000 次 / 月",
-            "en-US": "About 1600 prompts per 5 hours, about 8000 prompts per week; 4000 monthly combined calls for search / web-reader / open-repo MCPs"
+            "zh-CN": "20x Lite 用量额度",
+            "en-US": "20x Lite usage limits."
           },
           "access": {
             "zh-CN": "包含 Pro 全部能力，并提供最高档的 prompt、MCP 与并发资源",
             "en-US": "Includes everything in Pro with the highest prompt, MCP, and concurrency capacity"
           },
           "notes": {
-            "zh-CN": "官方文档说明并发与速率限制基本原则为 Max > Pro > Lite。",
-            "en-US": "The official docs state that concurrency and rate limits generally scale as Max > Pro > Lite."
+            "zh-CN": "并发与速率限制整体高于 Pro。",
+            "en-US": "Concurrency and rate limits are generally above Pro."
           }
         }
       ]
@@ -462,8 +535,8 @@
       },
       "source": "https://developers.google.com/gemini-code-assist/resources/quotas",
       "notes": {
-        "zh-CN": "已于 2026-05-06 交叉核对 Gemini Code Assist quotas 页、Gemini 官方 subscriptions 页和 Google Cloud Gemini 定价页。Code Assist / CLI 的精确日请求上限以 quotas 页为准；个人订阅价格与附加权益以 Gemini subscriptions 页为准。Google AI Plus 当前未在 Code Assist quotas 页中列为提升日请求上限的购买路径。",
-        "en-US": "Cross-checked on 2026-05-06 against the Gemini Code Assist quotas page, the official Gemini subscriptions page, and Google Cloud Gemini pricing. Exact Code Assist / CLI daily request limits come from the quotas page; personal subscription pricing and bundled benefits come from the Gemini subscriptions page. Google AI Plus is not currently listed on the Code Assist quotas page as a higher daily-limit purchase path."
+        "zh-CN": "个人订阅与组织版并存；Code Assist / CLI 的日请求上限以 quotas 页为准，个人价格与附加权益以订阅页为准。Google AI Plus 当前不是官方单列的 Code Assist 提额路径。",
+        "en-US": "Personal subscriptions and organization editions coexist. Daily Code Assist / CLI limits should follow the quotas page, while personal pricing and bundled benefits follow the subscriptions page. Google AI Plus is not currently a separately published Code Assist uplift path."
       },
       "plans": [
         {
@@ -471,7 +544,10 @@
             "zh-CN": "Individuals",
             "en-US": "Individuals"
           },
-          "price": "Free",
+          "price": {
+            "zh-CN": "免费",
+            "en-US": "Free"
+          },
           "cadence": {
             "zh-CN": "免费",
             "en-US": "Free"
@@ -502,7 +578,10 @@
             "zh-CN": "Google AI Plus",
             "en-US": "Google AI Plus"
           },
-          "price": "$7.99 / month (US list price)",
+          "price": {
+            "zh-CN": "$7.99 / 月（美国标价）",
+            "en-US": "$7.99 / month (US list price)"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -533,7 +612,10 @@
             "zh-CN": "Google AI Pro",
             "en-US": "Google AI Pro"
           },
-          "price": "$19.99 / month (US list price)",
+          "price": {
+            "zh-CN": "$19.99 / 月（美国标价）",
+            "en-US": "$19.99 / month (US list price)"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -564,7 +646,10 @@
             "zh-CN": "Google AI Ultra",
             "en-US": "Google AI Ultra"
           },
-          "price": "$249.99 / month (US list price)",
+          "price": {
+            "zh-CN": "$249.99 / 月（美国标价）",
+            "en-US": "$249.99 / month (US list price)"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -595,7 +680,10 @@
             "zh-CN": "Standard",
             "en-US": "Standard"
           },
-          "price": "$22.80 user / month monthly or $19.00 user / month 12-month",
+          "price": {
+            "zh-CN": "每用户 $22.80 / 月（月付）或每用户 $19.00 / 月（12 个月承诺）",
+            "en-US": "$22.80 / user / month billed monthly or $19.00 / user / month on a 12-month commitment"
+          },
           "cadence": {
             "zh-CN": "月付或 12 个月承诺",
             "en-US": "Monthly or 12-month commitment"
@@ -626,7 +714,10 @@
             "zh-CN": "Enterprise",
             "en-US": "Enterprise"
           },
-          "price": "$54.00 user / month monthly or $45.00 user / month 12-month",
+          "price": {
+            "zh-CN": "每用户 $54.00 / 月（月付）或每用户 $45.00 / 月（12 个月承诺）",
+            "en-US": "$54.00 / user / month billed monthly or $45.00 / user / month on a 12-month commitment"
+          },
           "cadence": {
             "zh-CN": "月付或 12 个月承诺",
             "en-US": "Monthly or 12-month commitment"
@@ -664,8 +755,8 @@
       },
       "source": "https://github.com/features/copilot/plans",
       "notes": {
-        "zh-CN": "已于 2026-05-06 交叉核对 GitHub Copilot plans 页与 GitHub Docs 计划表。GitHub Docs 说明从 2026-06-01 开始，Copilot 将从 request-based billing 迁移到 usage-based billing；同时，Docs 还注明自 2026-04-20 起 Pro / Pro+ / Student 暂停新注册，自 2026-04-22 起部分 Business 自助注册暂停。",
-        "en-US": "Cross-checked on 2026-05-06 against the GitHub Copilot plans page and GitHub Docs plan tables. GitHub Docs says Copilot moves from request-based billing to usage-based billing on June 1, 2026; the docs also note paused new sign-ups for Pro / Pro+ / Student from April 20, 2026 and for some self-serve Business sign-ups from April 22, 2026."
+        "zh-CN": "当前公开包含 Free、Student、Pro、Pro+、Business、Enterprise。部分档位存在暂停新注册或计费迁移，实际购买状态以官方页为准。",
+        "en-US": "Current public tiers include Free, Student, Pro, Pro+, Business, and Enterprise. Some tiers have paused new sign-ups or billing migrations, so live availability should be checked on the official pages."
       },
       "plans": [
         {
@@ -673,7 +764,10 @@
             "zh-CN": "Free",
             "en-US": "Free"
           },
-          "price": "$0",
+          "price": {
+            "zh-CN": "免费",
+            "en-US": "$0"
+          },
           "cadence": {
             "zh-CN": "免费",
             "en-US": "Free"
@@ -704,7 +798,10 @@
             "zh-CN": "Student",
             "en-US": "Student"
           },
-          "price": "Free (verified students)",
+          "price": {
+            "zh-CN": "免费（仅限已验证学生）",
+            "en-US": "Free (verified students)"
+          },
           "cadence": {
             "zh-CN": "免费",
             "en-US": "Free"
@@ -726,8 +823,8 @@
             "en-US": "Unlimited completions, premium models in Copilot Chat, and Copilot cloud agent"
           },
           "notes": {
-            "zh-CN": "GitHub Docs 说明 Student 仅向 verified students 开放；GPT-5.3-Codex 不在 model picker 中显示，但可通过自动模型选择使用。新注册自 2026-04-20 起暂停。",
-            "en-US": "GitHub Docs says Student is only for verified students; GPT-5.3-Codex is not shown in the model picker but remains available through automatic model selection. New sign-ups have been paused since 2026-04-20."
+            "zh-CN": "仅向 verified students 开放；GPT-5.3-Codex 不在 model picker 中显示，但可通过自动模型选择使用。当前新注册处于暂停状态。",
+            "en-US": "Available only to verified students. GPT-5.3-Codex is not shown in the model picker but remains available through automatic model selection. New sign-ups are currently paused."
           }
         },
         {
@@ -735,7 +832,10 @@
             "zh-CN": "Pro",
             "en-US": "Pro"
           },
-          "price": "$10 / month",
+          "price": {
+            "zh-CN": "$10 / 月",
+            "en-US": "$10 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -757,8 +857,8 @@
             "en-US": "Copilot cloud agent, Copilot code review, Claude / Codex access, unlimited inline suggestions, and unlimited GPT-5 mini agent mode and chat"
           },
           "notes": {
-            "zh-CN": "GitHub plans 页将 Pro 定位为 Most popular 个人档。",
-            "en-US": "The GitHub plans page labels Pro as the most popular individual tier."
+            "zh-CN": "当前主推的个人档。",
+            "en-US": "Current flagship individual tier."
           }
         },
         {
@@ -766,7 +866,10 @@
             "zh-CN": "Pro+",
             "en-US": "Pro+"
           },
-          "price": "$39 / month",
+          "price": {
+            "zh-CN": "$39 / 月",
+            "en-US": "$39 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -788,8 +891,8 @@
             "en-US": "Everything in Pro, access to all models, and GitHub Spark"
           },
           "notes": {
-            "zh-CN": "GitHub plans 页说明 Pro+ 提供 Pro 的 5 倍 premium requests。",
-            "en-US": "The GitHub plans page states that Pro+ includes 5x as many premium requests as Pro."
+            "zh-CN": "相对 Pro 提供 5 倍 premium requests。",
+            "en-US": "Includes 5x as many premium requests as Pro."
           }
         },
         {
@@ -797,7 +900,10 @@
             "zh-CN": "Business",
             "en-US": "Business"
           },
-          "price": "$19 granted seat / month",
+          "price": {
+            "zh-CN": "$19 / 授权席位 / 月",
+            "en-US": "$19 / granted seat / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -819,8 +925,8 @@
             "en-US": "Centralized management, Copilot policy control, and Copilot cloud agent"
           },
           "notes": {
-            "zh-CN": "GitHub Docs 说明 Business 可额外购买 premium requests，单价 $0.04 / request。",
-            "en-US": "GitHub Docs says Business can purchase additional premium requests at $0.04 per request."
+            "zh-CN": "可额外购买 premium requests，单价 $0.04 / request。",
+            "en-US": "Additional premium requests can be purchased at $0.04 per request."
           }
         },
         {
@@ -828,7 +934,10 @@
             "zh-CN": "Enterprise",
             "en-US": "Enterprise"
           },
-          "price": "$39 granted seat / month",
+          "price": {
+            "zh-CN": "$39 / 授权席位 / 月",
+            "en-US": "$39 / granted seat / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -850,8 +959,8 @@
             "en-US": "Everything in Business plus deeper GitHub.com integration, org knowledge customization, and enterprise-grade capabilities"
           },
           "notes": {
-            "zh-CN": "GitHub Docs 说明 Enterprise 仅适用于 GitHub Enterprise Cloud，并可额外购买 premium requests。",
-            "en-US": "GitHub Docs says Enterprise is for GitHub Enterprise Cloud and can also purchase additional premium requests."
+            "zh-CN": "适用于 GitHub Enterprise Cloud，并可额外购买 premium requests。",
+            "en-US": "Available for GitHub Enterprise Cloud and can also purchase additional premium requests."
           }
         }
       ]
@@ -866,8 +975,8 @@
       },
       "source": "https://cursor.com/pricing",
       "notes": {
-        "zh-CN": "Cursor 定价已于 2026-05-05 依据官方定价页核实。",
-        "en-US": "Cursor pricing was verified on 2026-05-05 from the official pricing page."
+        "zh-CN": "个人与团队档并存，官方将 Pro+ 标为推荐方案。",
+        "en-US": "Individual and team tiers coexist, with Pro+ positioned as the recommended plan."
       },
       "plans": [
         {
@@ -875,7 +984,10 @@
             "zh-CN": "Pro",
             "en-US": "Pro"
           },
-          "price": "$20 / month",
+          "price": {
+            "zh-CN": "$20 / 月",
+            "en-US": "$20 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -906,7 +1018,10 @@
             "zh-CN": "Pro+",
             "en-US": "Pro+"
           },
-          "price": "$60 / month",
+          "price": {
+            "zh-CN": "$60 / 月",
+            "en-US": "$60 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -937,7 +1052,10 @@
             "zh-CN": "Ultra",
             "en-US": "Ultra"
           },
-          "price": "$200 / month",
+          "price": {
+            "zh-CN": "$200 / 月",
+            "en-US": "$200 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -968,7 +1086,10 @@
             "zh-CN": "Teams",
             "en-US": "Teams"
           },
-          "price": "$40 user / month",
+          "price": {
+            "zh-CN": "每用户 $40 / 月",
+            "en-US": "$40 / user / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -999,7 +1120,10 @@
             "zh-CN": "Enterprise",
             "en-US": "Enterprise"
           },
-          "price": "Custom",
+          "price": {
+            "zh-CN": "定制",
+            "en-US": "Custom"
+          },
           "cadence": {
             "zh-CN": "定制",
             "en-US": "Custom"
@@ -1032,52 +1156,24 @@
       "providerName": "Alibaba Cloud / 通义灵码",
       "productName": "百炼 Coding Plan",
       "summary": {
-        "zh-CN": "阿里云百炼面向个人开发者和团队的编码订阅方案，覆盖基础会员、专业会员与企业专属版本。",
-        "en-US": "Alibaba Cloud Bailian coding subscriptions for individual developers and teams, covering Basic, Pro, and enterprise-focused plans."
+        "zh-CN": "阿里云百炼当前公开聚焦单一 Pro 编码套餐，面向大规模编码任务。",
+        "en-US": "Alibaba Cloud Bailian is currently centered on a single public Pro coding plan for large-scale coding workloads."
       },
       "source": "https://www.aliyun.com/benefit/scene/codingplan",
       "notes": {
-        "zh-CN": "价格与权益依据阿里云官方 Coding Plan 活动页于 2026-05-06 核对。页面同时提供个人版与企业专属版入口。",
-        "en-US": "Pricing and plan entitlements were checked against Alibaba Cloud's official Coding Plan page on 2026-05-06. The page exposes both individual and enterprise-oriented options."
+        "zh-CN": "当前公开页仅展示 Pro 编码套餐；实时价格和活动口径以活动页为准。",
+        "en-US": "The current public page shows only the Pro coding plan; live pricing and promotional terms should follow the campaign page."
       },
       "plans": [
         {
           "name": {
-            "zh-CN": "基础会员",
-            "en-US": "Basic"
-          },
-          "price": "¥40 / month",
-          "cadence": {
-            "zh-CN": "按月",
-            "en-US": "Monthly"
-          },
-          "seats": {
-            "zh-CN": "个人",
-            "en-US": "Individual"
-          },
-          "audience": {
-            "zh-CN": "个人开发者",
-            "en-US": "Solo"
-          },
-          "limits": {
-            "zh-CN": "基础代码补全、问答与开发辅助权益",
-            "en-US": "Entry-level code completion, Q&A, and developer assistance entitlements"
-          },
-          "access": {
-            "zh-CN": "通义灵码基础会员",
-            "en-US": "Tongyi Lingma Basic membership"
-          },
-          "notes": {
-            "zh-CN": "阿里云官方活动页展示的个人入门订阅档。",
-            "en-US": "Entry subscription tier shown on Alibaba Cloud's official campaign page."
-          }
-        },
-        {
-          "name": {
-            "zh-CN": "专业会员",
+            "zh-CN": "Pro",
             "en-US": "Pro"
           },
-          "price": "¥200 / month",
+          "price": {
+            "zh-CN": "¥200 / 月",
+            "en-US": "¥200 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -1087,51 +1183,20 @@
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "高频个人开发者",
-            "en-US": "Power solo"
+            "zh-CN": "大规模编码任务",
+            "en-US": "Large-scale coding workloads"
           },
           "limits": {
-            "zh-CN": "更高频率的编码调用与增强权益",
-            "en-US": "Higher-volume coding usage with expanded entitlements"
+            "zh-CN": "每 5 小时最多 6,000 次、每周最多 45,000 次、每月最多 90,000 次请求",
+            "en-US": "Up to 6,000 requests per 5 hours, 45,000 per week, and 90,000 per month"
           },
           "access": {
-            "zh-CN": "通义灵码专业会员",
-            "en-US": "Tongyi Lingma Pro membership"
+            "zh-CN": "完美兼容 Cline、OpenClaw、Claude Code、Qwen Code；推荐模型含 qwen3.6-plus、kimi-k2.5、glm-5、MiniMax-M2.5，更多模型含 qwen3.5-plus、qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
+            "en-US": "Fully compatible with Cline, OpenClaw, Claude Code, and Qwen Code. Recommended models include qwen3.6-plus, kimi-k2.5, glm-5, and MiniMax-M2.5; additional models include qwen3.5-plus, qwen3-max-2026-01-23, qwen3-coder-next, qwen3-coder-plus, and glm-4.7"
           },
           "notes": {
-            "zh-CN": "阿里云官方活动页展示的高阶个人订阅档。",
-            "en-US": "Higher-tier individual subscription shown on Alibaba Cloud's official campaign page."
-          }
-        },
-        {
-          "name": {
-            "zh-CN": "企业专属版",
-            "en-US": "Enterprise Dedicated"
-          },
-          "price": "Contact sales",
-          "cadence": {
-            "zh-CN": "定制",
-            "en-US": "Custom"
-          },
-          "seats": {
-            "zh-CN": "企业",
-            "en-US": "Enterprise"
-          },
-          "audience": {
-            "zh-CN": "组织",
-            "en-US": "Organization"
-          },
-          "limits": {
-            "zh-CN": "企业专属部署与管理能力",
-            "en-US": "Enterprise deployment and administration capabilities"
-          },
-          "access": {
-            "zh-CN": "企业专属编码方案",
-            "en-US": "Enterprise coding plan"
-          },
-          "notes": {
-            "zh-CN": "企业版本通过专属入口和销售流程开通。",
-            "en-US": "Enterprise availability is handled through a dedicated enterprise flow."
+            "zh-CN": "当前公开的唯一编码订阅档。",
+            "en-US": "The only publicly listed coding subscription tier at the moment."
           }
         }
       ]
@@ -1146,8 +1211,8 @@
       },
       "source": "https://www.volcengine.com/activity/codingplan?infrom=100003.301.120",
       "notes": {
-        "zh-CN": "已于 2026-05-06 按你提供的活动页、火山方舟官方文档与火山引擎官方文章口径交叉核对。当前官方口径聚焦个人开发场景，提供 Lite 与 Pro 两档；企业级需求建议通过火山方舟模型 API 获取支持。活动页展示订阅入口与优惠信息，实时价格和结算口径以活动页/下单页为准。",
-        "en-US": "Cross-checked on 2026-05-06 against the activity page you provided, Volcano Engine's official Coding Plan docs, and official Volcano Engine articles. The current official positioning is for individual developer use, with Lite and Pro tiers; enterprise-scale needs are directed to Ark model APIs. Live pricing and checkout terms should be taken from the activity / order page."
+        "zh-CN": "当前聚焦 Lite 与 Pro 两档个人套餐；企业级需求建议通过火山方舟模型 API 获取支持。实时价格和结算口径以活动页/下单页为准。",
+        "en-US": "The current focus is on Lite and Pro personal tiers. Enterprise-scale needs are directed to Ark model APIs, and live pricing should be taken from the activity or checkout page."
       },
       "plans": [
         {
@@ -1155,7 +1220,10 @@
             "zh-CN": "Lite",
             "en-US": "Lite"
           },
-          "price": "See official checkout",
+          "price": {
+            "zh-CN": "¥40 / 月",
+            "en-US": "¥40 / month"
+          },
           "cadence": {
             "zh-CN": "订阅制",
             "en-US": "Subscription"
@@ -1186,7 +1254,10 @@
             "zh-CN": "Pro",
             "en-US": "Pro"
           },
-          "price": "See official checkout",
+          "price": {
+            "zh-CN": "¥200 / 月",
+            "en-US": "¥200 / month"
+          },
           "cadence": {
             "zh-CN": "订阅制",
             "en-US": "Subscription"
@@ -1217,23 +1288,26 @@
     {
       "providerSlug": "baidu",
       "providerName": "Baidu / 文心快码",
-      "productName": "千帆 CodeBuilder",
+      "productName": "千帆 Coding Plan",
       "summary": {
-        "zh-CN": "百度智能云面向个人与企业的编码订阅方案，公开展示了标准版与企业版。",
-        "en-US": "Baidu AI Cloud coding subscriptions for individuals and enterprises, publicly listing Standard and Enterprise tiers."
+        "zh-CN": "百度千帆当前公开聚焦 Coding Plan Lite / Pro 两档，覆盖轻量到大规模编码需求。",
+        "en-US": "Baidu Qianfan currently centers on Coding Plan Lite and Pro, covering lightweight to large-scale coding workloads."
       },
       "source": "https://cloud.baidu.com/product/qianfan_coding",
       "notes": {
-        "zh-CN": "价格与产品权益依据百度智能云官方产品页及千帆 CodeBuilder 文档于 2026-05-06 核对。",
-        "en-US": "Pricing and plan scope were checked against Baidu AI Cloud's official product page and Qianfan CodeBuilder docs on 2026-05-06."
+        "zh-CN": "当前公开页以 Coding Plan Lite / Pro 为主；实时价格和活动口径以官方页为准。",
+        "en-US": "The current public page focuses on Coding Plan Lite and Pro; live pricing and promotional terms should follow the official page."
       },
       "plans": [
         {
           "name": {
-            "zh-CN": "标准版",
-            "en-US": "Standard"
+            "zh-CN": "Coding Plan Lite",
+            "en-US": "Coding Plan Lite"
           },
-          "price": "¥49 / month",
+          "price": {
+            "zh-CN": "¥40 / 月",
+            "en-US": "¥40 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -1243,51 +1317,54 @@
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "个人开发者",
-            "en-US": "Solo"
+            "zh-CN": "轻量化编码需求",
+            "en-US": "Lightweight coding workloads"
           },
           "limits": {
-            "zh-CN": "代码补全、问答与基础 IDE 编码助手能力",
-            "en-US": "Code completion, Q&A, and core IDE coding assistant capabilities"
+            "zh-CN": "3x Claude Pro 用量额度；每 5 小时最多约 1,200 次、每周最多约 9,000 次、每月最多约 18,000 次请求",
+            "en-US": "3x Claude Pro usage limits, with up to about 1,200 requests per 5 hours, 9,000 per week, and 18,000 per month"
           },
           "access": {
-            "zh-CN": "千帆 CodeBuilder 标准版",
-            "en-US": "Qianfan CodeBuilder Standard"
+            "zh-CN": "支持 DeepSeek、GLM、Kimi、MiniMax 等模型，支持 Skill，适配 Claude Code 等主流 AI 开发工具",
+            "en-US": "Supports models such as DeepSeek, GLM, Kimi, and MiniMax, supports Skill, and works with mainstream AI development tools such as Claude Code"
           },
           "notes": {
-            "zh-CN": "百度智能云公开展示的个人订阅档。",
-            "en-US": "Publicly listed individual subscription tier on Baidu AI Cloud."
+            "zh-CN": "面向个人开发者的轻量化编码套餐。",
+            "en-US": "Lightweight coding plan for individual developers."
           }
         },
         {
           "name": {
-            "zh-CN": "企业版",
-            "en-US": "Enterprise"
+            "zh-CN": "Coding Plan Pro",
+            "en-US": "Coding Plan Pro"
           },
-          "price": "¥149 / month",
+          "price": {
+            "zh-CN": "¥200 / 月",
+            "en-US": "¥200 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
           },
           "seats": {
-            "zh-CN": "企业成员",
-            "en-US": "Enterprise member"
+            "zh-CN": "个人",
+            "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "团队 / 企业",
-            "en-US": "Team / Enterprise"
+            "zh-CN": "大规模编码需求",
+            "en-US": "Large-scale coding workloads"
           },
           "limits": {
-            "zh-CN": "增强编码能力与企业管理支持",
-            "en-US": "Expanded coding capacity with enterprise management support"
+            "zh-CN": "3x Claude Max 用量额度，5x Lite 用量额度；每 5 小时最多约 6,000 次、每周最多约 45,000 次、每月最多约 90,000 次请求",
+            "en-US": "3x Claude Max usage limits and 5x Lite usage limits, with up to about 6,000 requests per 5 hours, 45,000 per week, and 90,000 per month"
           },
           "access": {
-            "zh-CN": "千帆 CodeBuilder 企业版",
-            "en-US": "Qianfan CodeBuilder Enterprise"
+            "zh-CN": "支持 DeepSeek、GLM、Kimi、MiniMax 等模型，支持 Skill，适配 Claude Code 等主流 AI 开发工具",
+            "en-US": "Supports models such as DeepSeek, GLM, Kimi, and MiniMax, supports Skill, and works with mainstream AI development tools such as Claude Code"
           },
           "notes": {
-            "zh-CN": "百度智能云公开展示的企业订阅档。",
-            "en-US": "Publicly listed enterprise subscription tier on Baidu AI Cloud."
+            "zh-CN": "面向高阶用户的大规模编码套餐。",
+            "en-US": "Large-scale coding plan for advanced users."
           }
         }
       ]
@@ -1302,8 +1379,8 @@
       },
       "source": "https://www.kimi.com/zh-cn/help/membership/membership-pricing",
       "notes": {
-        "zh-CN": "价格与权益依据 Kimi 官方会员定价页于 2026-05-06 核对。Kimi Code 并非独立购买页，当前按官方会员方案收录。",
-        "en-US": "Pricing and membership scope were checked against Kimi's official membership pricing page on 2026-05-06. Kimi Code does not currently have a standalone checkout page, so it is captured here through the official membership plans."
+        "zh-CN": "Kimi Code 并非独立购买页，当前按官方会员方案收录。",
+        "en-US": "Kimi Code does not currently have a standalone checkout page, so it is represented here through the membership plans."
       },
       "plans": [
         {
@@ -1311,7 +1388,10 @@
             "zh-CN": "K2 月付会员",
             "en-US": "K2 Monthly Membership"
           },
-          "price": "¥39 / month",
+          "price": {
+            "zh-CN": "¥39 / 月",
+            "en-US": "¥39 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -1333,8 +1413,8 @@
             "en-US": "Kimi K2 / Coding membership access"
           },
           "notes": {
-            "zh-CN": "Kimi 官方会员页公开的月付定价。",
-            "en-US": "Monthly public pricing listed on Kimi's official membership page."
+            "zh-CN": "月付定价。",
+            "en-US": "Monthly pricing."
           }
         },
         {
@@ -1342,7 +1422,10 @@
             "zh-CN": "K2 季付会员",
             "en-US": "K2 Quarterly Membership"
           },
-          "price": "¥108 / quarter",
+          "price": {
+            "zh-CN": "¥108 / 季",
+            "en-US": "¥108 / quarter"
+          },
           "cadence": {
             "zh-CN": "按季",
             "en-US": "Quarterly"
@@ -1364,8 +1447,8 @@
             "en-US": "Kimi K2 / Coding membership access"
           },
           "notes": {
-            "zh-CN": "Kimi 官方会员页公开的季付定价。",
-            "en-US": "Quarterly public pricing listed on Kimi's official membership page."
+            "zh-CN": "季付定价。",
+            "en-US": "Quarterly pricing."
           }
         }
       ]
@@ -1373,23 +1456,26 @@
     {
       "providerSlug": "minimax",
       "providerName": "MiniMax / 海螺 AI",
-      "productName": "MiniMax Agent 套餐",
+      "productName": "MiniMax Token Plan",
       "summary": {
-        "zh-CN": "MiniMax 官方定价页公开展示的 Agent 订阅方案，可用于编码与智能体工作流。",
-        "en-US": "MiniMax Agent subscription plans publicly listed on the official pricing page for coding and agentic workflows."
+        "zh-CN": "MiniMax 官方 Token Plan 订阅，覆盖标准版与极速版，可用于编码及多模态工作流。",
+        "en-US": "MiniMax Token Plan subscriptions covering standard and high-speed tiers for coding and multimodal workflows."
       },
-      "source": "https://www.minimaxi.com/pricing",
+      "source": "https://platform.minimaxi.com/docs/guides/pricing-token-plan",
       "notes": {
-        "zh-CN": "价格与套餐权益依据 MiniMax 官方定价页于 2026-05-06 核对。官方目前将其归类为 Agent 套餐，而非单独的 Coding 页。",
-        "en-US": "Pricing and plan scope were checked against MiniMax's official pricing page on 2026-05-06. The company currently positions these as Agent plans rather than a standalone coding page."
+        "zh-CN": "提供标准版与极速版两类订阅，均支持月付与年付；年付与对应月付方案的能力额度相同。",
+        "en-US": "Offers standard and high-speed subscriptions in both monthly and annual billing, with the same usage limits across billing cadences for matching tiers."
       },
       "plans": [
         {
           "name": {
-            "zh-CN": "Agent 月卡",
-            "en-US": "Agent Monthly"
+            "zh-CN": "Starter（月付）",
+            "en-US": "Starter (Monthly)"
           },
-          "price": "¥39 / month",
+          "price": {
+            "zh-CN": "¥29 / 月",
+            "en-US": "¥29 / month"
+          },
           "cadence": {
             "zh-CN": "按月",
             "en-US": "Monthly"
@@ -1403,27 +1489,30 @@
             "en-US": "Solo"
           },
           "limits": {
-            "zh-CN": "每月约 4,000 积分",
-            "en-US": "About 4,000 credits per month"
+            "zh-CN": "M2.7 每 5 小时 600 次请求。",
+            "en-US": "600 M2.7 requests every 5 hours."
           },
           "access": {
-            "zh-CN": "MiniMax Agent 能力",
-            "en-US": "MiniMax Agent access"
+            "zh-CN": "含 Music-2.6 每日 100 首限免。",
+            "en-US": "Includes up to 100 free Music-2.6 tracks per day."
           },
           "notes": {
-            "zh-CN": "MiniMax 官方定价页公开的基础月卡。",
-            "en-US": "Base monthly tier publicly listed on MiniMax's pricing page."
+            "zh-CN": "标准版月付。",
+            "en-US": "Monthly standard tier."
           }
         },
         {
           "name": {
-            "zh-CN": "Agent 季卡",
-            "en-US": "Agent Quarterly"
+            "zh-CN": "Plus（月付）",
+            "en-US": "Plus (Monthly)"
           },
-          "price": "¥108 / quarter",
+          "price": {
+            "zh-CN": "¥49 / 月",
+            "en-US": "¥49 / month"
+          },
           "cadence": {
-            "zh-CN": "按季",
-            "en-US": "Quarterly"
+            "zh-CN": "按月",
+            "en-US": "Monthly"
           },
           "seats": {
             "zh-CN": "个人",
@@ -1434,24 +1523,163 @@
             "en-US": "Solo"
           },
           "limits": {
-            "zh-CN": "每月约 4,000 积分，按季度订阅",
-            "en-US": "About 4,000 credits per month on a quarterly subscription"
+            "zh-CN": "M2.7 每 5 小时 1,500 次请求。",
+            "en-US": "1,500 M2.7 requests every 5 hours."
           },
           "access": {
-            "zh-CN": "MiniMax Agent 能力",
-            "en-US": "MiniMax Agent access"
+            "zh-CN": "含 Speech 2.8 每日 4,000 字、image-01 每日 50 张、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 4,000 Speech 2.8 characters per day, 50 image-01 generations per day, and up to 100 free Music-2.6 tracks per day."
           },
           "notes": {
-            "zh-CN": "MiniMax 官方定价页公开的季卡。",
-            "en-US": "Quarterly tier publicly listed on MiniMax's pricing page."
+            "zh-CN": "标准版月付。",
+            "en-US": "Monthly standard tier."
           }
         },
         {
           "name": {
-            "zh-CN": "Agent 年卡",
-            "en-US": "Agent Annual"
+            "zh-CN": "Max（月付）",
+            "en-US": "Max (Monthly)"
           },
-          "price": "¥399 / year",
+          "price": {
+            "zh-CN": "¥119 / 月",
+            "en-US": "¥119 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7 每 5 小时 4,500 次请求。",
+            "en-US": "4,500 M2.7 requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 11,000 字、image-01 每日 120 张、Hailuo-2.3-Fast 768P 6s 每日 2 个、Hailuo-2.3 768P 6s 每日 2 个、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 11,000 Speech 2.8 characters per day, 120 image-01 generations per day, 2 Hailuo-2.3-Fast 768P 6s generations per day, 2 Hailuo-2.3 768P 6s generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "标准版月付。",
+            "en-US": "Monthly standard tier."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Plus-极速版（月付）",
+            "en-US": "Plus High-Speed (Monthly)"
+          },
+          "price": {
+            "zh-CN": "¥98 / 月",
+            "en-US": "¥98 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7-highspeed 每 5 小时 1,500 次请求。",
+            "en-US": "1,500 M2.7-highspeed requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 9,000 字、image-01 每日 100 张、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 9,000 Speech 2.8 characters per day, 100 image-01 generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "极速版月付。",
+            "en-US": "Monthly high-speed tier."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Max-极速版（月付）",
+            "en-US": "Max High-Speed (Monthly)"
+          },
+          "price": {
+            "zh-CN": "¥199 / 月",
+            "en-US": "¥199 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7-highspeed 每 5 小时 4,500 次请求。",
+            "en-US": "4,500 M2.7-highspeed requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 19,000 字、image-01 每日 200 张、Hailuo-2.3-Fast 768P 6s 每日 3 个、Hailuo-2.3 768P 6s 每日 3 个、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 19,000 Speech 2.8 characters per day, 200 image-01 generations per day, 3 Hailuo-2.3-Fast 768P 6s generations per day, 3 Hailuo-2.3 768P 6s generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "极速版月付。",
+            "en-US": "Monthly high-speed tier."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Ultra-极速版（月付）",
+            "en-US": "Ultra High-Speed (Monthly)"
+          },
+          "price": {
+            "zh-CN": "¥899 / 月",
+            "en-US": "¥899 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7-highspeed 每 5 小时 30,000 次请求。",
+            "en-US": "30,000 M2.7-highspeed requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 50,000 字、image-01 每日 800 张、Hailuo-2.3-Fast 768P 6s 每日 5 个、Hailuo-2.3 768P 6s 每日 5 个、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 50,000 Speech 2.8 characters per day, 800 image-01 generations per day, 5 Hailuo-2.3-Fast 768P 6s generations per day, 5 Hailuo-2.3 768P 6s generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "极速版月付。",
+            "en-US": "Monthly high-speed tier."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Starter（年付）",
+            "en-US": "Starter (Annual)"
+          },
+          "price": {
+            "zh-CN": "¥290 / 年",
+            "en-US": "¥290 / year"
+          },
           "cadence": {
             "zh-CN": "按年",
             "en-US": "Annual"
@@ -1465,16 +1693,186 @@
             "en-US": "Solo"
           },
           "limits": {
-            "zh-CN": "每月约 4,000 积分，按年订阅",
-            "en-US": "About 4,000 credits per month on an annual subscription"
+            "zh-CN": "M2.7 每 5 小时 600 次请求。",
+            "en-US": "600 M2.7 requests every 5 hours."
           },
           "access": {
-            "zh-CN": "MiniMax Agent 能力",
-            "en-US": "MiniMax Agent access"
+            "zh-CN": "含 Music-2.6 每日 100 首限免。",
+            "en-US": "Includes up to 100 free Music-2.6 tracks per day."
           },
           "notes": {
-            "zh-CN": "MiniMax 官方定价页公开的年卡。",
-            "en-US": "Annual tier publicly listed on MiniMax's pricing page."
+            "zh-CN": "标准版年付，与月付同配额。",
+            "en-US": "Annual standard tier with the same limits as the monthly plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Plus（年付）",
+            "en-US": "Plus (Annual)"
+          },
+          "price": {
+            "zh-CN": "¥490 / 年",
+            "en-US": "¥490 / year"
+          },
+          "cadence": {
+            "zh-CN": "按年",
+            "en-US": "Annual"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7 每 5 小时 1,500 次请求。",
+            "en-US": "1,500 M2.7 requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 4,000 字、image-01 每日 50 张、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 4,000 Speech 2.8 characters per day, 50 image-01 generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "标准版年付，与月付同配额。",
+            "en-US": "Annual standard tier with the same limits as the monthly plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Max（年付）",
+            "en-US": "Max (Annual)"
+          },
+          "price": {
+            "zh-CN": "¥1190 / 年",
+            "en-US": "¥1190 / year"
+          },
+          "cadence": {
+            "zh-CN": "按年",
+            "en-US": "Annual"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7 每 5 小时 4,500 次请求。",
+            "en-US": "4,500 M2.7 requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 11,000 字、image-01 每日 120 张、Hailuo-2.3-Fast 768P 6s 每日 2 个、Hailuo-2.3 768P 6s 每日 2 个、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 11,000 Speech 2.8 characters per day, 120 image-01 generations per day, 2 Hailuo-2.3-Fast 768P 6s generations per day, 2 Hailuo-2.3 768P 6s generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "标准版年付，与月付同配额。",
+            "en-US": "Annual standard tier with the same limits as the monthly plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Plus-极速版（年付）",
+            "en-US": "Plus High-Speed (Annual)"
+          },
+          "price": {
+            "zh-CN": "¥980 / 年",
+            "en-US": "¥980 / year"
+          },
+          "cadence": {
+            "zh-CN": "按年",
+            "en-US": "Annual"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7-highspeed 每 5 小时 1,500 次请求。",
+            "en-US": "1,500 M2.7-highspeed requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 9,000 字、image-01 每日 100 张、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 9,000 Speech 2.8 characters per day, 100 image-01 generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "极速版年付，与月付同配额。",
+            "en-US": "Annual high-speed tier with the same limits as the monthly plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Max-极速版（年付）",
+            "en-US": "Max High-Speed (Annual)"
+          },
+          "price": {
+            "zh-CN": "¥1990 / 年",
+            "en-US": "¥1990 / year"
+          },
+          "cadence": {
+            "zh-CN": "按年",
+            "en-US": "Annual"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7-highspeed 每 5 小时 4,500 次请求。",
+            "en-US": "4,500 M2.7-highspeed requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 19,000 字、image-01 每日 200 张、Hailuo-2.3-Fast 768P 6s 每日 3 个、Hailuo-2.3 768P 6s 每日 3 个、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 19,000 Speech 2.8 characters per day, 200 image-01 generations per day, 3 Hailuo-2.3-Fast 768P 6s generations per day, 3 Hailuo-2.3 768P 6s generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "极速版年付，与月付同配额。",
+            "en-US": "Annual high-speed tier with the same limits as the monthly plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Ultra-极速版（年付）",
+            "en-US": "Ultra High-Speed (Annual)"
+          },
+          "price": {
+            "zh-CN": "¥8990 / 年",
+            "en-US": "¥8990 / year"
+          },
+          "cadence": {
+            "zh-CN": "按年",
+            "en-US": "Annual"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "个人开发者",
+            "en-US": "Solo"
+          },
+          "limits": {
+            "zh-CN": "M2.7-highspeed 每 5 小时 30,000 次请求。",
+            "en-US": "30,000 M2.7-highspeed requests every 5 hours."
+          },
+          "access": {
+            "zh-CN": "含 Speech 2.8 每日 50,000 字、image-01 每日 800 张、Hailuo-2.3-Fast 768P 6s 每日 5 个、Hailuo-2.3 768P 6s 每日 5 个、Music-2.6 每日 100 首限免。",
+            "en-US": "Includes 50,000 Speech 2.8 characters per day, 800 image-01 generations per day, 5 Hailuo-2.3-Fast 768P 6s generations per day, 5 Hailuo-2.3 768P 6s generations per day, and up to 100 free Music-2.6 tracks per day."
+          },
+          "notes": {
+            "zh-CN": "极速版年付，与月付同配额。",
+            "en-US": "Annual high-speed tier with the same limits as the monthly plan."
           }
         }
       ]
