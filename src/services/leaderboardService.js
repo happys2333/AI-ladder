@@ -36,7 +36,7 @@ function validateAndNormalizeData(payload) {
     categories: normalizedCategories,
     regions: Array.isArray(payload.regions) ? payload.regions : [],
     models: Array.isArray(payload.models) ? payload.models : [],
-    lastUpdated: payload.lastUpdated || '',
+    lastUpdated: payload.generatedAt || payload.lastUpdated || '',
     source: payload.source || null,
     stats: payload.stats || {},
     ...payload
@@ -211,7 +211,7 @@ export async function fetchCodingPlansData(fetcher = window.fetch) {
   const payload = await response.json()
 
   return {
-    lastUpdated: payload?.lastUpdated || '',
+    lastUpdated: payload?.generatedAt || payload?.lastUpdated || '',
     providers: normalizeCodingPlans(payload),
   }
 }

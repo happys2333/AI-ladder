@@ -260,6 +260,7 @@ def map_model(model: dict[str, Any], rank: int) -> dict[str, Any]:
 
 
 def build_payload(response_payload: dict[str, Any], model_limit: int) -> dict[str, Any]:
+    generated_at = datetime.now(timezone.utc).isoformat()
     rows = response_payload.get('data', []) or []
     sorted_rows = sorted(
         rows,
@@ -280,8 +281,8 @@ def build_payload(response_payload: dict[str, Any], model_limit: int) -> dict[st
             {'key': 'global', 'label': '全球阵营'},
         ],
         'models': models,
-        'lastUpdated': datetime.now(timezone.utc).isoformat(),
-        'generatedAt': datetime.now(timezone.utc).isoformat(),
+        'lastUpdated': generated_at,
+        'generatedAt': generated_at,
         'stats': {
             'totalModels': len(models),
             'sourceRows': len(rows),
