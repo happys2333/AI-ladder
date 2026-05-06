@@ -76,7 +76,9 @@ def require_api_key(api_key: str) -> str:
 
 
 def fetch_models(api_url: str, api_key: str, prompt_length: str, parallel_queries: int) -> dict[str, Any]:
-    response = requests.get(
+    session = requests.Session()
+    session.trust_env = False
+    response = session.get(
         api_url,
         headers={'x-api-key': api_key},
         params={

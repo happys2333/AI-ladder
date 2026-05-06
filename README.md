@@ -49,6 +49,8 @@ npm run build
 npm run update:artificial-analysis
 ```
 
+说明：`api/` 下的数据抓取脚本现在依赖 `requests 2.33+`，本地运行建议使用 `Python 3.10+`。GitHub Actions 已固定使用 `Python 3.11`。
+
 本地预览构建结果：
 
 ```bash

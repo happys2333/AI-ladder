@@ -2,6 +2,17 @@ const GENERATED_LEADERBOARD_PATH = '/data/artificial-analysis-llms.json'
 const CODING_PLANS_PATH = '/data/coding-plans.json'
 const EXCHANGE_RATES_PATH = '/data/exchange-rates.json'
 
+function sanitizeExternalUrl(value) {
+  if (typeof value !== 'string') return ''
+
+  try {
+    const url = new URL(value)
+    return ['https:', 'http:'].includes(url.protocol) ? url.toString() : ''
+  } catch {
+    return ''
+  }
+}
+
 function validateAndNormalizeData(payload) {
   const normalizedCategories = Array.isArray(payload.categories)
     ? payload.categories.map(category => ({
@@ -60,7 +71,7 @@ function normalizeCodingPlans(payload) {
     providerName: provider.providerName || '',
     productName: provider.productName || '',
     summary: provider.summary || '',
-    source: provider.source || '',
+    source: sanitizeExternalUrl(provider.source),
     notes: provider.notes || '',
     plans: Array.isArray(provider.plans)
       ? provider.plans.map((plan) => ({
