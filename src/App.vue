@@ -12,9 +12,14 @@ import { useLeaderboard } from './composables/useLeaderboard'
 import { computed, onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
 
 const SIDEBAR_AUTO_OPEN_QUERY = '(min-width: 1201px)'
-const VIEW_PATHS = {
-  leaderboard: '/',
-  codingPlans: '/coding-plans',
+const BASE_PATH = (() => {
+  const rawBase = import.meta.env.BASE_URL || '/'
+  if (rawBase === '/') return ''
+  return rawBase.replace(/\/$/, '')
+})()
+const VIEW_HASHES = {
+  leaderboard: '',
+  codingPlans: '#/coding-plans',
 }
 
 const { t, translateCategoryLabel } = useI18n()
@@ -50,11 +55,25 @@ let sidebarMediaQuery = null
 
 const isLeaderboardView = computed(() => currentView.value === 'leaderboard')
 
+function normalizePathname(pathname) {
+  let normalized = pathname || '/'
+
+  if (BASE_PATH && normalized.startsWith(BASE_PATH)) {
+    normalized = normalized.slice(BASE_PATH.length) || '/'
+  }
+
+  return normalized.replace(/\/+$/, '') || '/'
+}
+
 function resolveViewFromLocation() {
   if (typeof window === 'undefined') return 'leaderboard'
 
-  const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
-  if (pathname === VIEW_PATHS.codingPlans || window.location.hash === '#/coding-plans') {
+  if (window.location.hash === '#/coding-plans') {
+    return 'codingPlans'
+  }
+
+  const pathname = normalizePathname(window.location.pathname)
+  if (pathname === '/coding-plans') {
     return 'codingPlans'
   }
 
@@ -104,18 +123,26 @@ function handleCompareModeUpdate(nextMode) {
 }
 
 function handleNavigate(nextView) {
-  if (!VIEW_PATHS[nextView] || currentView.value === nextView) return
+  if (!VIEW_HASHES.hasOwnProperty(nextView) || currentView.value === nextView) return
 
   currentView.value = nextView
   resetTransientPanels()
   if (sidebarMediaQuery) {
     syncSidebarWithViewport(sidebarMediaQuery.matches)
   }
-  window.history.pushState({}, '', VIEW_PATHS[nextView])
+
+  const nextHash = VIEW_HASHES[nextView]
+  if (nextHash) {
+    window.location.hash = nextHash
+  } else {
+    const nextUrl = `${window.location.pathname}${window.location.search}`
+    window.history.pushState({}, '', nextUrl)
+  }
+
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-function handlePopState() {
+function handleLocationChange() {
   currentView.value = resolveViewFromLocation()
   resetTransientPanels()
   if (sidebarMediaQuery) {
@@ -127,13 +154,15 @@ onMounted(() => {
   sidebarMediaQuery = window.matchMedia(SIDEBAR_AUTO_OPEN_QUERY)
   syncSidebarWithViewport(sidebarMediaQuery.matches)
   sidebarMediaQuery.addEventListener('change', handleSidebarViewportChange)
-  window.addEventListener('popstate', handlePopState)
+  window.addEventListener('popstate', handleLocationChange)
+  window.addEventListener('hashchange', handleLocationChange)
 })
 
 onBeforeUnmount(() => {
   if (!sidebarMediaQuery) return
   sidebarMediaQuery.removeEventListener('change', handleSidebarViewportChange)
-  window.removeEventListener('popstate', handlePopState)
+  window.removeEventListener('popstate', handleLocationChange)
+  window.removeEventListener('hashchange', handleLocationChange)
 })
 
 watchEffect(() => {

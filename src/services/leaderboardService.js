@@ -1,6 +1,13 @@
-const GENERATED_LEADERBOARD_PATH = '/data/artificial-analysis-llms.json'
-const CODING_PLANS_PATH = '/data/coding-plans.json'
-const EXCHANGE_RATES_PATH = '/data/exchange-rates.json'
+const BASE_URL = import.meta.env.BASE_URL || '/'
+
+function withBase(path) {
+  const normalizedBase = BASE_URL.endsWith('/') ? BASE_URL : `${BASE_URL}/`
+  return new URL(path.replace(/^\/+/, ''), `https://placeholder${normalizedBase}`).pathname
+}
+
+const GENERATED_LEADERBOARD_PATH = withBase('data/artificial-analysis-llms.json')
+const CODING_PLANS_PATH = withBase('data/coding-plans.json')
+const EXCHANGE_RATES_PATH = withBase('data/exchange-rates.json')
 
 function sanitizeExternalUrl(value) {
   if (typeof value !== 'string') return ''
