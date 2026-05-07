@@ -3,7 +3,8 @@ name: Update Artificial Analysis LLMs
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *'
+    # Runs at 00:00 Asia/Shanghai (16:00 UTC).
+    - cron: '0 16 * * *'
 
 concurrency:
   group: update-artificial-analysis

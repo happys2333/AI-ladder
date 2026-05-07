@@ -3,7 +3,8 @@ name: Update Exchange Rates
 on:
   workflow_dispatch:
   schedule:
-    - cron: '15 0 * * *'
+    # Runs at 00:00 Asia/Shanghai (16:00 UTC).
+    - cron: '0 16 * * *'
 
 concurrency:
   group: update-exchange-rates
