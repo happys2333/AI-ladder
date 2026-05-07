@@ -198,8 +198,8 @@
       },
       "source": "https://claude.com/pricing",
       "notes": {
-        "zh-CN": "个人档按会话倍率区分；Pro 另有每 5 小时重置的会话限额与跨模型周限额。Team / Enterprise 侧重组织管理，API 使用量可能单独计费。",
-        "en-US": "Individual tiers are differentiated by per-session capacity. Pro also has a five-hour resetting session limit plus cross-model weekly limits. Team and Enterprise focus on org management, and API usage may be billed separately."
+        "zh-CN": "个人档按会话倍率区分；Pro 另有每 5 小时重置的会话限额与跨模型周限额。Team / Enterprise 侧重组织管理，API 使用量可能单独计费。\n当前为近期活动：所有 5 小时额度翻倍。",
+        "en-US": "Individual tiers are differentiated by per-session capacity. Pro also has a five-hour resetting session limit plus cross-model weekly limits. Team and Enterprise focus on org management, and API usage may be billed separately.\nCurrent limited-time promotion: all five-hour limits are doubled."
       },
       "plans": [
         {
