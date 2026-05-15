@@ -14,7 +14,7 @@ DEFAULT_API_URL = 'https://artificialanalysis.ai/api/v2/data/llms/models'
 DEFAULT_LLM_STATS_API_URL = 'https://api.llm-stats.com/stats/v1/models'
 DEFAULT_LLM_STATS_SCORES_API_URL = 'https://api.llm-stats.com/stats/v1/scores'
 DEFAULT_OUTPUT = Path('public/data/artificial-analysis-llms.json')
-DEFAULT_MODEL_LIMIT = 500
+DEFAULT_MODEL_LIMIT = 700
 ROOT_DIR = Path(__file__).resolve().parents[2]
 
 SOURCE_INFO = {

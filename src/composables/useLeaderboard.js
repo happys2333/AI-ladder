@@ -40,7 +40,7 @@ export function useLeaderboard() {
 
     return sortModels(models.value
       .filter((model) => {
-        if (activeCategory.value === 'price' && getCategoryValue(model, 'price') <= 0) {
+        if (getCategoryValue(model, activeCategory.value) <= 0) {
           return false
         }
 

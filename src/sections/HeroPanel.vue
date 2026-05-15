@@ -1,4 +1,5 @@
 <script setup>
+import MonthlyTrendChart from '../components/MonthlyTrendChart.vue'
 import { useI18n } from '../composables/useI18n'
 
 defineProps({
@@ -9,6 +10,8 @@ defineProps({
   leaderboardStats: { type: Object, default: () => ({}) },
   activeCategory: { type: String, required: true },
   isPriceAscending: { type: Boolean, default: true },
+  models: { type: Array, default: () => [] },
+  isLoading: { type: Boolean, default: false },
 })
 
 defineEmits(['toggle-price-sort'])
@@ -33,35 +36,46 @@ const { locale, t } = useI18n()
 
 <template>
   <section class="hero-panel">
-    <div>
-      <p class="hero-kicker">{{ title }} {{ t('hero.board') }}</p>
-      <h1>{{ t('hero.title') }}</h1>
-      <p class="hero-updated">{{ t('hero.source') }}: {{ source?.label ?? t('hero.notProvided') }}</p>
-      <p class="hero-updated">{{ t('hero.updated') }}: {{ formatUpdateTime(lastUpdated) }}</p>
+    <div class="hero-main">
+      <div>
+        <p class="hero-kicker">{{ title }} {{ t('hero.board') }}</p>
+        <h1>{{ t('hero.title') }}</h1>
+        <p class="hero-updated">{{ t('hero.source') }}: {{ source?.label ?? t('hero.notProvided') }}</p>
+        <p class="hero-updated">{{ t('hero.updated') }}: {{ formatUpdateTime(lastUpdated) }}</p>
+      </div>
+
+      <MonthlyTrendChart
+        v-if="!isLoading && !['price', 'speed'].includes(activeCategory)"
+        :models="models"
+        :category="activeCategory"
+        embedded
+      />
     </div>
 
-    <div v-if="activeCategory === 'price'" class="hero-actions">
-      <button class="ghost-action" @click="$emit('toggle-price-sort')">
-        {{ isPriceAscending ? t('hero.priceAsc') : t('hero.priceDesc') }}
-      </button>
-    </div>
+    <div class="hero-side">
+      <div v-if="activeCategory === 'price'" class="hero-actions">
+        <button class="ghost-action" @click="$emit('toggle-price-sort')">
+          {{ isPriceAscending ? t('hero.priceAsc') : t('hero.priceDesc') }}
+        </button>
+      </div>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <span>{{ t('hero.leader') }}</span>
-        <strong>{{ stats.leader }}</strong>
-      </div>
-      <div class="stat-card">
-        <span>{{ t('hero.avg') }}</span>
-        <strong>{{ stats.avg }}</strong>
-      </div>
-      <div class="stat-card">
-        <span>{{ t('hero.spread') }}</span>
-        <strong>{{ stats.spread }}</strong>
-      </div>
-      <div class="stat-card">
-        <span>{{ t('hero.totalModels') }}</span>
-        <strong>{{ leaderboardStats.totalModels ?? '-' }}</strong>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span>{{ t('hero.leader') }}</span>
+          <strong>{{ stats.leader }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>{{ t('hero.avg') }}</span>
+          <strong>{{ stats.avg }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>{{ t('hero.spread') }}</span>
+          <strong>{{ stats.spread }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>{{ t('hero.totalModels') }}</span>
+          <strong>{{ leaderboardStats.totalModels ?? '-' }}</strong>
+        </div>
       </div>
     </div>
   </section>

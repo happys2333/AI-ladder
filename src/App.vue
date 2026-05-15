@@ -205,6 +205,8 @@ watchEffect(() => {
             :leaderboard-stats="stats"
             :active-category="activeCategory"
             :is-price-ascending="isPriceAscending"
+            :models="filteredModels"
+            :is-loading="isLoading"
             @toggle-price-sort="togglePriceSortDirection"
           />
 
