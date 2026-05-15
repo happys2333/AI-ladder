@@ -6,7 +6,7 @@ AI model leaderboard and coding-plan explorer built with `Vue 3 + Vite`.
 
 The project currently ships two views:
 
-- `Leaderboard`: browse and compare model benchmark data from Artificial Analysis
+- `Leaderboard`: browse and compare model benchmark data merged from Artificial Analysis and LLM Stats
 - `Coding Plans`: browse manually curated official coding subscriptions from major providers
 
 ## Features
@@ -57,7 +57,7 @@ npm run preview
 Refresh Artificial Analysis data:
 
 ```bash
-npm run update:artificial-analysis
+ARTIFICIAL_ANALYSIS_API_KEY=your_aa_key LLM_STATS_KEY=your_llm_stats_key npm run update:artificial-analysis
 ```
 
 Refresh exchange rates:
@@ -94,10 +94,35 @@ public/data/coding-plans.json
 ## Data Sources
 
 - Leaderboard: `public/data/artificial-analysis-llms.json`
+  - ranking, price, latency: Artificial Analysis
+  - release date, open-weight, catalog metadata: LLM Stats `/v1/models`
+  - benchmark score matrix: LLM Stats `/v1/scores`
 - Coding plans: `public/data/coding-plans.json`
 - FX rates: `public/data/exchange-rates.json`
 
 `src/services/leaderboardService.js` is the main normalization layer. It loads the JSON payloads, validates core fields, and attaches provider-level coding plans to matching models.
+
+The leaderboard ingestion script expects two API keys:
+
+- `ARTIFICIAL_ANALYSIS_API_KEY`
+- `LLM_STATS_KEY`
+
+In GitHub Actions, configure these as repository secrets:
+
+- `ARTIFICIAL_ANALYSIS_API_KEY`
+- `LLM_STATS_KEY`
+
+The generated leaderboard payload keeps benchmark details under each model at:
+
+```text
+meta.benchmarks.llmStats
+```
+
+Each benchmark entry stores the raw score, normalized score, verification flag, and scoring timestamp. If you want to ingest only verified benchmark records, run the updater with:
+
+```bash
+LLM_STATS_VERIFIED_ONLY=true npm run update:artificial-analysis
+```
 
 ## Localization
 

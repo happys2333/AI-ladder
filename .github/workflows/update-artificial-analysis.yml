@@ -36,6 +36,7 @@ jobs:
       - name: Generate Artificial Analysis leaderboard JSON
         env:
           ARTIFICIAL_ANALYSIS_API_KEY: ${{ secrets.ARTIFICIAL_ANALYSIS_API_KEY }}
+          LLM_STATS_KEY: ${{ secrets.LLM_STATS_KEY }}
           ARTIFICIAL_ANALYSIS_PROMPT_LENGTH: ${{ vars.ARTIFICIAL_ANALYSIS_PROMPT_LENGTH || 'medium' }}
           ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES: ${{ vars.ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES || '1' }}
           ARTIFICIAL_ANALYSIS_MODEL_LIMIT: ${{ vars.ARTIFICIAL_ANALYSIS_MODEL_LIMIT || '500' }}

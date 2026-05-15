@@ -94,10 +94,25 @@ public/data/coding-plans.json
 ## 数据来源
 
 - Leaderboard：`public/data/artificial-analysis-llms.json`
+  - 排名、价格、延迟：Artificial Analysis
+  - 发布时间、开源权重、模型元数据：LLM Stats `/v1/models`
+  - benchmark 分数矩阵：LLM Stats `/v1/scores`
 - Coding Plans：`public/data/coding-plans.json`
 - 汇率：`public/data/exchange-rates.json`
 
 `src/services/leaderboardService.js` 是主要的数据归一化层，负责加载 JSON、校验基础字段，并把厂商级 Coding Plan 关联到对应模型。
+
+每个模型的 benchmark 明细会保存在：
+
+```text
+meta.benchmarks.llmStats
+```
+
+其中包含原始分数、归一化分数、`verified` 标记和 `scoredAt` 时间戳。若只想拉取已验证的 benchmark 记录，可在更新时加上：
+
+```bash
+LLM_STATS_VERIFIED_ONLY=true npm run update:artificial-analysis
+```
 
 ## 多语言
 
