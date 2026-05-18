@@ -411,15 +411,15 @@
     {
       "providerSlug": "zhipu",
       "providerName": "Zhipu / GLM",
-      "productName": "GLM Coding Plan",
+      "productName": "智谱 GLM Coding Plan",
       "summary": {
-        "zh-CN": "智谱面向 AI 编码场景提供的官方订阅套餐，当前公开为 Lite、Pro、Max 三档。",
-        "en-US": "Zhipu's official subscription plans for AI coding, currently published as Lite, Pro, and Max."
+        "zh-CN": "智谱面向 AI 编码场景提供的官方订阅套餐，公开为 Lite、Pro、Max 三档。",
+        "en-US": "Zhipu's official subscription plans for AI coding, published as Lite, Pro, and Max tiers."
       },
       "source": "https://bigmodel.cn/glm-coding",
       "notes": {
-        "zh-CN": "官方页展示 Lite、Pro、Max 三档月付套餐；限售期间可能按每日 10:00（UTC+8）放量。",
-        "en-US": "The official page shows Lite, Pro, and Max monthly plans, and limited-sale inventory may be released daily at 10:00 UTC+8."
+        "zh-CN": "限售期间每日 10:00（UTC+8）释放新库存；高峰期为每日 14:00-18:00（UTC+8）。GLM-5.1、GLM-5-Turbo 对标 Claude Opus，高峰期按 3 倍、非高峰期按 2 倍消耗额度；作为限时福利，非高峰期暂按 1 倍抵扣，持续到 6 月底。",
+        "en-US": "Limited-sale inventory is released daily at 10:00 UTC+8. Peak hours are 14:00-18:00 UTC+8. GLM-5.1 and GLM-5-Turbo are premium models comparable to Claude Opus and normally consume 3x quota at peak and 2x off-peak; as a temporary benefit, off-peak usage is counted at 1x through the end of June."
       },
       "plans": [
         {
@@ -428,12 +428,12 @@
             "en-US": "Lite"
           },
           "price": {
-            "zh-CN": "¥49 / 月",
-            "en-US": "¥49 / month"
+            "zh-CN": "¥49 / 月；¥132.3 / 季；¥470.4 / 年",
+            "en-US": "¥49 / month; ¥132.3 / quarter; ¥470.4 / year"
           },
           "cadence": {
-            "zh-CN": "订阅制",
-            "en-US": "Subscription"
+            "zh-CN": "月付 / 季付 / 年付",
+            "en-US": "Monthly / quarterly / annual"
           },
           "seats": {
             "zh-CN": "个人",
@@ -444,16 +444,16 @@
             "en-US": "Light solo development"
           },
           "limits": {
-            "zh-CN": "3x Claude Pro 用量额度",
-            "en-US": "3x Claude Pro usage limits."
+            "zh-CN": "5 小时 80 prompts；一周 400 prompts；MCP 联网搜索、网页读取、开源仓库每月合计 100 次。",
+            "en-US": "80 prompts per 5 hours, 400 prompts per week, and 100 total monthly MCP calls across web search, page reading, and open-source repository tools."
           },
           "access": {
-            "zh-CN": "支持 GLM-5.1、GLM-5-Turbo、GLM-4.7、GLM-4.5-Air，以及视觉理解、联网搜索、网页读取、开源仓库 MCP",
-            "en-US": "Includes GLM-5.1, GLM-5-Turbo, GLM-4.7, GLM-4.5-Air, plus vision, web-search, web-reader, and open-repo MCP features"
+            "zh-CN": "支持 GLM-5.1、GLM-5-Turbo、GLM-4.7、GLM-4.5-Air；支持 Claude Code、Open Code、CodeBuddy、Cline、Factory Droid、Kilo Code、Qwen Code、Crush、Goose、Cursor、Gemini CLI、Grok CLI、Cherry Studio 等工具。",
+            "en-US": "Supports GLM-5.1, GLM-5-Turbo, GLM-4.7, GLM-4.5-Air, and tools including Claude Code, Open Code, CodeBuddy, Cline, Factory Droid, Kilo Code, Qwen Code, Crush, Goose, Cursor, Gemini CLI, Grok CLI, and Cherry Studio."
           },
           "notes": {
-            "zh-CN": "官方定位为编码套餐入门档，适用于官方支持的 Coding 工具环境。",
-            "en-US": "Officially positioned as the entry coding tier for supported coding tools."
+            "zh-CN": "官方建议复杂任务使用 GLM-5.1，普通任务使用 GLM-4.7，以避免额度消耗过快。",
+            "en-US": "The official guidance recommends GLM-5.1 for complex tasks and GLM-4.7 for routine work to avoid consuming quota too quickly."
           }
         },
         {
@@ -462,12 +462,12 @@
             "en-US": "Pro"
           },
           "price": {
-            "zh-CN": "¥149 / 月",
-            "en-US": "¥149 / month"
+            "zh-CN": "¥149 / 月；¥402.3 / 季；¥1,430.4 / 年",
+            "en-US": "¥149 / month; ¥402.3 / quarter; ¥1,430.4 / year"
           },
           "cadence": {
-            "zh-CN": "订阅制",
-            "en-US": "Subscription"
+            "zh-CN": "月付 / 季付 / 年付",
+            "en-US": "Monthly / quarterly / annual"
           },
           "seats": {
             "zh-CN": "个人",
@@ -478,16 +478,16 @@
             "en-US": "Frequent solo development"
           },
           "limits": {
-            "zh-CN": "5x Lite 用量额度",
-            "en-US": "5x Lite usage limits."
+            "zh-CN": "5 小时 400 prompts；一周 2,000 prompts；MCP 联网搜索、网页读取、开源仓库每月合计 1,000 次。",
+            "en-US": "400 prompts per 5 hours, 2,000 prompts per week, and 1,000 total monthly MCP calls across web search, page reading, and open-source repository tools."
           },
           "access": {
-            "zh-CN": "包含 Lite 全部模型与 MCP 能力，并提供更高并发与更高编码额度",
-            "en-US": "Includes all Lite models and MCP capabilities with higher throughput and larger coding quotas"
+            "zh-CN": "支持 GLM-5.1、GLM-5-Turbo、GLM-4.7、GLM-4.5-Air；支持 Claude Code、Open Code、CodeBuddy、Cline、Factory Droid、Kilo Code、Qwen Code、Crush、Goose、Cursor、Gemini CLI、Grok CLI、Cherry Studio 等工具。",
+            "en-US": "Supports GLM-5.1, GLM-5-Turbo, GLM-4.7, GLM-4.5-Air, and tools including Claude Code, Open Code, CodeBuddy, Cline, Factory Droid, Kilo Code, Qwen Code, Crush, Goose, Cursor, Gemini CLI, Grok CLI, and Cherry Studio."
           },
           "notes": {
-            "zh-CN": "主要面向高频、复杂项目需求。",
-            "en-US": "Mainly aimed at frequent, more complex project work."
+            "zh-CN": "官方建议复杂任务使用 GLM-5.1，普通任务使用 GLM-4.7，以避免额度消耗过快。",
+            "en-US": "The official guidance recommends GLM-5.1 for complex tasks and GLM-4.7 for routine work to avoid consuming quota too quickly."
           }
         },
         {
@@ -496,12 +496,12 @@
             "en-US": "Max"
           },
           "price": {
-            "zh-CN": "¥469 / 月",
-            "en-US": "¥469 / month"
+            "zh-CN": "¥469 / 月；¥1,266.3 / 季；¥4,502.4 / 年",
+            "en-US": "¥469 / month; ¥1,266.3 / quarter; ¥4,502.4 / year"
           },
           "cadence": {
-            "zh-CN": "订阅制",
-            "en-US": "Subscription"
+            "zh-CN": "月付 / 季付 / 年付",
+            "en-US": "Monthly / quarterly / annual"
           },
           "seats": {
             "zh-CN": "个人",
@@ -512,16 +512,574 @@
             "en-US": "Heavy solo development / multi-project concurrency"
           },
           "limits": {
-            "zh-CN": "20x Lite 用量额度",
-            "en-US": "20x Lite usage limits."
+            "zh-CN": "5 小时 1,600 prompts；一周 8,000 prompts；MCP 联网搜索、网页读取、开源仓库每月合计 4,000 次。",
+            "en-US": "1,600 prompts per 5 hours, 8,000 prompts per week, and 4,000 total monthly MCP calls across web search, page reading, and open-source repository tools."
           },
           "access": {
-            "zh-CN": "包含 Pro 全部能力，并提供最高档的 prompt、MCP 与并发资源",
-            "en-US": "Includes everything in Pro with the highest prompt, MCP, and concurrency capacity"
+            "zh-CN": "支持 GLM-5.1、GLM-5-Turbo、GLM-4.7、GLM-4.5-Air；支持 Claude Code、Open Code、CodeBuddy、Cline、Factory Droid、Kilo Code、Qwen Code、Crush、Goose、Cursor、Gemini CLI、Grok CLI、Cherry Studio 等工具。",
+            "en-US": "Supports GLM-5.1, GLM-5-Turbo, GLM-4.7, GLM-4.5-Air, and tools including Claude Code, Open Code, CodeBuddy, Cline, Factory Droid, Kilo Code, Qwen Code, Crush, Goose, Cursor, Gemini CLI, Grok CLI, and Cherry Studio."
           },
           "notes": {
-            "zh-CN": "并发与速率限制整体高于 Pro。",
-            "en-US": "Concurrency and rate limits are generally above Pro."
+            "zh-CN": "官方建议复杂任务使用 GLM-5.1，普通任务使用 GLM-4.7，以避免额度消耗过快。",
+            "en-US": "The official guidance recommends GLM-5.1 for complex tasks and GLM-4.7 for routine work to avoid consuming quota too quickly."
+          }
+        }
+      ]
+    },
+    {
+      "providerSlug": "iflytek-astron",
+      "providerName": "iFLYTEK / 讯飞星辰",
+      "productName": "Astron Coding Plan",
+      "summary": {
+        "zh-CN": "讯飞星辰面向 AI 编码场景提供的焕新版套餐，覆盖无忧版、专业版和高效版。",
+        "en-US": "iFLYTEK Astron's refreshed coding plans for AI-assisted development, covering Worry-Free, Professional, and Efficient tiers."
+      },
+      "source": "",
+      "notes": {
+        "zh-CN": "焕新版于 2026 年 4 月 9 日上线。底层模型可在 maas.xfyun.cn/packageSubscription 套餐订阅页操作栏点击配置模型按钮后切换，约 1-3 分钟生效。支持 Claude Code、Open Code、Cursor、OpenClaw 等工具。",
+        "en-US": "The refreshed plans launched on April 9, 2026. Base models can be switched from the package subscription page at maas.xfyun.cn/packageSubscription via the configure-model action, taking about 1-3 minutes to apply. Supports Claude Code, Open Code, Cursor, OpenClaw, and similar tools."
+      },
+      "plans": [
+        {
+          "name": {
+            "zh-CN": "无忧版",
+            "en-US": "Worry-Free"
+          },
+          "price": {
+            "zh-CN": "¥19 / 月；首购 ¥3.9 / 月",
+            "en-US": "¥19 / month; first purchase ¥3.9 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "入门级开发场景，满足基础开发需求",
+            "en-US": "Entry-level development and basic coding needs"
+          },
+          "limits": {
+            "zh-CN": "请求次数不限。",
+            "en-US": "Unlimited requests."
+          },
+          "access": {
+            "zh-CN": "支持 Qwen3.6-35B-A3B（默认选中）、Spark-X2-Flash、Qwen3.5-35B-A3B、Qwen3-Coder-Next-FP8、GLM-4.7-Flash。",
+            "en-US": "Supports Qwen3.6-35B-A3B by default, Spark-X2-Flash, Qwen3.5-35B-A3B, Qwen3-Coder-Next-FP8, and GLM-4.7-Flash."
+          },
+          "notes": {
+            "zh-CN": "首购优惠按截图展示为 ¥3.9 / 月。",
+            "en-US": "The screenshot shows a first-purchase promotion at ¥3.9 per month."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "专业版",
+            "en-US": "Professional"
+          },
+          "price": {
+            "zh-CN": "¥39 / 月",
+            "en-US": "¥39 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "专业开发场景，满足复杂开发任务需求",
+            "en-US": "Professional development and complex coding tasks"
+          },
+          "limits": {
+            "zh-CN": "每 5 小时 1,200 次请求；每周 9,000 次；每月 18,000 次。",
+            "en-US": "1,200 requests per 5 hours, 9,000 per week, and 18,000 per month."
+          },
+          "access": {
+            "zh-CN": "支持 GLM-5（默认选中）、GLM-5.1、GLM-4.7-Flash、Spark X2、Spark-X2-Flash、MiniMax-M2.5、KIMI-K2.5、DeepSeek-V3.2、Qwen3.6-35B-A3B、Qwen3.5-35B-A3B、Qwen3-Coder-Next-FP8、Qwen3.5-397B-A17B。",
+            "en-US": "Supports GLM-5 by default, GLM-5.1, GLM-4.7-Flash, Spark X2, Spark-X2-Flash, MiniMax-M2.5, KIMI-K2.5, DeepSeek-V3.2, Qwen3.6-35B-A3B, Qwen3.5-35B-A3B, Qwen3-Coder-Next-FP8, and Qwen3.5-397B-A17B."
+          },
+          "notes": {
+            "zh-CN": "焕新版专业档。",
+            "en-US": "Professional tier in the refreshed plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "高效版",
+            "en-US": "Efficient"
+          },
+          "price": {
+            "zh-CN": "¥199 / 月",
+            "en-US": "¥199 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "高级开发场景，满足大量编程辅助需求",
+            "en-US": "Advanced development and heavy coding assistance"
+          },
+          "limits": {
+            "zh-CN": "每 5 小时 6,000 次请求；每周 45,000 次；每月 90,000 次。",
+            "en-US": "6,000 requests per 5 hours, 45,000 per week, and 90,000 per month."
+          },
+          "access": {
+            "zh-CN": "支持 GLM-5（默认选中）、GLM-5.1、GLM-4.7-Flash、Spark X2、Spark-X2-Flash、MiniMax-M2.5、KIMI-K2.5、DeepSeek-V3.2、Qwen3.6-35B-A3B、Qwen3.5-35B-A3B、Qwen3-Coder-Next-FP8、Qwen3.5-397B-A17B。",
+            "en-US": "Supports GLM-5 by default, GLM-5.1, GLM-4.7-Flash, Spark X2, Spark-X2-Flash, MiniMax-M2.5, KIMI-K2.5, DeepSeek-V3.2, Qwen3.6-35B-A3B, Qwen3.5-35B-A3B, Qwen3-Coder-Next-FP8, and Qwen3.5-397B-A17B."
+          },
+          "notes": {
+            "zh-CN": "焕新版高效档。",
+            "en-US": "Efficient tier in the refreshed plan."
+          }
+        }
+      ]
+    },
+    {
+      "providerSlug": "tencent-cloud",
+      "providerName": "Tencent Cloud / 腾讯云",
+      "productName": "腾讯云大模型 Token Plan",
+      "summary": {
+        "zh-CN": "腾讯云大模型 Token Plan 覆盖通用 Token Plan 与 Hy Token Plan，按 Lite、Standard、Pro、Max 四档订阅。",
+        "en-US": "Tencent Cloud model Token Plan covers General Token Plan and Hy Token Plan, each offered in Lite, Standard, Pro, and Max tiers."
+      },
+      "source": "",
+      "notes": {
+        "zh-CN": "支持 OpenClaw、WorkBuddy、CodeBuddy Code、Claude Code、OpenCode、Cline、Cursor、CodeX、Kilo CLI、Kilo Code 等工具。",
+        "en-US": "Supports OpenClaw, WorkBuddy, CodeBuddy Code, Claude Code, OpenCode, Cline, Cursor, CodeX, Kilo CLI, Kilo Code, and similar tools."
+      },
+      "plans": [
+        {
+          "name": {
+            "zh-CN": "通用 Lite",
+            "en-US": "General Lite"
+          },
+          "price": {
+            "zh-CN": "¥39 / 月",
+            "en-US": "¥39 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "首次体验腾讯云大模型能力",
+            "en-US": "First-time Tencent Cloud model users"
+          },
+          "limits": {
+            "zh-CN": "3500 万 Tokens，可执行约 70 轮问答。",
+            "en-US": "35 million tokens, about 70 Q&A rounds."
+          },
+          "access": {
+            "zh-CN": "通用 Token Plan 支持 minimax-m2.7、minimax-m2.5、kimi-k2.5（视觉理解）、glm-5.1、glm-5。hunyuan-2.0-instruct、hunyuan-2.0-thinking、hunyuan-t1、hunyuan-turbos 将于 2026 年 6 月 10 日下线。",
+            "en-US": "General Token Plan supports minimax-m2.7, minimax-m2.5, kimi-k2.5 with visual understanding, glm-5.1, and glm-5. hunyuan-2.0-instruct, hunyuan-2.0-thinking, hunyuan-t1, and hunyuan-turbos will be retired on June 10, 2026."
+          },
+          "notes": {
+            "zh-CN": "通用 Token Plan。",
+            "en-US": "General Token Plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "通用 Standard",
+            "en-US": "General Standard"
+          },
+          "price": {
+            "zh-CN": "¥99 / 月",
+            "en-US": "¥99 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "首次体验腾讯云大模型能力",
+            "en-US": "First-time Tencent Cloud model users"
+          },
+          "limits": {
+            "zh-CN": "1 亿 Tokens，可执行约 200 轮问答。",
+            "en-US": "100 million tokens, about 200 Q&A rounds."
+          },
+          "access": {
+            "zh-CN": "通用 Token Plan 支持 minimax-m2.7、minimax-m2.5、kimi-k2.5（视觉理解）、glm-5.1、glm-5。hunyuan-2.0-instruct、hunyuan-2.0-thinking、hunyuan-t1、hunyuan-turbos 将于 2026 年 6 月 10 日下线。",
+            "en-US": "General Token Plan supports minimax-m2.7, minimax-m2.5, kimi-k2.5 with visual understanding, glm-5.1, and glm-5. hunyuan-2.0-instruct, hunyuan-2.0-thinking, hunyuan-t1, and hunyuan-turbos will be retired on June 10, 2026."
+          },
+          "notes": {
+            "zh-CN": "通用 Token Plan。",
+            "en-US": "General Token Plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "通用 Pro",
+            "en-US": "General Pro"
+          },
+          "price": {
+            "zh-CN": "¥299 / 月",
+            "en-US": "¥299 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "每天高频使用 AI 的开发者和效率达人",
+            "en-US": "Developers and power users using AI frequently every day"
+          },
+          "limits": {
+            "zh-CN": "3.2 亿 Tokens。",
+            "en-US": "320 million tokens."
+          },
+          "access": {
+            "zh-CN": "通用 Token Plan 支持 minimax-m2.7、minimax-m2.5、kimi-k2.5（视觉理解）、glm-5.1、glm-5。hunyuan-2.0-instruct、hunyuan-2.0-thinking、hunyuan-t1、hunyuan-turbos 将于 2026 年 6 月 10 日下线。",
+            "en-US": "General Token Plan supports minimax-m2.7, minimax-m2.5, kimi-k2.5 with visual understanding, glm-5.1, and glm-5. hunyuan-2.0-instruct, hunyuan-2.0-thinking, hunyuan-t1, and hunyuan-turbos will be retired on June 10, 2026."
+          },
+          "notes": {
+            "zh-CN": "通用 Token Plan。",
+            "en-US": "General Token Plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "通用 Max",
+            "en-US": "General Max"
+          },
+          "price": {
+            "zh-CN": "¥599 / 月",
+            "en-US": "¥599 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "把 AI 当核心生产力工具的重度用户",
+            "en-US": "Heavy users treating AI as a core productivity tool"
+          },
+          "limits": {
+            "zh-CN": "6.5 亿 Tokens。",
+            "en-US": "650 million tokens."
+          },
+          "access": {
+            "zh-CN": "通用 Token Plan 支持 minimax-m2.7、minimax-m2.5、kimi-k2.5（视觉理解）、glm-5.1、glm-5。hunyuan-2.0-instruct、hunyuan-2.0-thinking、hunyuan-t1、hunyuan-turbos 将于 2026 年 6 月 10 日下线。",
+            "en-US": "General Token Plan supports minimax-m2.7, minimax-m2.5, kimi-k2.5 with visual understanding, glm-5.1, and glm-5. hunyuan-2.0-instruct, hunyuan-2.0-thinking, hunyuan-t1, and hunyuan-turbos will be retired on June 10, 2026."
+          },
+          "notes": {
+            "zh-CN": "通用 Token Plan。",
+            "en-US": "General Token Plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Hy Lite",
+            "en-US": "Hy Lite"
+          },
+          "price": {
+            "zh-CN": "¥28 / 月",
+            "en-US": "¥28 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "首次体验腾讯云大模型能力",
+            "en-US": "First-time Tencent Cloud model users"
+          },
+          "limits": {
+            "zh-CN": "3500 万 Tokens，可执行约 70 轮问答。",
+            "en-US": "35 million tokens, about 70 Q&A rounds."
+          },
+          "access": {
+            "zh-CN": "Hy Token Plan 支持 hy3 preview 模型。",
+            "en-US": "Hy Token Plan supports the hy3 preview model."
+          },
+          "notes": {
+            "zh-CN": "Hy Token Plan。",
+            "en-US": "Hy Token Plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Hy Standard",
+            "en-US": "Hy Standard"
+          },
+          "price": {
+            "zh-CN": "¥78 / 月",
+            "en-US": "¥78 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "首次体验腾讯云大模型能力",
+            "en-US": "First-time Tencent Cloud model users"
+          },
+          "limits": {
+            "zh-CN": "1 亿 Tokens，可执行约 200 轮问答。",
+            "en-US": "100 million tokens, about 200 Q&A rounds."
+          },
+          "access": {
+            "zh-CN": "Hy Token Plan 支持 hy3 preview 模型。",
+            "en-US": "Hy Token Plan supports the hy3 preview model."
+          },
+          "notes": {
+            "zh-CN": "Hy Token Plan。",
+            "en-US": "Hy Token Plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Hy Pro",
+            "en-US": "Hy Pro"
+          },
+          "price": {
+            "zh-CN": "¥238 / 月",
+            "en-US": "¥238 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "每天高频使用 AI 的开发者和效率达人",
+            "en-US": "Developers and power users using AI frequently every day"
+          },
+          "limits": {
+            "zh-CN": "3.2 亿 Tokens。",
+            "en-US": "320 million tokens."
+          },
+          "access": {
+            "zh-CN": "Hy Token Plan 支持 hy3 preview 模型。",
+            "en-US": "Hy Token Plan supports the hy3 preview model."
+          },
+          "notes": {
+            "zh-CN": "Hy Token Plan。",
+            "en-US": "Hy Token Plan."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Hy Max",
+            "en-US": "Hy Max"
+          },
+          "price": {
+            "zh-CN": "¥468 / 月",
+            "en-US": "¥468 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "把 AI 当核心生产力工具的重度用户",
+            "en-US": "Heavy users treating AI as a core productivity tool"
+          },
+          "limits": {
+            "zh-CN": "6.5 亿 Tokens。",
+            "en-US": "650 million tokens."
+          },
+          "access": {
+            "zh-CN": "Hy Token Plan 支持 hy3 preview 模型。",
+            "en-US": "Hy Token Plan supports the hy3 preview model."
+          },
+          "notes": {
+            "zh-CN": "Hy Token Plan。",
+            "en-US": "Hy Token Plan."
+          }
+        }
+      ]
+    },
+    {
+      "providerSlug": "stepfun",
+      "providerName": "StepFun / 阶跃星辰",
+      "productName": "Step Plan",
+      "summary": {
+        "zh-CN": "阶跃星辰 Step Plan 覆盖 Flash Mini、Flash Plus、Flash Pro、Flash Max 四档编码套餐。",
+        "en-US": "StepFun Step Plan covers Flash Mini, Flash Plus, Flash Pro, and Flash Max coding tiers."
+      },
+      "source": "",
+      "notes": {
+        "zh-CN": "支持 step-3.5-flash-2603、step-3.5-flash、stepaudio-2.5-tts、stepaudio-2.5-asr、step-image-edit-2、step-router-v1（自动在 deepseek-v4-pro 与 step-3.5-flash 之间切换）等模型。支持 OpenClaw、Claude Code、Open Code、Cherry Studio、Cline、Goose、Kilo Code、Roo Code、Zed 等工具。",
+        "en-US": "Supports step-3.5-flash-2603, step-3.5-flash, stepaudio-2.5-tts, stepaudio-2.5-asr, step-image-edit-2, step-router-v1 that switches automatically between deepseek-v4-pro and step-3.5-flash, and similar models. Works with OpenClaw, Claude Code, Open Code, Cherry Studio, Cline, Goose, Kilo Code, Roo Code, Zed, and similar tools."
+      },
+      "plans": [
+        {
+          "name": {
+            "zh-CN": "Flash Mini（入门版）",
+            "en-US": "Flash Mini"
+          },
+          "price": {
+            "zh-CN": "¥49 / 月",
+            "en-US": "¥49 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "基础体验 / 简单任务",
+            "en-US": "Basic use / simple tasks"
+          },
+          "limits": {
+            "zh-CN": "每 5 小时约 100 次 prompt；每周约 400 次 prompt。",
+            "en-US": "About 100 prompts per 5 hours and about 400 prompts per week."
+          },
+          "access": {
+            "zh-CN": "支持 Step Plan 覆盖的模型与编码工具。",
+            "en-US": "Supports the models and coding tools covered by Step Plan."
+          },
+          "notes": {
+            "zh-CN": "入门版。",
+            "en-US": "Entry tier."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Flash Plus（进阶版）",
+            "en-US": "Flash Plus"
+          },
+          "price": {
+            "zh-CN": "¥99 / 月",
+            "en-US": "¥99 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "日常开发 / 高频编码",
+            "en-US": "Daily development / frequent coding"
+          },
+          "limits": {
+            "zh-CN": "每 5 小时约 400 次 prompt；每周约 1,600 次 prompt。",
+            "en-US": "About 400 prompts per 5 hours and about 1,600 prompts per week."
+          },
+          "access": {
+            "zh-CN": "支持 Step Plan 覆盖的模型与编码工具。",
+            "en-US": "Supports the models and coding tools covered by Step Plan."
+          },
+          "notes": {
+            "zh-CN": "进阶版。",
+            "en-US": "Advanced tier."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Flash Pro（专业版）",
+            "en-US": "Flash Pro"
+          },
+          "price": {
+            "zh-CN": "¥199 / 月",
+            "en-US": "¥199 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "复杂任务 / 重度使用",
+            "en-US": "Complex tasks / heavy use"
+          },
+          "limits": {
+            "zh-CN": "每 5 小时约 1,500 次 prompt；每周约 6,000 次 prompt。",
+            "en-US": "About 1,500 prompts per 5 hours and about 6,000 prompts per week."
+          },
+          "access": {
+            "zh-CN": "支持 Step Plan 覆盖的模型与编码工具。",
+            "en-US": "Supports the models and coding tools covered by Step Plan."
+          },
+          "notes": {
+            "zh-CN": "专业版。",
+            "en-US": "Professional tier."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Flash Max（旗舰版）",
+            "en-US": "Flash Max"
+          },
+          "price": {
+            "zh-CN": "¥699 / 月",
+            "en-US": "¥699 / month"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "团队协作 / 生产环境",
+            "en-US": "Team collaboration / production work"
+          },
+          "limits": {
+            "zh-CN": "每 5 小时约 5,000 次 prompt；每周约 2 万次 prompt。",
+            "en-US": "About 5,000 prompts per 5 hours and about 20,000 prompts per week."
+          },
+          "access": {
+            "zh-CN": "支持 Step Plan 覆盖的模型与编码工具。",
+            "en-US": "Supports the models and coding tools covered by Step Plan."
+          },
+          "notes": {
+            "zh-CN": "旗舰版。",
+            "en-US": "Flagship tier."
           }
         }
       ]
@@ -1157,13 +1715,13 @@
       "providerName": "Alibaba Cloud / 通义灵码",
       "productName": "百炼 Coding Plan",
       "summary": {
-        "zh-CN": "阿里云百炼当前公开聚焦单一 Pro 编码套餐，面向大规模编码任务。",
-        "en-US": "Alibaba Cloud Bailian is currently centered on a single public Pro coding plan for large-scale coding workloads."
+        "zh-CN": "阿里云百炼当前公开聚焦单一 Pro 编码套餐，面向大型开发任务和专业级 AI 编程体验。",
+        "en-US": "Alibaba Cloud Bailian is currently centered on a single public Pro coding plan for large-scale development and professional AI coding workflows."
       },
       "source": "https://www.aliyun.com/benefit/scene/codingplan",
       "notes": {
-        "zh-CN": "当前公开页仅展示 Pro 编码套餐；实时价格和活动口径以活动页为准。",
-        "en-US": "The current public page shows only the Pro coding plan; live pricing and promotional terms should follow the campaign page."
+        "zh-CN": "当前公开页仅展示 Pro 编码套餐。可连续包月，价格不变；名额有限，先到先得；每日 09:30:00（UTC+8）补充。实时价格和活动口径以活动页为准。",
+        "en-US": "The current public page shows only the Pro coding plan. Monthly renewal is supported at the same price; availability is limited and replenishes daily at 09:30:00 UTC+8. Live pricing and promotional terms should follow the campaign page."
       },
       "plans": [
         {
@@ -1188,16 +1746,16 @@
             "en-US": "Large-scale coding workloads"
           },
           "limits": {
-            "zh-CN": "每 5 小时最多 6,000 次、每周最多 45,000 次、每月最多 90,000 次请求",
-            "en-US": "Up to 6,000 requests per 5 hours, 45,000 per week, and 90,000 per month"
+            "zh-CN": "每 5 小时 6,000 次请求；每周 45,000 次请求；每月 90,000 次请求；联网搜索 MCP 每月 2,000 次免费额度，额度用尽后自动停止",
+            "en-US": "6,000 requests per 5 hours; 45,000 requests per week; 90,000 requests per month; 2,000 free web-search MCP calls per month, stopping automatically after the allowance is used"
           },
           "access": {
-            "zh-CN": "完美兼容 Cline、OpenClaw、Claude Code、Qwen Code；推荐模型含 qwen3.6-plus、kimi-k2.5、glm-5、MiniMax-M2.5，更多模型含 qwen3.5-plus、qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
-            "en-US": "Fully compatible with Cline, OpenClaw, Claude Code, and Qwen Code. Recommended models include qwen3.6-plus, kimi-k2.5, glm-5, and MiniMax-M2.5; additional models include qwen3.5-plus, qwen3-max-2026-01-23, qwen3-coder-next, qwen3-coder-plus, and glm-4.7"
+            "zh-CN": "支持 Qwen Code、Qoder、OpenClaw、OpenCode、Claude Code、Claude Code IDE 插件、Codex、Cline、Cursor、Kilo CLI、Kilo Code IDE 插件等工具；推荐模型含 qwen3.6-plus（支持图片理解）、kimi-k2.5（支持图片理解）、glm-5、MiniMax-M2.5；更多模型含 qwen3.5-plus（支持图片理解）、qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
+            "en-US": "Supports Qwen Code, Qoder, OpenClaw, OpenCode, Claude Code, Claude Code IDE plugin, Codex, Cline, Cursor, Kilo CLI, Kilo Code IDE plugin, and similar tools. Recommended models include qwen3.6-plus with image understanding, kimi-k2.5 with image understanding, glm-5, and MiniMax-M2.5; additional models include qwen3.5-plus with image understanding, qwen3-max-2026-01-23, qwen3-coder-next, qwen3-coder-plus, and glm-4.7"
           },
           "notes": {
-            "zh-CN": "当前公开的唯一编码订阅档。",
-            "en-US": "The only publicly listed coding subscription tier at the moment."
+            "zh-CN": "适合大型开发任务、专业级 AI 编程体验。",
+            "en-US": "Suitable for large development tasks and professional AI coding workflows."
           }
         }
       ]
@@ -1205,83 +1763,235 @@
     {
       "providerSlug": "bytedance seed",
       "providerName": "ByteDance / 火山方舟",
-      "productName": "Trae / Coding Plan",
+      "productName": "字节方舟 Agent Plan",
       "summary": {
-        "zh-CN": "火山方舟面向个人开发者的 Coding Plan 订阅服务，当前活动页与文档口径聚焦 Lite 与 Pro 两档个人套餐。",
-        "en-US": "Volcano Engine's Coding Plan subscription for individual developers, with current official activity and docs focused on Lite and Pro personal tiers."
+        "zh-CN": "字节方舟 Agent Plan 面向 Agent 编程工具使用，支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具。",
+        "en-US": "ByteDance Ark Agent Plan is designed for agentic coding tools and supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar clients."
       },
       "source": "https://www.volcengine.com/activity/codingplan?infrom=100003.301.120",
       "notes": {
-        "zh-CN": "当前聚焦 Lite 与 Pro 两档个人套餐；企业级需求建议通过火山方舟模型 API 获取支持。实时价格和结算口径以活动页/下单页为准。",
-        "en-US": "The current focus is on Lite and Pro personal tiers. Enterprise-scale needs are directed to Ark model APIs, and live pricing should be taken from the activity or checkout page."
+        "zh-CN": "额度单位为 AFP。文本生成、向量化、视频生成 AFP = (输入 token * 输入抵扣系数 + 输出 token * 输出抵扣系数) / 10,000；图片 AFP = 成功生成的图片张数 * 抵扣系数。实时价格和结算口径以活动页/下单页为准。",
+        "en-US": "Allowance is measured in AFP. Text generation, embedding, and video generation AFP = (input tokens * input coefficient + output tokens * output coefficient) / 10,000; image AFP = generated image count * coefficient. Live pricing and billing terms should follow the activity or checkout page."
       },
       "plans": [
         {
           "name": {
-            "zh-CN": "Lite",
-            "en-US": "Lite"
+            "zh-CN": "Small（无视频生成）",
+            "en-US": "Small (no video generation)"
+          },
+          "price": {
+            "zh-CN": "¥40 / 月；¥120 / 季；¥480 / 年",
+            "en-US": "¥40 / month; ¥120 / quarter; ¥480 / year"
+          },
+          "cadence": {
+            "zh-CN": "月付 / 季付 / 年付",
+            "en-US": "Monthly / quarterly / yearly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "轻量 Agent 编程，不含视频生成",
+            "en-US": "Light agentic coding without video generation"
+          },
+          "limits": {
+            "zh-CN": "5 小时额度 2,000 AFP；1 周额度 7,000 AFP；1 月额度 20,000 AFP；视觉模型日额度 10,000 AFP；Harness 联网搜索每月 50 次免费额度",
+            "en-US": "2,000 AFP per 5 hours; 7,000 AFP per week; 20,000 AFP per month; 10,000 visual-model AFP per day; 50 free Harness web searches per month"
+          },
+          "access": {
+            "zh-CN": "支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具；支持模型含 Doubao-Seed-2.0-Code/pro/lite、Doubao-Seed-Code、MiniMax-M2.7（高抵扣系数）、glm-5.1（高抵扣系数）、glm-4.7、kimi-k2.6（支持视觉理解，高抵扣系数）、kimi-k2.5（支持视觉理解）、deepseek-v3.2、DeepSeek-V4-Flash-Beta、DeepSeek-V4-Pro-Beta",
+            "en-US": "Supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar tools. Supported models include Doubao-Seed-2.0-Code/pro/lite, Doubao-Seed-Code, MiniMax-M2.7 with a high coefficient, glm-5.1 with a high coefficient, glm-4.7, kimi-k2.6 with visual understanding and a high coefficient, kimi-k2.5 with visual understanding, deepseek-v3.2, DeepSeek-V4-Flash-Beta, and DeepSeek-V4-Pro-Beta"
+          },
+          "notes": {
+            "zh-CN": "模型抵扣系数示例：doubao-seed-2.0-mini 0.25，doubao-seed-2.0-lite 0.5，deepseek-v4-flash-beta 0.5，doubao-seed-2.0-code/pro 2.5，minimax-m2.7 2.5，deepseek-v3.2 2.5，glm-5.1 4.5，kimi-k2.6 4.5，deepseek-v4-pro-beta 5.5，doubao-seedream-5.0-lite 99 AFP / 张图片，doubao-seedance-2.0 输入含视频 140 / 不含视频 230，doubao-seedance-2.0-fast 输入含视频 110 / 不含视频 185。",
+            "en-US": "Example model coefficients: doubao-seed-2.0-mini 0.25, doubao-seed-2.0-lite 0.5, deepseek-v4-flash-beta 0.5, doubao-seed-2.0-code/pro 2.5, minimax-m2.7 2.5, deepseek-v3.2 2.5, glm-5.1 4.5, kimi-k2.6 4.5, deepseek-v4-pro-beta 5.5, doubao-seedream-5.0-lite 99 AFP per image, doubao-seedance-2.0 140 with video input / 230 without video input, doubao-seedance-2.0-fast 110 with video input / 185 without video input."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Medium",
+            "en-US": "Medium"
+          },
+          "price": {
+            "zh-CN": "¥200 / 月；¥600 / 季；¥2400 / 年",
+            "en-US": "¥200 / month; ¥600 / quarter; ¥2400 / year"
+          },
+          "cadence": {
+            "zh-CN": "月付 / 季付 / 年付",
+            "en-US": "Monthly / quarterly / yearly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "中等强度 Agent 编程",
+            "en-US": "Moderate agentic coding"
+          },
+          "limits": {
+            "zh-CN": "5 小时额度 10,000 AFP；1 周额度 35,000 AFP；1 月额度 100,000 AFP；视觉模型日额度 50,000 AFP；Harness 联网搜索每月 150 次免费额度",
+            "en-US": "10,000 AFP per 5 hours; 35,000 AFP per week; 100,000 AFP per month; 50,000 visual-model AFP per day; 150 free Harness web searches per month"
+          },
+          "access": {
+            "zh-CN": "支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具；支持模型含 Doubao-Seed-2.0-Code/pro/lite、Doubao-Seed-Code、MiniMax-M2.7（高抵扣系数）、glm-5.1（高抵扣系数）、glm-4.7、kimi-k2.6（支持视觉理解，高抵扣系数）、kimi-k2.5（支持视觉理解）、deepseek-v3.2、DeepSeek-V4-Flash-Beta、DeepSeek-V4-Pro-Beta",
+            "en-US": "Supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar tools. Supported models include Doubao-Seed-2.0-Code/pro/lite, Doubao-Seed-Code, MiniMax-M2.7 with a high coefficient, glm-5.1 with a high coefficient, glm-4.7, kimi-k2.6 with visual understanding and a high coefficient, kimi-k2.5 with visual understanding, deepseek-v3.2, DeepSeek-V4-Flash-Beta, and DeepSeek-V4-Pro-Beta"
+          },
+          "notes": {
+            "zh-CN": "适合更频繁的 Agent 编程与联网搜索使用；模型抵扣系数与 AFP 计算口径同上。",
+            "en-US": "Suitable for more frequent agentic coding and web-search use. Model coefficients and AFP calculation follow the same rules above."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Large",
+            "en-US": "Large"
+          },
+          "price": {
+            "zh-CN": "¥500 / 月；¥1500 / 季；¥6000 / 年",
+            "en-US": "¥500 / month; ¥1500 / quarter; ¥6000 / year"
+          },
+          "cadence": {
+            "zh-CN": "月付 / 季付 / 年付",
+            "en-US": "Monthly / quarterly / yearly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "高强度 Agent 编程",
+            "en-US": "High-intensity agentic coding"
+          },
+          "limits": {
+            "zh-CN": "5 小时额度 25,000 AFP；1 周额度 87,500 AFP；1 月额度 250,000 AFP；视觉模型日额度 125,000 AFP；Harness 联网搜索每月 400 次免费额度",
+            "en-US": "25,000 AFP per 5 hours; 87,500 AFP per week; 250,000 AFP per month; 125,000 visual-model AFP per day; 400 free Harness web searches per month"
+          },
+          "access": {
+            "zh-CN": "支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具；支持模型含 Doubao-Seed-2.0-Code/pro/lite、Doubao-Seed-Code、MiniMax-M2.7（高抵扣系数）、glm-5.1（高抵扣系数）、glm-4.7、kimi-k2.6（支持视觉理解，高抵扣系数）、kimi-k2.5（支持视觉理解）、deepseek-v3.2、DeepSeek-V4-Flash-Beta、DeepSeek-V4-Pro-Beta",
+            "en-US": "Supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar tools. Supported models include Doubao-Seed-2.0-Code/pro/lite, Doubao-Seed-Code, MiniMax-M2.7 with a high coefficient, glm-5.1 with a high coefficient, glm-4.7, kimi-k2.6 with visual understanding and a high coefficient, kimi-k2.5 with visual understanding, deepseek-v3.2, DeepSeek-V4-Flash-Beta, and DeepSeek-V4-Pro-Beta"
+          },
+          "notes": {
+            "zh-CN": "适合高频 Agent 编程、视觉模型和联网搜索场景；模型抵扣系数与 AFP 计算口径同上。",
+            "en-US": "Suitable for high-frequency agentic coding, visual-model, and web-search workloads. Model coefficients and AFP calculation follow the same rules above."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Max",
+            "en-US": "Max"
+          },
+          "price": {
+            "zh-CN": "¥1000 / 月；¥3000 / 季；¥12000 / 年",
+            "en-US": "¥1000 / month; ¥3000 / quarter; ¥12000 / year"
+          },
+          "cadence": {
+            "zh-CN": "月付 / 季付 / 年付",
+            "en-US": "Monthly / quarterly / yearly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "最高强度 Agent 编程",
+            "en-US": "Maximum-intensity agentic coding"
+          },
+          "limits": {
+            "zh-CN": "5 小时额度 50,000 AFP；1 周额度 175,000 AFP；1 月额度 500,000 AFP；视觉模型日额度 250,000 AFP；Harness 联网搜索每月 800 次免费额度",
+            "en-US": "50,000 AFP per 5 hours; 175,000 AFP per week; 500,000 AFP per month; 250,000 visual-model AFP per day; 800 free Harness web searches per month"
+          },
+          "access": {
+            "zh-CN": "支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具；支持模型含 Doubao-Seed-2.0-Code/pro/lite、Doubao-Seed-Code、MiniMax-M2.7（高抵扣系数）、glm-5.1（高抵扣系数）、glm-4.7、kimi-k2.6（支持视觉理解，高抵扣系数）、kimi-k2.5（支持视觉理解）、deepseek-v3.2、DeepSeek-V4-Flash-Beta、DeepSeek-V4-Pro-Beta",
+            "en-US": "Supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar tools. Supported models include Doubao-Seed-2.0-Code/pro/lite, Doubao-Seed-Code, MiniMax-M2.7 with a high coefficient, glm-5.1 with a high coefficient, glm-4.7, kimi-k2.6 with visual understanding and a high coefficient, kimi-k2.5 with visual understanding, deepseek-v3.2, DeepSeek-V4-Flash-Beta, and DeepSeek-V4-Pro-Beta"
+          },
+          "notes": {
+            "zh-CN": "适合最高频率的 Agent 编程、视觉模型和联网搜索场景；模型抵扣系数与 AFP 计算口径同上。",
+            "en-US": "Suitable for the heaviest agentic coding, visual-model, and web-search workloads. Model coefficients and AFP calculation follow the same rules above."
+          }
+        }
+      ]
+    },
+    {
+      "providerSlug": "infini-ai",
+      "providerName": "Infini AI / 无问芯穹",
+      "productName": "Infini Coding Plan",
+      "summary": {
+        "zh-CN": "无问芯穹 Infini Coding Plan 面向编码工具与 Agent 开发场景，提供 Lite 与 Pro 两档个人套餐。",
+        "en-US": "Infini AI Coding Plan targets coding tools and agentic development workflows with Lite and Pro individual tiers."
+      },
+      "source": "",
+      "notes": {
+        "zh-CN": "支持 Claude Code、Cursor、Roo Code、Copilot CLI、OpenCode、Zed、Factory Droid 等编码工具。实时价格、支持模型和额度口径以官方活动页为准。",
+        "en-US": "Supports Claude Code, Cursor, Roo Code, Copilot CLI, OpenCode, Zed, Factory Droid, and similar coding tools. Live pricing, model coverage, and quota terms should follow the official campaign page."
+      },
+      "plans": [
+        {
+          "name": {
+            "zh-CN": "Infini Coding Lite",
+            "en-US": "Infini Coding Lite"
           },
           "price": {
             "zh-CN": "¥40 / 月",
             "en-US": "¥40 / month"
           },
           "cadence": {
-            "zh-CN": "订阅制",
-            "en-US": "Subscription"
+            "zh-CN": "按月",
+            "en-US": "Monthly"
           },
           "seats": {
             "zh-CN": "个人",
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "中等强度个人开发",
-            "en-US": "Moderate solo development"
+            "zh-CN": "入门级开发场景",
+            "en-US": "Entry-level development workflows"
           },
           "limits": {
-            "zh-CN": "每 5 小时最多约 1200 次请求，每周约 9000 次，每订阅月约 18000 次请求",
-            "en-US": "Up to about 1200 requests per 5 hours, about 9000 per week, and about 18000 per subscription month"
+            "zh-CN": "每 5 小时 1,000 次请求；每周 6,000 次请求；每月 12,000 次请求",
+            "en-US": "1,000 requests per 5 hours; 6,000 requests per week; 12,000 requests per month"
           },
           "access": {
-            "zh-CN": "支持 Claude Code、Cursor、Cline、Codex CLI 等工具接入",
-            "en-US": "Supports tools such as Claude Code, Cursor, Cline, and Codex CLI"
+            "zh-CN": "支持 deepseek-v3.2、deepseek-v3.2-thinking、kimi-2.5、minimax-m2.7、minimax-m2.5、minimax-m2.1、glm-5.1、glm-5、glm-4.7 模型；支持 Claude Code、Cursor、Roo Code、Copilot CLI、OpenCode、Zed、Factory Droid 等编码工具",
+            "en-US": "Supports deepseek-v3.2, deepseek-v3.2-thinking, kimi-2.5, minimax-m2.7, minimax-m2.5, minimax-m2.1, glm-5.1, glm-5, and glm-4.7. Works with Claude Code, Cursor, Roo Code, Copilot CLI, OpenCode, Zed, Factory Droid, and similar coding tools"
           },
           "notes": {
-            "zh-CN": "价格和优惠信息以活动页/下单页实时展示为准。",
-            "en-US": "Use the live activity / checkout page for current pricing and promotions."
+            "zh-CN": "满足入门级开发场景需求。",
+            "en-US": "Designed for entry-level development scenarios."
           }
         },
         {
           "name": {
-            "zh-CN": "Pro",
-            "en-US": "Pro"
+            "zh-CN": "Infini Coding Pro",
+            "en-US": "Infini Coding Pro"
           },
           "price": {
             "zh-CN": "¥200 / 月",
             "en-US": "¥200 / month"
           },
           "cadence": {
-            "zh-CN": "订阅制",
-            "en-US": "Subscription"
+            "zh-CN": "按月",
+            "en-US": "Monthly"
           },
           "seats": {
             "zh-CN": "个人",
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "高强度个人开发",
-            "en-US": "High-intensity solo development"
+            "zh-CN": "专业高级开发场景",
+            "en-US": "Professional and advanced development workflows"
           },
           "limits": {
-            "zh-CN": "每 5 小时最多约 6000 次请求，每周约 45000 次，每订阅月约 90000 次请求",
-            "en-US": "Up to about 6000 requests per 5 hours, about 45000 per week, and about 90000 per subscription month"
+            "zh-CN": "每 5 小时 5,000 次请求；每周 30,000 次请求；每月 60,000 次请求",
+            "en-US": "5,000 requests per 5 hours; 30,000 requests per week; 60,000 requests per month"
           },
           "access": {
-            "zh-CN": "包含 Lite 的工具接入能力与更高套餐容量",
-            "en-US": "Includes Lite's tool compatibility with a higher subscription capacity"
+            "zh-CN": "支持 deepseek-v3.2、deepseek-v3.2-thinking、kimi-2.5、minimax-m2.7、minimax-m2.5、minimax-m2.1、glm-5.1、glm-5、glm-4.7 模型；支持 Claude Code、Cursor、Roo Code、Copilot CLI、OpenCode、Zed、Factory Droid 等编码工具",
+            "en-US": "Supports deepseek-v3.2, deepseek-v3.2-thinking, kimi-2.5, minimax-m2.7, minimax-m2.5, minimax-m2.1, glm-5.1, glm-5, and glm-4.7. Works with Claude Code, Cursor, Roo Code, Copilot CLI, OpenCode, Zed, Factory Droid, and similar coding tools"
           },
           "notes": {
-            "zh-CN": "若为企业级开发需求，官方当前建议通过火山方舟模型 API 获取支持。",
-            "en-US": "For enterprise-scale development, current official guidance points users to Ark model APIs."
+            "zh-CN": "满足专业高级开发场景需求。",
+            "en-US": "Designed for professional and advanced development scenarios."
           }
         }
       ]
@@ -1291,13 +2001,13 @@
       "providerName": "Baidu / 文心快码",
       "productName": "千帆 Coding Plan",
       "summary": {
-        "zh-CN": "百度千帆当前公开聚焦 Coding Plan Lite / Pro 两档，覆盖轻量到大规模编码需求。",
-        "en-US": "Baidu Qianfan currently centers on Coding Plan Lite and Pro, covering lightweight to large-scale coding workloads."
+        "zh-CN": "百度千帆 Coding Plan 提供 Lite 与 Pro 两档，覆盖基础开发到复杂专业开发场景。",
+        "en-US": "Baidu Qianfan Coding Plan offers Lite and Pro tiers, covering basic development through complex professional workflows."
       },
       "source": "https://cloud.baidu.com/product/qianfan_coding",
       "notes": {
-        "zh-CN": "当前公开页以 Coding Plan Lite / Pro 为主；实时价格和活动口径以官方页为准。",
-        "en-US": "The current public page focuses on Coding Plan Lite and Pro; live pricing and promotional terms should follow the official page."
+        "zh-CN": "每天 10:30、17:00 补货；总量有限，先到先得，售完即止。高峰期为每日 10:30-12:00、14:00-18:00，具体随流量变化。实时价格和活动口径以官方页为准。",
+        "en-US": "Inventory replenishes daily at 10:30 and 17:00. Supply is limited and first-come-first-served. Peak periods are 10:30-12:00 and 14:00-18:00 daily, subject to traffic changes. Live pricing and campaign terms should follow the official page."
       },
       "plans": [
         {
@@ -1318,20 +2028,20 @@
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "轻量化编码需求",
-            "en-US": "Lightweight coding workloads"
+            "zh-CN": "基础开发需求，适合入门级开发场景",
+            "en-US": "Basic development needs and entry-level workflows"
           },
           "limits": {
-            "zh-CN": "3x Claude Pro 用量额度；每 5 小时最多约 1,200 次、每周最多约 9,000 次、每月最多约 18,000 次请求",
-            "en-US": "3x Claude Pro usage limits, with up to about 1,200 requests per 5 hours, 9,000 per week, and 18,000 per month"
+            "zh-CN": "每 5 小时 1,200 次请求；每周 9,000 次请求；每月 18,000 次请求",
+            "en-US": "1,200 requests per 5 hours; 9,000 requests per week; 18,000 requests per month"
           },
           "access": {
-            "zh-CN": "支持 DeepSeek、GLM、Kimi、MiniMax 等模型，支持 Skill，适配 Claude Code 等主流 AI 开发工具",
-            "en-US": "Supports models such as DeepSeek, GLM, Kimi, and MiniMax, supports Skill, and works with mainstream AI development tools such as Claude Code"
+            "zh-CN": "支持 DeepSeek-V4-Flash、GLM-5.1（抵扣系数高峰期 4 / 低峰期 3）、GLM-5（高峰 3 / 低峰 2）、Kimi-K2.5、MiniMax-M2.5、ERNIE-4.5-Turbo-20260402、百度搜索（抵扣系数 10）；支持 OpenCode、Codex、Cline、Cursor、Qwen Code Companion、Cherry Studio、Kilo CLI、Kilo Code、cc-switch 等工具",
+            "en-US": "Supports DeepSeek-V4-Flash, GLM-5.1 with coefficient 4 at peak / 3 off-peak, GLM-5 with coefficient 3 at peak / 2 off-peak, Kimi-K2.5, MiniMax-M2.5, ERNIE-4.5-Turbo-20260402, and Baidu Search with coefficient 10. Works with OpenCode, Codex, Cline, Cursor, Qwen Code Companion, Cherry Studio, Kilo CLI, Kilo Code, cc-switch, and similar tools"
           },
           "notes": {
-            "zh-CN": "面向个人开发者的轻量化编码套餐。",
-            "en-US": "Lightweight coding plan for individual developers."
+            "zh-CN": "2026 年 3 月 13 日 00:00（北京时间）起，首续半价活动已下线；此前订购且仍处于有效期内的套餐，续费权益保持不变，不受本次调整影响。",
+            "en-US": "The first-renewal half-price campaign ended at 00:00 Beijing time on March 13, 2026. Packages purchased before that date and still active keep their renewal benefits unaffected."
           }
         },
         {
@@ -1352,20 +2062,104 @@
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "大规模编码需求",
-            "en-US": "Large-scale coding workloads"
+            "zh-CN": "复杂开发需求，适合专业开发场景",
+            "en-US": "Complex development needs and professional workflows"
           },
           "limits": {
-            "zh-CN": "3x Claude Max 用量额度，5x Lite 用量额度；每 5 小时最多约 6,000 次、每周最多约 45,000 次、每月最多约 90,000 次请求",
-            "en-US": "3x Claude Max usage limits and 5x Lite usage limits, with up to about 6,000 requests per 5 hours, 45,000 per week, and 90,000 per month"
+            "zh-CN": "每 5 小时 6,000 次请求；每周 45,000 次请求；每月 90,000 次请求",
+            "en-US": "6,000 requests per 5 hours; 45,000 requests per week; 90,000 requests per month"
           },
           "access": {
-            "zh-CN": "支持 DeepSeek、GLM、Kimi、MiniMax 等模型，支持 Skill，适配 Claude Code 等主流 AI 开发工具",
-            "en-US": "Supports models such as DeepSeek, GLM, Kimi, and MiniMax, supports Skill, and works with mainstream AI development tools such as Claude Code"
+            "zh-CN": "支持 DeepSeek-V4-Flash、GLM-5.1（抵扣系数高峰期 4 / 低峰期 3）、GLM-5（高峰 3 / 低峰 2）、Kimi-K2.5、MiniMax-M2.5、ERNIE-4.5-Turbo-20260402、百度搜索（抵扣系数 10）；支持 OpenCode、Codex、Cline、Cursor、Qwen Code Companion、Cherry Studio、Kilo CLI、Kilo Code、cc-switch 等工具",
+            "en-US": "Supports DeepSeek-V4-Flash, GLM-5.1 with coefficient 4 at peak / 3 off-peak, GLM-5 with coefficient 3 at peak / 2 off-peak, Kimi-K2.5, MiniMax-M2.5, ERNIE-4.5-Turbo-20260402, and Baidu Search with coefficient 10. Works with OpenCode, Codex, Cline, Cursor, Qwen Code Companion, Cherry Studio, Kilo CLI, Kilo Code, cc-switch, and similar tools"
           },
           "notes": {
-            "zh-CN": "面向高阶用户的大规模编码套餐。",
-            "en-US": "Large-scale coding plan for advanced users."
+            "zh-CN": "2026 年 3 月 13 日 00:00（北京时间）起，首续半价活动已下线；此前订购且仍处于有效期内的套餐，续费权益保持不变，不受本次调整影响。",
+            "en-US": "The first-renewal half-price campaign ended at 00:00 Beijing time on March 13, 2026. Packages purchased before that date and still active keep their renewal benefits unaffected."
+          }
+        }
+      ]
+    },
+    {
+      "providerSlug": "jdcloud",
+      "providerName": "JD Cloud / 京东云",
+      "productName": "JoyBuilder Coding Plan",
+      "summary": {
+        "zh-CN": "京东云 JoyBuilder Coding Plan 提供 Lite 与 Pro 两档，面向中等强度到复杂项目开发。",
+        "en-US": "JD Cloud JoyBuilder Coding Plan offers Lite and Pro tiers for moderate through complex development workflows."
+      },
+      "source": "",
+      "notes": {
+        "zh-CN": "新用户首购特惠套餐每日限量发放，每日上午 10:30 限量开放名额，先到先得。活动时间为 2026 年 3 月 24 日 00:00:00 至 2026 年 6 月 30 日 23:59:59，若有调整以活动页面为准。",
+        "en-US": "New-user first-purchase discounts are released in limited daily quantities at 10:30 each morning on a first-come-first-served basis. Campaign time runs from 2026-03-24 00:00:00 to 2026-06-30 23:59:59, subject to the campaign page."
+      },
+      "plans": [
+        {
+          "name": {
+            "zh-CN": "Coding Plan Lite 套餐",
+            "en-US": "Coding Plan Lite"
+          },
+          "price": {
+            "zh-CN": "¥40 / 月；新客首购优惠 ¥19.9",
+            "en-US": "¥40 / month; ¥19.9 new-user first-purchase offer"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "中等强度开发，适合多数开发者",
+            "en-US": "Moderate development workloads for most developers"
+          },
+          "limits": {
+            "zh-CN": "每 5 小时 1,200 次请求；每周 9,000 次请求；每月 18,000 次请求",
+            "en-US": "1,200 requests per 5 hours; 9,000 requests per week; 18,000 requests per month"
+          },
+          "access": {
+            "zh-CN": "支持 DeepSeek-V3.2、GLM-5、GLM-4.7、MiniMax-M2.5、Kimi-K2.5、Kimi-K2-Turbo、Qwen3-Coder 模型；支持 JoyCode、Claude Code、OpenCode、OpenClaw、Roo Code、Cursor 等主流 AI 编码工具",
+            "en-US": "Supports DeepSeek-V3.2, GLM-5, GLM-4.7, MiniMax-M2.5, Kimi-K2.5, Kimi-K2-Turbo, and Qwen3-Coder. Works with JoyCode, Claude Code, OpenCode, OpenClaw, Roo Code, Cursor, and other mainstream AI coding tools"
+          },
+          "notes": {
+            "zh-CN": "同一用户仅可享受一次新客首购优惠。",
+            "en-US": "Each user can receive the new-user first-purchase discount once."
+          }
+        },
+        {
+          "name": {
+            "zh-CN": "Coding Plan Pro 套餐",
+            "en-US": "Coding Plan Pro"
+          },
+          "price": {
+            "zh-CN": "¥200 / 月；新客首购优惠 ¥99.9",
+            "en-US": "¥200 / month; ¥99.9 new-user first-purchase offer"
+          },
+          "cadence": {
+            "zh-CN": "按月",
+            "en-US": "Monthly"
+          },
+          "seats": {
+            "zh-CN": "个人",
+            "en-US": "Individual"
+          },
+          "audience": {
+            "zh-CN": "复杂项目开发，适合高强度工作的开发者",
+            "en-US": "Complex project development for high-intensity work"
+          },
+          "limits": {
+            "zh-CN": "每 5 小时 6,000 次请求；每周 45,000 次请求；每月 90,000 次请求",
+            "en-US": "6,000 requests per 5 hours; 45,000 requests per week; 90,000 requests per month"
+          },
+          "access": {
+            "zh-CN": "支持 DeepSeek-V3.2、GLM-5、GLM-4.7、MiniMax-M2.5、Kimi-K2.5、Kimi-K2-Turbo、Qwen3-Coder 模型；支持 JoyCode、Claude Code、OpenCode、OpenClaw、Roo Code、Cursor 等主流 AI 编码工具",
+            "en-US": "Supports DeepSeek-V3.2, GLM-5, GLM-4.7, MiniMax-M2.5, Kimi-K2.5, Kimi-K2-Turbo, and Qwen3-Coder. Works with JoyCode, Claude Code, OpenCode, OpenClaw, Roo Code, Cursor, and other mainstream AI coding tools"
+          },
+          "notes": {
+            "zh-CN": "同一用户仅可享受一次新客首购优惠。",
+            "en-US": "Each user can receive the new-user first-purchase discount once."
           }
         }
       ]
@@ -1373,15 +2167,15 @@
     {
       "providerSlug": "kimi",
       "providerName": "Moonshot AI / Kimi",
-      "productName": "Kimi 会员",
+      "productName": "Kimi Code Plan",
       "summary": {
-        "zh-CN": "Kimi 官方会员体系覆盖 Agent、Kimi Code、Kimi Claw 与专业数据库等能力，按个人订阅分为五档。",
-        "en-US": "Kimi's official membership lineup covers Agent, Kimi Code, Kimi Claw, and professional database access across five individual subscription tiers."
+        "zh-CN": "Kimi Code Plan 覆盖 Kimi Code、Agent、Kimi Claw、Kimi Chat 与专业数据库能力，按个人订阅分为 Andante、Moderato、Allegretto、Allegro 四档。",
+        "en-US": "Kimi Code Plan covers Kimi Code, Agent, Kimi Claw, Kimi Chat, and professional database capabilities across Andante, Moderato, Allegretto, and Allegro individual tiers."
       },
       "source": "https://www.kimi.com/zh-cn/help/membership/membership-pricing",
       "notes": {
-        "zh-CN": "支持连续包月与连续包年；当前页面公开了月付价，包年可享更大折扣，最高立省 ¥1,680。",
-        "en-US": "Supports recurring monthly and annual subscriptions. The current page publicly shows monthly prices, while annual billing offers larger discounts with savings up to CNY 1,680."
+        "zh-CN": "全部会员功能共享额度；额度消耗主要取决于任务 token 用量，输入或输出越长会消耗更多额度。支持 Kimi Code CLI、Claude Code、Roo Code、JetBrains IDE 插件等工具。",
+        "en-US": "All membership features share the same quota pool. Quota usage mainly depends on task token consumption, and longer input or output consumes more quota. Supports Kimi Code CLI, Claude Code, Roo Code, JetBrains IDE plugins, and similar tools."
       },
       "plans": [
         {
@@ -1390,8 +2184,8 @@
             "en-US": "Andante"
           },
           "price": {
-            "zh-CN": "¥49 / 月",
-            "en-US": "¥49 / month"
+            "zh-CN": "¥49 / 月；¥468 / 年",
+            "en-US": "¥49 / month; ¥468 / year"
           },
           "cadence": {
             "zh-CN": "连续包月或连续包年",
@@ -1410,12 +2204,12 @@
             "en-US": "About 30 Agent runs, single-task concurrency, 1x Kimi Code quota, and 1,000 professional database calls."
           },
           "access": {
-            "zh-CN": "支持 Agent 优先生成队列、Office 文件处理、深度研究与发布带数据库网站。",
-            "en-US": "Includes Agent priority generation, Office file handling, deep research, and database-backed website publishing."
+            "zh-CN": "支持 Agent 系列的网站生成、文档处理、PPT 制作、表格处理、深度研究等；Kimi Code 智能编程助手；Kimi Claw 一键部署专属助理；Kimi Chat 使用最新模型进行对话；其他会员权益含图片生成等。",
+            "en-US": "Includes Agent workflows for website generation, document handling, presentation creation, spreadsheets, deep research, Kimi Code as an AI coding assistant, Kimi Claw for one-click dedicated assistants, Kimi Chat with the latest models, image generation, and other membership benefits."
           },
           "notes": {
-            "zh-CN": "连续包年更优惠。",
-            "en-US": "Annual billing is discounted."
+            "zh-CN": "支持连续包月与连续包年；专业数据库覆盖同花顺、天眼查等金融、经济、学术领域数据。",
+            "en-US": "Supports recurring monthly and annual billing. Professional databases cover financial, business, economic, and academic data sources."
           }
         },
         {
@@ -1424,8 +2218,8 @@
             "en-US": "Moderato"
           },
           "price": {
-            "zh-CN": "¥99 / 月",
-            "en-US": "¥99 / month"
+            "zh-CN": "¥99 / 月；¥948 / 年",
+            "en-US": "¥99 / month; ¥948 / year"
           },
           "cadence": {
             "zh-CN": "连续包月或连续包年",
@@ -1444,12 +2238,12 @@
             "en-US": "About 60 Agent runs, 2 concurrent tasks, 4x Kimi Code quota, and 2,000 professional database calls."
           },
           "access": {
-            "zh-CN": "支持 Agent 优先生成队列、Office 文件处理、深度研究与发布带数据库网站。",
-            "en-US": "Includes Agent priority generation, Office file handling, deep research, and database-backed website publishing."
+            "zh-CN": "支持 Agent 系列的网站生成、文档处理、PPT 制作、表格处理、深度研究等；Kimi Code 智能编程助手；Kimi Claw 一键部署专属助理；Kimi Chat 使用最新模型进行对话；其他会员权益含图片生成等。",
+            "en-US": "Includes Agent workflows for website generation, document handling, presentation creation, spreadsheets, deep research, Kimi Code as an AI coding assistant, Kimi Claw for one-click dedicated assistants, Kimi Chat with the latest models, image generation, and other membership benefits."
           },
           "notes": {
-            "zh-CN": "连续包年更优惠。",
-            "en-US": "Annual billing is discounted."
+            "zh-CN": "支持连续包月与连续包年；专业数据库覆盖同花顺、天眼查等金融、经济、学术领域数据。",
+            "en-US": "Supports recurring monthly and annual billing. Professional databases cover financial, business, economic, and academic data sources."
           }
         },
         {
@@ -1458,8 +2252,8 @@
             "en-US": "Allegretto"
           },
           "price": {
-            "zh-CN": "¥199 / 月",
-            "en-US": "¥199 / month"
+            "zh-CN": "¥199 / 月；¥1,908 / 年",
+            "en-US": "¥199 / month; ¥1,908 / year"
           },
           "cadence": {
             "zh-CN": "连续包月或连续包年",
@@ -1478,12 +2272,12 @@
             "en-US": "About 150 Agent runs, 2 concurrent tasks, 50 Agent cluster runs with 4 subtasks, 20x Kimi Code quota, and 5,000 professional database calls."
           },
           "access": {
-            "zh-CN": "额外包含 Kimi Claw、Kimi Claw 安卓端与桌面端、10 个 Kimi Claw 群聊，并支持发布带数据库网站。",
-            "en-US": "Also includes Kimi Claw, Kimi Claw on Android and desktop, 10 Kimi Claw group chats, and database-backed website publishing."
+            "zh-CN": "支持 Agent 系列的网站生成、文档处理、PPT 制作、表格处理、深度研究等；Kimi Code 智能编程助手；Kimi Claw 一键部署专属助理；Kimi Chat 使用最新模型进行对话；其他会员权益含图片生成等。",
+            "en-US": "Includes Agent workflows for website generation, document handling, presentation creation, spreadsheets, deep research, Kimi Code as an AI coding assistant, Kimi Claw for one-click dedicated assistants, Kimi Chat with the latest models, image generation, and other membership benefits."
           },
           "notes": {
-            "zh-CN": "连续包年更优惠。",
-            "en-US": "Annual billing is discounted."
+            "zh-CN": "支持连续包月与连续包年；专业数据库覆盖同花顺、天眼查等金融、经济、学术领域数据。",
+            "en-US": "Supports recurring monthly and annual billing. Professional databases cover financial, business, economic, and academic data sources."
           }
         },
         {
@@ -1492,8 +2286,8 @@
             "en-US": "Allegro"
           },
           "price": {
-            "zh-CN": "¥699 / 月",
-            "en-US": "¥699 / month"
+            "zh-CN": "¥699 / 月；¥6,708 / 年",
+            "en-US": "¥699 / month; ¥6,708 / year"
           },
           "cadence": {
             "zh-CN": "连续包月或连续包年",
@@ -1512,12 +2306,12 @@
             "en-US": "About 360 Agent runs, 4 concurrent tasks, 120 Agent cluster runs with 4 subtasks, 60x Kimi Code quota, and 12,000 professional database calls."
           },
           "access": {
-            "zh-CN": "包含 Kimi Claw、Kimi Claw 安卓端与桌面端、10 个 Kimi Claw 群聊，并支持发布带数据库网站。",
-            "en-US": "Includes Kimi Claw, Kimi Claw on Android and desktop, 10 Kimi Claw group chats, and database-backed website publishing."
+            "zh-CN": "支持 Agent 系列的网站生成、文档处理、PPT 制作、表格处理、深度研究等；Kimi Code 智能编程助手；Kimi Claw 一键部署专属助理；Kimi Chat 使用最新模型进行对话；其他会员权益含图片生成等。",
+            "en-US": "Includes Agent workflows for website generation, document handling, presentation creation, spreadsheets, deep research, Kimi Code as an AI coding assistant, Kimi Claw for one-click dedicated assistants, Kimi Chat with the latest models, image generation, and other membership benefits."
           },
           "notes": {
-            "zh-CN": "连续包年更优惠，最高立省 ¥1,680。",
-            "en-US": "Annual billing is discounted, with savings up to CNY 1,680."
+            "zh-CN": "支持连续包月与连续包年；专业数据库覆盖同花顺、天眼查等金融、经济、学术领域数据。",
+            "en-US": "Supports recurring monthly and annual billing. Professional databases cover financial, business, economic, and academic data sources."
           }
         }
       ]
@@ -1532,8 +2326,8 @@
       },
       "source": "https://platform.minimaxi.com/docs/guides/pricing-token-plan",
       "notes": {
-        "zh-CN": "提供标准版与极速版两类订阅，均支持月付与年付；年付与对应月付方案的能力额度相同。",
-        "en-US": "Offers standard and high-speed subscriptions in both monthly and annual billing, with the same usage limits across billing cadences for matching tiers."
+        "zh-CN": "支持 Claude Code、Cursor、Trae、OpenCode、Kilo Code、OpenClaw、Roo Code、Grok CLI、Codex CLI、Droid、Zed、MonkeyCode 等工具。支持 MiniMax M2.7、MiniMax M2.5、MiniMax M2.1、MiniMax M2 等模型；极速版额外支持 MiniMax-M2.7-highspeed、MiniMax-M2.5-highspeed。每周可用额度为每 5 小时额度的 10 倍；Ultra-极速版暂时停售。",
+        "en-US": "Supports tools including Claude Code, Cursor, Trae, OpenCode, Kilo Code, OpenClaw, Roo Code, Grok CLI, Codex CLI, Droid, Zed, and MonkeyCode. Supports MiniMax M2.7, MiniMax M2.5, MiniMax M2.1, MiniMax M2, with high-speed tiers additionally supporting MiniMax-M2.7-highspeed and MiniMax-M2.5-highspeed. Weekly quota is 10x the 5-hour quota; Ultra High-Speed is temporarily suspended."
       },
       "plans": [
         {

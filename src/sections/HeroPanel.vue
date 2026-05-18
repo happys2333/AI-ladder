@@ -43,13 +43,6 @@ const { locale, t } = useI18n()
         <p class="hero-updated">{{ t('hero.source') }}: {{ source?.label ?? t('hero.notProvided') }}</p>
         <p class="hero-updated">{{ t('hero.updated') }}: {{ formatUpdateTime(lastUpdated) }}</p>
       </div>
-
-      <MonthlyTrendChart
-        v-if="!isLoading && !['price', 'speed'].includes(activeCategory)"
-        :models="models"
-        :category="activeCategory"
-        embedded
-      />
     </div>
 
     <div class="hero-side">
@@ -78,5 +71,13 @@ const { locale, t } = useI18n()
         </div>
       </div>
     </div>
+
+    <MonthlyTrendChart
+      v-if="!isLoading && !['price', 'speed'].includes(activeCategory)"
+      class="hero-trend"
+      :models="models"
+      :category="activeCategory"
+      embedded
+    />
   </section>
 </template>

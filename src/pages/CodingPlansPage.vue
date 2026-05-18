@@ -39,6 +39,35 @@ function displayPrice(value) {
   return localizedText(value, '')
 }
 
+function displayPriceLines(value) {
+  const text = displayPrice(value)
+  if (!text) return []
+
+  const chunks = text
+    .split(/(；|;|\s+or\s+|\s*或\s*)/i)
+    .map((chunk) => chunk.trim())
+    .filter(Boolean)
+  const lines = []
+  let prefix = ''
+
+  chunks.forEach((chunk) => {
+    if (chunk === '；' || chunk === ';') {
+      prefix = ''
+      return
+    }
+
+    if (/^(or|或)$/i.test(chunk)) {
+      prefix = locale.value === 'zh-CN' ? '或 ' : 'or '
+      return
+    }
+
+    lines.push(`${prefix}${chunk}`)
+    prefix = ''
+  })
+
+  return lines.length ? lines : [text]
+}
+
 function inferStartingPrice(plans) {
   const prices = plans
     .map((plan) => {
@@ -181,7 +210,12 @@ onMounted(() => {
                     <p class="provider-kicker">{{ localizedText(plan.audience) || localizedText(plan.seats) || t('plans.generalAudience') }}</p>
                     <h3>{{ localizedText(plan.name) }}</h3>
                   </div>
-                  <strong class="plan-price">{{ displayPrice(plan.price) || '-' }}</strong>
+                  <strong class="plan-price">
+                    <template v-if="displayPriceLines(plan.price).length">
+                      <span v-for="priceLine in displayPriceLines(plan.price)" :key="priceLine">{{ priceLine }}</span>
+                    </template>
+                    <template v-else>-</template>
+                  </strong>
                 </div>
 
                 <div class="plan-detail-grid">

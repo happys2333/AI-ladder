@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useI18n } from '../composables/useI18n'
 
 const props = defineProps({
@@ -11,6 +11,9 @@ const props = defineProps({
 const { locale, t, translateCategoryLabel } = useI18n()
 
 const hoveredPoint = ref(null)
+const chartScrollElement = ref(null)
+const chartContainerWidth = ref(0)
+let chartResizeObserver = null
 
 function getReleaseMonth(model) {
   return model.meta?.releaseYearMonth ?? model.releaseYearMonth ?? null
@@ -183,6 +186,15 @@ const chartConfig = computed(() => {
   }
 })
 
+const renderedChartWidth = computed(() => {
+  if (!props.embedded) return chartConfig.value.width
+  return Math.max(chartConfig.value.width, chartContainerWidth.value || 0)
+})
+
+function updateChartContainerWidth() {
+  chartContainerWidth.value = chartScrollElement.value?.clientWidth ?? 0
+}
+
 function handlePointHover(point, event) {
   const clientX = Number.isFinite(event?.clientX) ? event.clientX : window.innerWidth / 2
   const clientY = Number.isFinite(event?.clientY) ? event.clientY : window.innerHeight / 2
@@ -197,6 +209,31 @@ function handlePointHover(point, event) {
 function clearHoveredPoint() {
   hoveredPoint.value = null
 }
+
+onMounted(async () => {
+  await nextTick()
+  updateChartContainerWidth()
+
+  if (typeof ResizeObserver !== 'undefined' && chartScrollElement.value) {
+    chartResizeObserver = new ResizeObserver(() => {
+      updateChartContainerWidth()
+    })
+    chartResizeObserver.observe(chartScrollElement.value)
+  }
+})
+
+onBeforeUnmount(() => {
+  chartResizeObserver?.disconnect()
+})
+
+watch(
+  () => [props.models, props.category, props.embedded],
+  async () => {
+    await nextTick()
+    updateChartContainerWidth()
+  },
+  { deep: true },
+)
 </script>
 
 <template>
@@ -217,11 +254,11 @@ function clearHoveredPoint() {
     </div>
 
     <div v-else class="trend-chart-shell">
-      <div class="trend-chart-scroll">
+      <div ref="chartScrollElement" class="trend-chart-scroll">
         <svg
           class="trend-chart"
           :viewBox="`0 0 ${chartConfig.width} ${chartConfig.height}`"
-          :style="{ width: `${chartConfig.width}px`, height: `${chartConfig.height}px` }"
+          :style="{ width: `${renderedChartWidth}px`, height: `${chartConfig.height}px` }"
           role="img"
           :aria-label="t('hero.trendTitle')"
         >

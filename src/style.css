@@ -544,12 +544,13 @@ a {
 
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 14px;
   margin-top: 18px;
 }
 
 .plan-card {
+  container-type: inline-size;
   padding: 18px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 14px;
@@ -557,18 +558,25 @@ a {
 }
 
 .plan-card-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
 }
 
 .plan-price {
+  display: grid;
+  gap: 2px;
   color: #fff;
   font-family: 'Roboto Mono', monospace;
-  font-size: 24px;
-  line-height: 1.1;
-  text-align: right;
+  font-size: clamp(18px, 1.1vw, 22px);
+  line-height: 1.22;
+  text-align: left;
+  text-wrap: balance;
+}
+
+.plan-price span {
+  display: block;
 }
 
 .plan-detail-grid {
@@ -596,6 +604,7 @@ a {
   margin-top: 8px;
   color: #fff;
   line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .plan-notes {
@@ -614,6 +623,12 @@ a {
   transform: translateY(-8px);
 }
 
+@container (max-width: 380px) {
+  .plan-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .hero-panel,
 .trend-panel,
 .ladder-panel,
@@ -626,7 +641,7 @@ a {
 .hero-panel {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(320px, 540px);
-  gap: 24px;
+  gap: 22px 24px;
   padding: 24px;
 }
 
@@ -640,6 +655,10 @@ a {
   align-content: start;
   gap: 14px;
   min-width: 0;
+}
+
+.hero-trend {
+  grid-column: 1 / -1;
 }
 
 .hero-actions {
@@ -712,6 +731,8 @@ a {
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .trend-chart {
@@ -799,7 +820,7 @@ a {
 }
 
 .trend-panel--embedded {
-  margin-top: 28px;
+  margin-top: 0;
   padding: 18px 0 0;
   border: 0;
   border-top: 1px solid rgba(0, 229, 255, 0.14);
@@ -836,8 +857,6 @@ a {
 }
 
 .trend-panel--embedded .trend-chart {
-  width: 100% !important;
-  min-width: 360px;
   height: 220px !important;
 }
 
@@ -845,7 +864,7 @@ a {
   font-size: 13px;
 }
 
-@media (max-width: 1480px) {
+@media (max-width: 1180px) {
   .hero-panel {
     grid-template-columns: 1fr;
   }
@@ -1533,6 +1552,20 @@ a {
 
   .plan-detail-grid {
     grid-template-columns: 1fr;
+  }
+
+  .trend-panel--embedded .trend-chart-scroll {
+    padding-bottom: 10px;
+  }
+
+  .trend-panel--embedded .trend-chart {
+    min-width: 760px;
+    height: 244px !important;
+  }
+
+  .trend-panel--embedded .trend-month-label {
+    font-size: 14px;
+    font-weight: 700;
   }
 
   .ladder-row {
