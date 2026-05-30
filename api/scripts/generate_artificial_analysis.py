@@ -7,7 +7,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import time
+
 import requests
+from requests.exceptions import ConnectionError as RequestsConnectionError, ReadTimeout
 
 
 DEFAULT_API_URL = 'https://artificialanalysis.ai/api/v2/data/llms/models'
@@ -100,19 +103,49 @@ def require_llm_stats_key(api_key: str) -> str:
     )
 
 
+def _fetch_with_retry(
+    session: requests.Session,
+    url: str,
+    *,
+    headers: dict[str, Any],
+    params: dict[str, Any],
+    max_retries: int = 3,
+    base_delay: float = 5.0,
+    timeout: int = 120,
+) -> requests.Response:
+    """GET with exponential-backoff retry for transient failures."""
+    last_exc: Exception | None = None
+    for attempt in range(max_retries + 1):
+        try:
+            response = session.get(url, headers=headers, params=params, timeout=timeout)
+            if response.status_code == 429 or response.status_code >= 500:
+                if attempt < max_retries:
+                    retry_after = float(response.headers.get('Retry-After', base_delay * (2 ** attempt)))
+                    time.sleep(retry_after)
+                    continue
+            response.raise_for_status()
+            return response
+        except (ReadTimeout, RequestsConnectionError) as exc:
+            last_exc = exc
+            if attempt < max_retries:
+                time.sleep(base_delay * (2 ** attempt))
+                continue
+            raise
+    raise last_exc  # type: ignore[misc]
+
+
 def fetch_models(api_url: str, api_key: str, prompt_length: str, parallel_queries: int) -> dict[str, Any]:
     session = requests.Session()
     session.trust_env = False
-    response = session.get(
+    response = _fetch_with_retry(
+        session,
         api_url,
         headers={'x-api-key': api_key},
         params={
             'prompt_length': prompt_length,
             'parallel_queries': parallel_queries,
         },
-        timeout=60,
     )
-    response.raise_for_status()
     return response.json()
 
 
@@ -128,8 +161,7 @@ def fetch_llm_stats_models(api_url: str, api_key: str) -> list[dict[str, Any]]:
         if cursor:
             params['cursor'] = cursor
 
-        response = session.get(api_url, headers=headers, params=params, timeout=60)
-        response.raise_for_status()
+        response = _fetch_with_retry(session, api_url, headers=headers, params=params)
         payload = response.json()
 
         models.extend(payload.get('models', []) or [])
@@ -154,8 +186,7 @@ def fetch_llm_stats_scores(api_url: str, api_key: str, verified_only: bool) -> l
         if verified_only:
             params['verified'] = 'true'
 
-        response = session.get(api_url, headers=headers, params=params, timeout=60)
-        response.raise_for_status()
+        response = _fetch_with_retry(session, api_url, headers=headers, params=params)
         payload = response.json()
 
         page_scores = payload.get('scores')
