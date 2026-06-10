@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-05-06T10:54:35.848Z",
-  "generatedAt": "2026-05-06T10:54:35.848Z",
+  "lastUpdated": "2026-06-10T17:00:00.000Z",
+  "generatedAt": "2026-06-10T17:00:00.000Z",
   "providers": [
     {
       "providerSlug": "openai",
@@ -1763,151 +1763,83 @@
     {
       "providerSlug": "bytedance seed",
       "providerName": "ByteDance / 火山方舟",
-      "productName": "字节方舟 Agent Plan",
+      "productName": "方舟 Coding Plan",
       "summary": {
-        "zh-CN": "字节方舟 Agent Plan 面向 Agent 编程工具使用，支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具。",
-        "en-US": "ByteDance Ark Agent Plan is designed for agentic coding tools and supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar clients."
+        "zh-CN": "方舟 Coding Plan 支持在 Doubao-Seed-2.0-pro/lite/Code、MiniMax-M3、DeepSeek-V4 系列、GLM-5.1、Kimi-K2.6 等多种国产模型中自由切换或使用 Auto 模式调度，兼容 Claude Code、Cursor、Trae、Cline、Kilo Code、Roo Code、Codex CLI 等主流编程工具。",
+        "en-US": "Volcengine Ark Coding Plan lets you freely switch among Doubao-Seed-2.0-pro/lite/Code, MiniMax-M3, DeepSeek-V4 series, GLM-5.1, Kimi-K2.6 and other domestic models, or use Auto mode. Compatible with Claude Code, Cursor, Trae, Cline, Kilo Code, Roo Code, Codex CLI, and other mainstream coding tools."
       },
-      "source": "https://www.volcengine.com/activity/codingplan?infrom=100003.301.120",
+      "source": "https://www.volcengine.com/activity/codingplan",
       "notes": {
-        "zh-CN": "额度单位为 AFP。文本生成、向量化、视频生成 AFP = (输入 token * 输入抵扣系数 + 输出 token * 输出抵扣系数) / 10,000；图片 AFP = 成功生成的图片张数 * 抵扣系数。实时价格和结算口径以活动页/下单页为准。",
-        "en-US": "Allowance is measured in AFP. Text generation, embedding, and video generation AFP = (input tokens * input coefficient + output tokens * output coefficient) / 10,000; image AFP = generated image count * coefficient. Live pricing and billing terms should follow the activity or checkout page."
+        "zh-CN": "2026 年 6 月更新：套餐由原来的 4 档精简为 Lite 和 Pro 两档。Pro Plan 为 Lite Plan 5 倍用量。受邀下单叠加 9.5 折优惠，邀请好友下单可获 5% 代金券，上不封顶。额度单位为 AFP，具体抵扣系数以活动页为准。",
+        "en-US": "June 2026 update: Plans consolidated from 4 tiers to Lite and Pro. Pro Plan offers 5x the usage of Lite Plan. Invited users get an extra 5% off; referrers earn 5% vouchers with no cap. Allowance measured in AFP; specific coefficients are subject to the activity page."
       },
       "plans": [
         {
           "name": {
-            "zh-CN": "Small（无视频生成）",
-            "en-US": "Small (no video generation)"
+            "zh-CN": "Lite Plan",
+            "en-US": "Lite Plan"
           },
           "price": {
-            "zh-CN": "¥40 / 月；¥120 / 季；¥480 / 年",
-            "en-US": "¥40 / month; ¥120 / quarter; ¥480 / year"
+            "zh-CN": "活动优惠价，受邀叠加 9.5 折",
+            "en-US": "Promotional pricing; invited users get an extra 5% off"
           },
           "cadence": {
-            "zh-CN": "月付 / 季付 / 年付",
-            "en-US": "Monthly / quarterly / yearly"
+            "zh-CN": "连续包月 / 连续包季 / 连续包年",
+            "en-US": "Monthly / quarterly / yearly subscription"
           },
           "seats": {
             "zh-CN": "个人",
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "轻量 Agent 编程，不含视频生成",
-            "en-US": "Light agentic coding without video generation"
+            "zh-CN": "满足个人开发者轻量化需求",
+            "en-US": "Lightweight needs of individual developers"
           },
           "limits": {
-            "zh-CN": "5 小时额度 2,000 AFP；1 周额度 7,000 AFP；1 月额度 20,000 AFP；视觉模型日额度 10,000 AFP；Harness 联网搜索每月 50 次免费额度",
-            "en-US": "2,000 AFP per 5 hours; 7,000 AFP per week; 20,000 AFP per month; 10,000 visual-model AFP per day; 50 free Harness web searches per month"
+            "zh-CN": "具体 AFP 额度以活动页为准",
+            "en-US": "Specific AFP limits subject to the activity page"
           },
           "access": {
-            "zh-CN": "支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具；支持模型含 Doubao-Seed-2.0-Code/pro/lite、Doubao-Seed-Code、MiniMax-M2.7（高抵扣系数）、glm-5.1（高抵扣系数）、glm-4.7、kimi-k2.6（支持视觉理解，高抵扣系数）、kimi-k2.5（支持视觉理解）、deepseek-v3.2、DeepSeek-V4-Flash-Beta、DeepSeek-V4-Pro-Beta",
-            "en-US": "Supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar tools. Supported models include Doubao-Seed-2.0-Code/pro/lite, Doubao-Seed-Code, MiniMax-M2.7 with a high coefficient, glm-5.1 with a high coefficient, glm-4.7, kimi-k2.6 with visual understanding and a high coefficient, kimi-k2.5 with visual understanding, deepseek-v3.2, DeepSeek-V4-Flash-Beta, and DeepSeek-V4-Pro-Beta"
+            "zh-CN": "支持 Doubao-Seed-2.0-pro/lite/Code、MiniMax-M3、DeepSeek-V4 系列、GLM-5.1、Kimi-K2.6 等模型；支持自由切换模型或开启 Auto 模式；适配 Claude Code、Cursor 等主流编程工具",
+            "en-US": "Supports Doubao-Seed-2.0-pro/lite/Code, MiniMax-M3, DeepSeek-V4 series, GLM-5.1, Kimi-K2.6 and other models; free model switching or Auto mode; compatible with Claude Code, Cursor, and other mainstream coding tools"
           },
           "notes": {
-            "zh-CN": "模型抵扣系数示例：doubao-seed-2.0-mini 0.25，doubao-seed-2.0-lite 0.5，deepseek-v4-flash-beta 0.5，doubao-seed-2.0-code/pro 2.5，minimax-m2.7 2.5，deepseek-v3.2 2.5，glm-5.1 4.5，kimi-k2.6 4.5，deepseek-v4-pro-beta 5.5，doubao-seedream-5.0-lite 99 AFP / 张图片，doubao-seedance-2.0 输入含视频 140 / 不含视频 230，doubao-seedance-2.0-fast 输入含视频 110 / 不含视频 185。",
-            "en-US": "Example model coefficients: doubao-seed-2.0-mini 0.25, doubao-seed-2.0-lite 0.5, deepseek-v4-flash-beta 0.5, doubao-seed-2.0-code/pro 2.5, minimax-m2.7 2.5, deepseek-v3.2 2.5, glm-5.1 4.5, kimi-k2.6 4.5, deepseek-v4-pro-beta 5.5, doubao-seedream-5.0-lite 99 AFP per image, doubao-seedance-2.0 140 with video input / 230 without video input, doubao-seedance-2.0-fast 110 with video input / 185 without video input."
+            "zh-CN": "适合个人开发者轻量级编程场景。",
+            "en-US": "Suitable for lightweight individual developer coding scenarios."
           }
         },
         {
           "name": {
-            "zh-CN": "Medium",
-            "en-US": "Medium"
+            "zh-CN": "Pro Plan",
+            "en-US": "Pro Plan"
           },
           "price": {
-            "zh-CN": "¥200 / 月；¥600 / 季；¥2400 / 年",
-            "en-US": "¥200 / month; ¥600 / quarter; ¥2400 / year"
+            "zh-CN": "活动优惠价，受邀叠加 9.5 折",
+            "en-US": "Promotional pricing; invited users get an extra 5% off"
           },
           "cadence": {
-            "zh-CN": "月付 / 季付 / 年付",
-            "en-US": "Monthly / quarterly / yearly"
+            "zh-CN": "连续包月 / 连续包季 / 连续包年",
+            "en-US": "Monthly / quarterly / yearly subscription"
           },
           "seats": {
             "zh-CN": "个人",
             "en-US": "Individual"
           },
           "audience": {
-            "zh-CN": "中等强度 Agent 编程",
-            "en-US": "Moderate agentic coding"
+            "zh-CN": "高阶用户的大规模编程需求",
+            "en-US": "Large-scale coding needs of advanced users"
           },
           "limits": {
-            "zh-CN": "5 小时额度 10,000 AFP；1 周额度 35,000 AFP；1 月额度 100,000 AFP；视觉模型日额度 50,000 AFP；Harness 联网搜索每月 150 次免费额度",
-            "en-US": "10,000 AFP per 5 hours; 35,000 AFP per week; 100,000 AFP per month; 50,000 visual-model AFP per day; 150 free Harness web searches per month"
+            "zh-CN": "Lite Plan 的 5 倍用量；具体 AFP 额度以活动页为准",
+            "en-US": "5x Lite Plan usage; specific AFP limits subject to the activity page"
           },
           "access": {
-            "zh-CN": "支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具；支持模型含 Doubao-Seed-2.0-Code/pro/lite、Doubao-Seed-Code、MiniMax-M2.7（高抵扣系数）、glm-5.1（高抵扣系数）、glm-4.7、kimi-k2.6（支持视觉理解，高抵扣系数）、kimi-k2.5（支持视觉理解）、deepseek-v3.2、DeepSeek-V4-Flash-Beta、DeepSeek-V4-Pro-Beta",
-            "en-US": "Supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar tools. Supported models include Doubao-Seed-2.0-Code/pro/lite, Doubao-Seed-Code, MiniMax-M2.7 with a high coefficient, glm-5.1 with a high coefficient, glm-4.7, kimi-k2.6 with visual understanding and a high coefficient, kimi-k2.5 with visual understanding, deepseek-v3.2, DeepSeek-V4-Flash-Beta, and DeepSeek-V4-Pro-Beta"
+            "zh-CN": "享受 Lite Plan 所有能力和权益；支持 Doubao-Seed-2.0-pro/lite/Code、MiniMax-M3、DeepSeek-V4 系列、GLM-5.1、Kimi-K2.6 等模型；支持自由切换模型或开启 Auto 模式；适配 Claude Code、Cursor 等主流编程工具",
+            "en-US": "All Lite Plan capabilities plus 5x usage; supports Doubao-Seed-2.0-pro/lite/Code, MiniMax-M3, DeepSeek-V4 series, GLM-5.1, Kimi-K2.6 and other models; free model switching or Auto mode; compatible with Claude Code, Cursor, and other mainstream coding tools"
           },
           "notes": {
-            "zh-CN": "适合更频繁的 Agent 编程与联网搜索使用；模型抵扣系数与 AFP 计算口径同上。",
-            "en-US": "Suitable for more frequent agentic coding and web-search use. Model coefficients and AFP calculation follow the same rules above."
-          }
-        },
-        {
-          "name": {
-            "zh-CN": "Large",
-            "en-US": "Large"
-          },
-          "price": {
-            "zh-CN": "¥500 / 月；¥1500 / 季；¥6000 / 年",
-            "en-US": "¥500 / month; ¥1500 / quarter; ¥6000 / year"
-          },
-          "cadence": {
-            "zh-CN": "月付 / 季付 / 年付",
-            "en-US": "Monthly / quarterly / yearly"
-          },
-          "seats": {
-            "zh-CN": "个人",
-            "en-US": "Individual"
-          },
-          "audience": {
-            "zh-CN": "高强度 Agent 编程",
-            "en-US": "High-intensity agentic coding"
-          },
-          "limits": {
-            "zh-CN": "5 小时额度 25,000 AFP；1 周额度 87,500 AFP；1 月额度 250,000 AFP；视觉模型日额度 125,000 AFP；Harness 联网搜索每月 400 次免费额度",
-            "en-US": "25,000 AFP per 5 hours; 87,500 AFP per week; 250,000 AFP per month; 125,000 visual-model AFP per day; 400 free Harness web searches per month"
-          },
-          "access": {
-            "zh-CN": "支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具；支持模型含 Doubao-Seed-2.0-Code/pro/lite、Doubao-Seed-Code、MiniMax-M2.7（高抵扣系数）、glm-5.1（高抵扣系数）、glm-4.7、kimi-k2.6（支持视觉理解，高抵扣系数）、kimi-k2.5（支持视觉理解）、deepseek-v3.2、DeepSeek-V4-Flash-Beta、DeepSeek-V4-Pro-Beta",
-            "en-US": "Supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar tools. Supported models include Doubao-Seed-2.0-Code/pro/lite, Doubao-Seed-Code, MiniMax-M2.7 with a high coefficient, glm-5.1 with a high coefficient, glm-4.7, kimi-k2.6 with visual understanding and a high coefficient, kimi-k2.5 with visual understanding, deepseek-v3.2, DeepSeek-V4-Flash-Beta, and DeepSeek-V4-Pro-Beta"
-          },
-          "notes": {
-            "zh-CN": "适合高频 Agent 编程、视觉模型和联网搜索场景；模型抵扣系数与 AFP 计算口径同上。",
-            "en-US": "Suitable for high-frequency agentic coding, visual-model, and web-search workloads. Model coefficients and AFP calculation follow the same rules above."
-          }
-        },
-        {
-          "name": {
-            "zh-CN": "Max",
-            "en-US": "Max"
-          },
-          "price": {
-            "zh-CN": "¥1000 / 月；¥3000 / 季；¥12000 / 年",
-            "en-US": "¥1000 / month; ¥3000 / quarter; ¥12000 / year"
-          },
-          "cadence": {
-            "zh-CN": "月付 / 季付 / 年付",
-            "en-US": "Monthly / quarterly / yearly"
-          },
-          "seats": {
-            "zh-CN": "个人",
-            "en-US": "Individual"
-          },
-          "audience": {
-            "zh-CN": "最高强度 Agent 编程",
-            "en-US": "Maximum-intensity agentic coding"
-          },
-          "limits": {
-            "zh-CN": "5 小时额度 50,000 AFP；1 周额度 175,000 AFP；1 月额度 500,000 AFP；视觉模型日额度 250,000 AFP；Harness 联网搜索每月 800 次免费额度",
-            "en-US": "50,000 AFP per 5 hours; 175,000 AFP per week; 500,000 AFP per month; 250,000 visual-model AFP per day; 800 free Harness web searches per month"
-          },
-          "access": {
-            "zh-CN": "支持 Cline、OpenClaw、Claude Code、Cursor、Trae、Kilo Code、Roo Code、Codex CLI、Hermes Agent 等工具；支持模型含 Doubao-Seed-2.0-Code/pro/lite、Doubao-Seed-Code、MiniMax-M2.7（高抵扣系数）、glm-5.1（高抵扣系数）、glm-4.7、kimi-k2.6（支持视觉理解，高抵扣系数）、kimi-k2.5（支持视觉理解）、deepseek-v3.2、DeepSeek-V4-Flash-Beta、DeepSeek-V4-Pro-Beta",
-            "en-US": "Supports Cline, OpenClaw, Claude Code, Cursor, Trae, Kilo Code, Roo Code, Codex CLI, Hermes Agent, and similar tools. Supported models include Doubao-Seed-2.0-Code/pro/lite, Doubao-Seed-Code, MiniMax-M2.7 with a high coefficient, glm-5.1 with a high coefficient, glm-4.7, kimi-k2.6 with visual understanding and a high coefficient, kimi-k2.5 with visual understanding, deepseek-v3.2, DeepSeek-V4-Flash-Beta, and DeepSeek-V4-Pro-Beta"
-          },
-          "notes": {
-            "zh-CN": "适合最高频率的 Agent 编程、视觉模型和联网搜索场景；模型抵扣系数与 AFP 计算口径同上。",
-            "en-US": "Suitable for the heaviest agentic coding, visual-model, and web-search workloads. Model coefficients and AFP calculation follow the same rules above."
+            "zh-CN": "最受欢迎。用量为 Claude Max 数倍、Lite Plan 5 倍，适合高频 Agent 编程。",
+            "en-US": "Most popular. Usage is several times Claude Max and 5x Lite Plan, suitable for high-frequency agentic coding."
           }
         }
       ]
