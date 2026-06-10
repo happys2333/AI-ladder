@@ -1598,3 +1598,221 @@ a {
     padding: 16px;
   }
 }
+
+/* ── Search enhancements ── */
+.mobile-search-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.search-kbd {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.search-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.search-clear:hover {
+  background: rgba(0, 229, 255, 0.14);
+  color: var(--blue);
+}
+
+.search-clear .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.search-box:focus-within {
+  border-color: rgba(0, 229, 255, 0.35);
+  box-shadow: 0 0 0 1px rgba(0, 229, 255, 0.08), 0 0 20px rgba(0, 229, 255, 0.06);
+}
+
+/* ── Loading skeleton ── */
+.skeleton-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+}
+
+.skeleton-row {
+  display: flex;
+  gap: 14px;
+}
+
+.skeleton-block {
+  height: 56px;
+  flex: 1;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-block.short {
+  max-width: 180px;
+}
+
+.skeleton-block.tall {
+  height: 280px;
+  border-radius: 14px;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Empty search state ── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 56px 20px;
+  text-align: center;
+}
+
+.empty-state .material-symbols-outlined {
+  font-size: 48px;
+  color: var(--blue);
+  opacity: 0.45;
+}
+
+.empty-state h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+/* ── Category icons ── */
+.cat-icon {
+  font-size: 20px;
+}
+
+/* ── Entrance animations ── */
+.fade-in-up {
+  animation: fadeInUp 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ladder-grid-row {
+  animation: fadeInUp 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ladder-grid-row:nth-child(1) { animation-delay: 0ms; }
+.ladder-grid-row:nth-child(2) { animation-delay: 40ms; }
+.ladder-grid-row:nth-child(3) { animation-delay: 80ms; }
+.ladder-grid-row:nth-child(4) { animation-delay: 120ms; }
+.ladder-grid-row:nth-child(5) { animation-delay: 160ms; }
+.ladder-grid-row:nth-child(6) { animation-delay: 200ms; }
+.ladder-grid-row:nth-child(7) { animation-delay: 240ms; }
+.ladder-grid-row:nth-child(8) { animation-delay: 280ms; }
+.ladder-grid-row:nth-child(9) { animation-delay: 320ms; }
+.ladder-grid-row:nth-child(10) { animation-delay: 360ms; }
+
+.ladder-row {
+  transition: width 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 160ms ease;
+}
+
+.ladder-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.stat-card {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.provider-card {
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.provider-card:hover {
+  border-color: rgba(0, 229, 255, 0.18);
+}
+
+/* ── Vendor tag in ladder rows ── */
+.vendor-tag {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Mobile responsive for new search elements ── */
+@media (max-width: 860px) {
+  .mobile-search-toggle {
+    display: inline-flex;
+  }
+
+  .search-box {
+    display: none;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .search-box--mobile-open {
+    display: flex;
+  }
+
+  .search-kbd {
+    display: none;
+  }
+}

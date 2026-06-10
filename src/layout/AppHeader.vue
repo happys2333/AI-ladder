@@ -13,12 +13,17 @@ const emit = defineEmits(['update:search', 'open-sidebar', 'navigate'])
 const { locale, supportedLocales, setLocale, t } = useI18n()
 const isLocaleMenuOpen = ref(false)
 const localeMenuRef = ref(null)
+const searchInputRef = ref(null)
+const isMobileSearchOpen = ref(false)
 
 const localeLabels = {
   'zh-CN': '中文',
   'en-US': 'English',
 }
 const githubRepoUrl = 'https://github.com/happys2333/AI-ladder'
+
+const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
+const shortcutLabel = computed(() => isMac ? '⌘K' : 'Ctrl+K')
 
 const currentLocaleLabel = computed(() => localeLabels[locale.value] || locale.value)
 
@@ -31,6 +36,18 @@ function handleLocaleSelect(nextLocale) {
   isLocaleMenuOpen.value = false
 }
 
+function handleClearSearch() {
+  emit('update:search', '')
+  searchInputRef.value?.focus()
+}
+
+function focusSearch() {
+  if (!isMobileSearchOpen.value) {
+    isMobileSearchOpen.value = true
+  }
+  setTimeout(() => searchInputRef.value?.focus(), 50)
+}
+
 function handleDocumentPointerDown(event) {
   if (!localeMenuRef.value?.contains(event.target)) {
     isLocaleMenuOpen.value = false
@@ -40,6 +57,11 @@ function handleDocumentPointerDown(event) {
 function handleDocumentKeydown(event) {
   if (event.key === 'Escape') {
     isLocaleMenuOpen.value = false
+    isMobileSearchOpen.value = false
+  }
+  if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+    event.preventDefault()
+    focusSearch()
   }
 }
 
@@ -80,6 +102,25 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="top-actions">
+      <button v-if="showSearch" class="mobile-search-toggle" :aria-label="t('app.searchPlaceholder')" @click="focusSearch">
+        <span class="material-symbols-outlined">search</span>
+      </button>
+
+      <div v-if="showSearch" class="search-box" :class="{ 'search-box--mobile-open': isMobileSearchOpen }">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          ref="searchInputRef"
+          :value="search"
+          type="text"
+          :placeholder="t('app.searchPlaceholder')"
+          @input="emit('update:search', $event.target.value)"
+        />
+        <kbd v-if="!search" class="search-kbd">{{ shortcutLabel }}</kbd>
+        <button v-if="search" class="search-clear" @click="handleClearSearch" :aria-label="t('actions.clear')">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
       <div ref="localeMenuRef" class="language-switch">
         <button
           class="language-trigger"
@@ -127,15 +168,6 @@ onBeforeUnmount(() => {
         </svg>
       </a>
 
-      <label v-if="showSearch" class="search-box">
-        <span class="material-symbols-outlined">search</span>
-        <input
-          :value="search"
-          type="text"
-          :placeholder="t('app.searchPlaceholder')"
-          @input="emit('update:search', $event.target.value)"
-        />
-      </label>
     </div>
   </header>
 </template>

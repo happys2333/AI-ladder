@@ -1,6 +1,22 @@
 <script setup>
 import { useI18n } from '../composables/useI18n'
 
+const CATEGORY_ICONS = {
+  overall: 'emoji_objects',
+  coding: 'code',
+  reasoning: 'psychology',
+  price: 'payments',
+  speed: 'speed',
+  context: 'task',
+  instruction: 'assignment',
+  multimodal: 'photo_library',
+  efficiency: 'bolt',
+}
+
+function categoryIcon(key) {
+  return CATEGORY_ICONS[key] || 'leaderboard'
+}
+
 defineProps({
   categories: { type: Array, required: true },
   activeCategory: { type: String, required: true },
@@ -31,7 +47,7 @@ const { t, translateCategoryLabel } = useI18n()
         :class="{ active: activeCategory === category.key }"
         @click="emit('update:category', category.key)"
       >
-        <span class="material-symbols-outlined">leaderboard</span>
+        <span class="material-symbols-outlined cat-icon">{{ categoryIcon(category.key) }}</span>
         {{ translateCategoryLabel(category.key, category.label) }}
       </button>
     </div>
@@ -67,9 +83,9 @@ const { t, translateCategoryLabel } = useI18n()
               :key="category.key"
               class="side-nav-item"
               :class="{ active: activeCategory === category.key }"
-              @click="emit('update:category', category.key)"
+             @click="emit('update:category', category.key)"
             >
-              <span class="material-symbols-outlined">leaderboard</span>
+              <span class="material-symbols-outlined cat-icon">{{ categoryIcon(category.key) }}</span>
               {{ translateCategoryLabel(category.key, category.label) }}
             </button>
           </div>

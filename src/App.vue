@@ -210,7 +210,17 @@ watchEffect(() => {
             @toggle-price-sort="togglePriceSortDirection"
           />
 
-          <div v-if="isLoading" class="compare-empty">{{ t('app.loading') }}</div>
+          <div v-if="isLoading" class="skeleton-wrap fade-in-up">
+            <div class="skeleton-row"><div class="skeleton-block tall"></div></div>
+            <div class="skeleton-row"><div class="skeleton-block"></div><div class="skeleton-block"></div></div>
+            <div class="skeleton-row"><div class="skeleton-block"></div><div class="skeleton-block short"></div></div>
+          </div>
+
+          <div v-else-if="!filteredModels.length && search.trim()" class="empty-state fade-in-up">
+            <span class="material-symbols-outlined">search_off</span>
+            <h3>{{ t('empty.noResults') }}</h3>
+            <p>{{ t('empty.noResultsHint') }}</p>
+          </div>
 
           <template v-else>
             <LadderChart

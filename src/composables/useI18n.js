@@ -27,6 +27,14 @@ const messages = {
       compareByRegion: '按国家',
       compareByOpenness: '按开源',
     },
+    ladder: {
+      clickToCompare: '单击选择对比',
+      doubleClickDetail: '双击查看详情',
+    },
+    empty: {
+      noResults: '未找到匹配的模型',
+      noResultsHint: '尝试更换关键词或清除搜索内容',
+    },
     hero: {
       board: '榜单',
       title: '模型天梯榜',
@@ -124,6 +132,14 @@ const messages = {
       compareMode: 'Compare Mode',
       compareByRegion: 'By Region',
       compareByOpenness: 'By Openness',
+    },
+    ladder: {
+      clickToCompare: 'Click to compare',
+      doubleClickDetail: 'Double-click for details',
+    },
+    empty: {
+      noResults: 'No matching models found',
+      noResultsHint: 'Try different keywords or clear the search',
     },
     hero: {
       board: 'Board',

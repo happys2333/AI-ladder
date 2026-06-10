@@ -11,7 +11,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['toggle-model', 'open-model'])
-const { translateRegionLabel } = useI18n()
+const { translateRegionLabel, t } = useI18n()
 
 const cardElements = new Map()
 const referenceScore = ref(0)
@@ -246,15 +246,16 @@ watch(
             :style="{ '--row-scale': getRelativeScale(row.leftModel.scores[category]) }"
             @click="emit('toggle-model', row.leftModel.id)"
             @dblclick="emit('open-model', row.leftModel.id)"
-            :title="`单击选择对比，双击查看 ${row.leftModel.name} 详情`"
+            :title="`${t('ladder.clickToCompare')}，${t('ladder.doubleClickDetail')} ${row.leftModel.name}`"
           >
             <div class="connector"></div>
             <div class="rank-box">{{ String(row.leftModel.globalRank).padStart(2, '0') }}</div>
             <div class="row-content">
               <div class="row-topline">
                 <h3>{{ row.leftModel.name }}</h3>
-                <span class="tier-chip">{{ getTier(row.leftModel.globalRank, row.leftModel.totalCount).label }}</span>
+              <span class="tier-chip">{{ getTier(row.leftModel.globalRank, row.leftModel.totalCount).label }}</span>
               </div>
+              <p class="vendor-tag">{{ row.leftModel.vendor }}</p>
             </div>
             <div class="score-block">
               <strong>{{ formatScore(row.leftModel.scores[category]) }}</strong>
@@ -277,15 +278,16 @@ watch(
             :style="{ '--row-scale': getRelativeScale(row.rightModel.scores[category]) }"
             @click="emit('toggle-model', row.rightModel.id)"
             @dblclick="emit('open-model', row.rightModel.id)"
-            :title="`单击选择对比，双击查看 ${row.rightModel.name} 详情`"
+            :title="`${t('ladder.clickToCompare')}，${t('ladder.doubleClickDetail')} ${row.rightModel.name}`"
           >
             <div class="connector"></div>
             <div class="rank-box">{{ String(row.rightModel.globalRank).padStart(2, '0') }}</div>
             <div class="row-content">
               <div class="row-topline">
                 <h3>{{ row.rightModel.name }}</h3>
-                <span class="tier-chip">{{ getTier(row.rightModel.globalRank, row.rightModel.totalCount).label }}</span>
+              <span class="tier-chip">{{ getTier(row.rightModel.globalRank, row.rightModel.totalCount).label }}</span>
               </div>
+              <p class="vendor-tag">{{ row.rightModel.vendor }}</p>
             </div>
             <div class="score-block">
               <strong>{{ formatScore(row.rightModel.scores[category]) }}</strong>
