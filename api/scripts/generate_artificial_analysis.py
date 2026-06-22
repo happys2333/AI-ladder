@@ -440,6 +440,20 @@ def build_summary(model: dict[str, Any]) -> str:
     return f'AA 智能指数 {overall} · 输出速度 {speed} tok/s'
 
 
+def infer_release_date_from_benchmarks(
+    llm_stats_benchmark_scores: dict[str, dict[str, Any]],
+) -> str | None:
+    """Fallback: use the earliest scoredAt date from benchmarks when release_date is missing."""
+    earliest: str | None = None
+    for benchmark in llm_stats_benchmark_scores.values():
+        scored_at = benchmark.get('scoredAt')
+        if isinstance(scored_at, str) and len(scored_at) >= 10:
+            candidate = scored_at[:10]
+            if earliest is None or candidate < earliest:
+                earliest = candidate
+    return earliest
+
+
 def map_model(
     model: dict[str, Any],
     llm_stats_model: dict[str, Any] | None,
@@ -454,6 +468,9 @@ def map_model(
     llm_stats_scores = (llm_stats_model or {}).get('top_scores') or {}
     llm_stats_open_weight = (llm_stats_model or {}).get('open_weight')
     llm_stats_benchmark_scores = llm_stats_benchmark_scores or {}
+
+    if not llm_stats_release_date and llm_stats_benchmark_scores:
+        llm_stats_release_date = infer_release_date_from_benchmarks(llm_stats_benchmark_scores)
 
     return {
         'id': model.get('id') or model.get('slug') or f'artificial-analysis-{rank}',
