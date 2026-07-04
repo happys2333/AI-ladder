@@ -123,6 +123,9 @@ def _fetch_with_retry(
                     retry_after = float(response.headers.get('Retry-After', base_delay * (2 ** attempt)))
                     time.sleep(retry_after)
                     continue
+            if response.status_code == 401:
+                print(f"401 Response Text: {response.text}")
+
             response.raise_for_status()
             return response
         except (ReadTimeout, RequestsConnectionError) as exc:
