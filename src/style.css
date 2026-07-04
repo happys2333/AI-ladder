@@ -1816,3 +1816,10 @@ a {
     display: none;
   }
 }
+
+.trend-chart-scroll.is-dragging {
+  cursor: grabbing !important;
+}
+.trend-chart-scroll.is-dragging * {
+  cursor: grabbing !important;
+}

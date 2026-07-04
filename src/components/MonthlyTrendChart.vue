@@ -15,6 +15,31 @@ const chartScrollElement = ref(null)
 const chartContainerWidth = ref(0)
 let chartResizeObserver = null
 
+const isDragging = ref(false)
+let startX = 0
+let scrollLeft = 0
+
+function onDragStart(e) {
+  if (!chartScrollElement.value) return
+  isDragging.value = true
+  startX = e.pageX - chartScrollElement.value.offsetLeft
+  scrollLeft = chartScrollElement.value.scrollLeft
+  document.body.style.userSelect = 'none'
+}
+
+function onDragMove(e) {
+  if (!isDragging.value || !chartScrollElement.value) return
+  e.preventDefault()
+  const x = e.pageX - chartScrollElement.value.offsetLeft
+  const walk = (x - startX) * 1.5
+  chartScrollElement.value.scrollLeft = scrollLeft - walk
+}
+
+function onDragEnd() {
+  isDragging.value = false
+  document.body.style.userSelect = ''
+}
+
 function getReleaseMonth(model) {
   return model.meta?.releaseYearMonth ?? model.releaseYearMonth ?? null
 }
@@ -213,6 +238,9 @@ function clearHoveredPoint() {
 onMounted(async () => {
   await nextTick()
   updateChartContainerWidth()
+  if (chartScrollElement.value) {
+    chartScrollElement.value.scrollLeft = chartScrollElement.value.scrollWidth
+  }
 
   if (typeof ResizeObserver !== 'undefined' && chartScrollElement.value) {
     chartResizeObserver = new ResizeObserver(() => {
@@ -231,6 +259,9 @@ watch(
   async () => {
     await nextTick()
     updateChartContainerWidth()
+    if (chartScrollElement.value) {
+      chartScrollElement.value.scrollLeft = chartScrollElement.value.scrollWidth
+    }
   },
   { deep: true },
 )
@@ -254,7 +285,15 @@ watch(
     </div>
 
     <div v-else class="trend-chart-shell">
-      <div ref="chartScrollElement" class="trend-chart-scroll">
+      <div 
+        ref="chartScrollElement" 
+        class="trend-chart-scroll"
+        :class="{ 'is-dragging': isDragging }"
+        @mousedown="onDragStart"
+        @mousemove="onDragMove"
+        @mouseup="onDragEnd"
+        @mouseleave="onDragEnd"
+      >
         <svg
           class="trend-chart"
           :viewBox="`0 0 ${chartConfig.width} ${chartConfig.height}`"
