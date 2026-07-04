@@ -9,6 +9,7 @@ import CodingPlansPage from './pages/CodingPlansPage.vue'
 import HeroPanel from './sections/HeroPanel.vue'
 import { useI18n } from './composables/useI18n'
 import { useLeaderboard } from './composables/useLeaderboard'
+import { useTheme } from './composables/useTheme'
 import { computed, onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
 
 const SIDEBAR_AUTO_OPEN_QUERY = '(min-width: 1201px)'
@@ -23,6 +24,7 @@ const VIEW_HASHES = {
 }
 
 const { t, translateCategoryLabel } = useI18n()
+useTheme() // Initialize theme
 
 const {
   categories,

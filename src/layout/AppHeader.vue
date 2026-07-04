@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from '../composables/useI18n'
+import { useTheme } from '../composables/useTheme'
 
 defineProps({
   search: { type: String, required: true },
@@ -11,6 +12,7 @@ defineProps({
 
 const emit = defineEmits(['update:search', 'open-sidebar', 'navigate'])
 const { locale, supportedLocales, setLocale, t } = useI18n()
+const { theme, cycleTheme } = useTheme()
 const isLocaleMenuOpen = ref(false)
 const localeMenuRef = ref(null)
 const searchInputRef = ref(null)
@@ -120,6 +122,17 @@ onBeforeUnmount(() => {
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
+
+      <button
+        class="theme-toggle"
+        @click="cycleTheme"
+        :aria-label="t('actions.toggleTheme') || 'Toggle theme'"
+        :title="t('actions.toggleTheme') || 'Toggle theme'"
+      >
+        <span class="material-symbols-outlined" v-if="theme === 'light'">light_mode</span>
+        <span class="material-symbols-outlined" v-else-if="theme === 'dark'">dark_mode</span>
+        <span class="material-symbols-outlined" v-else>brightness_medium</span>
+      </button>
 
       <div ref="localeMenuRef" class="language-switch">
         <button
