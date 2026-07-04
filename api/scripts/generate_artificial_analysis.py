@@ -118,7 +118,7 @@ def _fetch_with_retry(
     for attempt in range(max_retries + 1):
         try:
             response = session.get(url, headers=headers, params=params, timeout=timeout)
-            if response.status_code == 429 or response.status_code >= 500:
+            if response.status_code in (401, 403, 429) or response.status_code >= 500:
                 if attempt < max_retries:
                     retry_after = float(response.headers.get('Retry-After', base_delay * (2 ** attempt)))
                     time.sleep(retry_after)
