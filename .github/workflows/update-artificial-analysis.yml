@@ -3,8 +3,8 @@ name: Update Artificial Analysis LLMs
 on:
   workflow_dispatch:
   schedule:
-    # Runs at 00:00 Asia/Shanghai (16:00 UTC).
-    - cron: '0 16 * * *'
+    # Runs at 10:05 Asia/Shanghai (02:05 UTC) to stagger with exchange rates.
+    - cron: '5 2 * * *'
 
 concurrency:
   group: update-artificial-analysis
