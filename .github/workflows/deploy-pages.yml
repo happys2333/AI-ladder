@@ -70,3 +70,21 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        continue-on-error: true
+
+      - name: Sleep before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+
+      - name: Retry Deploy to GitHub Pages
+        id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+
+      - name: Check Deployment Status
+        if: always()
+        run: |
+          if [[ "${{ steps.deployment.outcome }}" == "failure" && "${{ steps.deployment-retry.outcome }}" == "failure" ]]; then
+            echo "Both deployment attempts failed."
+            exit 1
+          fi
