@@ -1133,7 +1133,7 @@ a {
   justify-content: center;
   width: 42px;
   height: 42px;
-  background: #121820;
+  background: var(--surface-3);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-pure);
