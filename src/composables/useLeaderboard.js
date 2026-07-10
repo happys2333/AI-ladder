@@ -37,11 +37,24 @@ export function useLeaderboard() {
 
   const filteredModels = computed(() => {
     const keyword = search.value.trim().toLowerCase()
+    
+    const threeMonthsAgo = new Date()
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
 
     return sortModels(models.value
       .filter((model) => {
         if (getCategoryValue(model, activeCategory.value) <= 0) {
           return false
+        }
+        
+        if (activeCategory.value === 'price') {
+          const releaseDateStr = model.meta?.releaseDate
+          if (releaseDateStr) {
+            const releaseDate = new Date(releaseDateStr)
+            if (releaseDate < threeMonthsAgo) {
+              return false
+            }
+          }
         }
 
         if (!keyword) return true
