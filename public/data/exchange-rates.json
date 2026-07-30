@@ -2,14 +2,14 @@
   "sourceName": "European Central Bank",
   "source": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
   "base": "EUR",
-  "date": "2026-07-28",
+  "date": "2026-07-29",
   "rates": {
-    "USD": 1.1367,
-    "CNY": 7.6969
+    "USD": 1.138,
+    "CNY": 7.7
   },
   "pairs": {
-    "USD_CNY": 6.771268,
-    "CNY_USD": 0.147683
+    "USD_CNY": 6.766257,
+    "CNY_USD": 0.147792
   },
-  "generatedAt": "2026-07-29T05:22:11.176Z"
+  "generatedAt": "2026-07-30T04:59:18.697Z"
 }
