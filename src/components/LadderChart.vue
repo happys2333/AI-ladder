@@ -1,5 +1,6 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { formatCategoryValue, getCategoryValue, isFiniteMetric } from '../utils/metrics.js'
 import { useI18n } from '../composables/useI18n'
 
 const props = defineProps({
@@ -14,13 +15,14 @@ const emit = defineEmits(['toggle-model', 'open-model'])
 const { translateRegionLabel, t } = useI18n()
 
 const cardElements = new Map()
-const referenceScore = ref(0)
+const referenceScore = ref(null)
 
 const visibleModels = computed(() => {
-  return props.models.map((model, globalIndex) => ({
+  const scoredModels = props.models.filter(model => getCategoryValue(model, props.category) !== null)
+  return scoredModels.map((model, globalIndex) => ({
     ...model,
     globalRank: globalIndex + 1,
-    totalCount: props.models.length,
+    totalCount: scoredModels.length,
   }))
 })
 
@@ -61,18 +63,18 @@ const rankedRows = computed(() => {
 })
 
 const axisLabels = computed(() => {
-  const values = visibleModels.value.map((model) => model.scores[props.category]).filter((value) => typeof value === 'number')
+  const values = visibleModels.value.map((model) => model.scores[props.category]).filter(isFiniteMetric)
 
   if (!values.length) {
-    return { top: '0.0', bottom: '0.0' }
+    return { top: 'N/A', bottom: 'N/A' }
   }
 
   const max = Math.max(...values)
   const min = Math.min(...values)
 
   return {
-    top: max.toFixed(1),
-    bottom: min.toFixed(1),
+    top: formatCategoryValue(props.category, max),
+    bottom: formatCategoryValue(props.category, min),
   }
 })
 
@@ -81,7 +83,7 @@ const priceRange = computed(() => {
 
   const values = visibleModels.value
     .map(model => model.scores.price)
-    .filter(value => typeof value === 'number' && value > 0)
+    .filter(isFiniteMetric)
 
   if (!values.length) {
     return { min: 0, max: 0 }
@@ -103,32 +105,18 @@ function setCardElement(modelId, element) {
 }
 
 function formatScore(value) {
-  if (props.category === 'price') {
-    return `$${value.toFixed(2)}`
-  }
-
-  if (props.category === 'speed') {
-    return `${value.toFixed(1)}`
-  }
-
-  return value.toFixed(1)
+  return formatCategoryValue(props.category, value)
 }
 
-function formatSubValue(value) {
-  return getRelativePercent(value)
-}
-
-function getRelativePercent(score) {
-  if (!referenceScore.value) return '100%'
-
-  if (props.category === 'price') {
-    return `${Math.round((score / referenceScore.value) * 100)}%`
-  }
-
+function formatSubValue(score) {
+  if (!isFiniteMetric(score) || !isFiniteMetric(referenceScore.value)) return 'N/A'
+  if (referenceScore.value === 0) return score === 0 ? '100%' : 'N/A'
   return `${Math.round((score / referenceScore.value) * 100)}%`
 }
 
 function getRelativeScale(score) {
+  if (!isFiniteMetric(score)) return 1
+
   if (props.category === 'price') {
     const range = priceRange.value
     if (!range || range.max <= 0) return 1
@@ -141,17 +129,19 @@ function getRelativeScale(score) {
   if (props.category === 'speed') {
     const values = visibleModels.value
       .map(model => model.scores.speed)
-      .filter(value => typeof value === 'number' && value > 0)
+      .filter(isFiniteMetric)
 
     if (!values.length) return 1
 
     const max = Math.max(...values)
     const min = Math.min(...values)
 
-    if (max === min) return 1
+    if (max === min || max <= 0) return 1
 
-    // Speed distribution is usually very skewed, so use log scaling and a higher floor.
-    const normalized = (Math.log(score) - Math.log(min)) / (Math.log(max) - Math.log(min))
+    // log1p keeps genuine zero-speed measurements finite.
+    const lower = Math.log1p(Math.max(0, min))
+    const upper = Math.log1p(Math.max(0, max))
+    const normalized = (Math.log1p(Math.max(0, score)) - lower) / (upper - lower)
     return Math.max(0.76, Math.min(1, Number((0.76 + normalized * 0.24).toFixed(3))))
   }
 
@@ -191,7 +181,7 @@ function updateReferenceScore() {
     }
   }
 
-  referenceScore.value = visibleModels.value[0]?.scores[props.category] ?? 0
+  referenceScore.value = getCategoryValue(visibleModels.value[0], props.category)
 }
 
 function handleViewportChange() {

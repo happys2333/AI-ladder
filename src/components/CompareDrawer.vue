@@ -1,4 +1,5 @@
 <script setup>
+import { formatCategoryValue, formatMetric, metricBarWidth } from '../utils/metrics.js'
 import { useI18n } from '../composables/useI18n'
 
 defineProps({
@@ -12,19 +13,10 @@ defineEmits(['clear'])
 
 const { t, translateCategoryLabel, translateRegionLabel } = useI18n()
 
-function barWidth(score) {
-  return `${Math.max(8, score)}%`
-}
-
 function regionLabel(regions, key) {
   return translateRegionLabel(key, regions.find((region) => region.key === key)?.label ?? key)
 }
 
-function formatCategoryValue(categoryKey, value) {
-  if (categoryKey === 'price') return `$${value.toFixed(2)}`
-  if (categoryKey === 'speed') return `${value.toFixed(1)}`
-  return value.toFixed(1)
-}
 </script>
 
 <template>
@@ -45,7 +37,7 @@ function formatCategoryValue(categoryKey, value) {
             <h3>{{ model.name }}</h3>
             <p>{{ model.vendor }} · {{ regionLabel(regions, model.region) }}</p>
           </div>
-          <div class="mono-score">{{ model.scores[activeCategory].toFixed(1) }}</div>
+          <div class="mono-score">{{ formatCategoryValue(activeCategory, model.scores?.[activeCategory]) }}</div>
         </div>
 
         <div class="mini-metrics">
@@ -55,11 +47,11 @@ function formatCategoryValue(categoryKey, value) {
           </div>
           <div>
             <span>{{ t('compare.latency') }}</span>
-            <strong>{{ model.meta?.timeToFirstTokenSeconds?.toFixed?.(2) ?? model.latency }}{{ typeof model.meta?.timeToFirstTokenSeconds === 'number' ? 's' : '' }}</strong>
+            <strong>{{ formatMetric(model.meta?.timeToFirstTokenSeconds, { digits: 2, suffix: 's' }) }}</strong>
           </div>
           <div>
             <span>{{ t('compare.speed') }}</span>
-            <strong>{{ typeof model.meta?.tokensPerSecond === 'number' ? `${model.meta.tokensPerSecond.toFixed(2)} tok/s` : 'N/A' }}</strong>
+            <strong>{{ formatMetric(model.meta?.tokensPerSecond, { digits: 2, suffix: ' tok/s' }) }}</strong>
           </div>
         </div>
 
@@ -67,9 +59,9 @@ function formatCategoryValue(categoryKey, value) {
           <div v-for="category in categories" :key="category.key" class="benchmark-row">
             <span>{{ translateCategoryLabel(category.key, category.label) }}</span>
             <div class="bar-track">
-              <div class="bar-fill" :style="{ width: barWidth(model.scores[category.key]) }"></div>
+              <div class="bar-fill" :style="{ width: metricBarWidth(model.scores?.[category.key]) }"></div>
             </div>
-            <strong>{{ formatCategoryValue(category.key, model.scores[category.key]) }}</strong>
+            <strong>{{ formatCategoryValue(category.key, model.scores?.[category.key]) }}</strong>
           </div>
         </div>
       </article>

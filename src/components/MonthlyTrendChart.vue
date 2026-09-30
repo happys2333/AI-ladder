@@ -1,5 +1,6 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { buildMonthlyLeaders, formatCategoryValue, isFiniteMetric } from '../utils/metrics.js'
 import { useI18n } from '../composables/useI18n'
 
 const props = defineProps({
@@ -40,43 +41,6 @@ function onDragEnd() {
   document.body.style.userSelect = ''
 }
 
-function getReleaseMonth(model) {
-  return model.meta?.releaseYearMonth ?? model.releaseYearMonth ?? null
-}
-
-function getScore(model) {
-  const value = model?.scores?.[props.category]
-  return typeof value === 'number' && Number.isFinite(value) ? value : null
-}
-
-function isBetterScore(nextScore, currentScore) {
-  if (currentScore === null) return true
-  return props.category === 'price' ? nextScore < currentScore : nextScore > currentScore
-}
-
-function buildMonthRange(startMonth, endMonth) {
-  if (!startMonth || !endMonth) return []
-
-  const [startYear, startRawMonth] = startMonth.split('-').map(Number)
-  const [endYear, endRawMonth] = endMonth.split('-').map(Number)
-  const months = []
-
-  let year = startYear
-  let month = startRawMonth
-
-  while (year < endYear || (year === endYear && month <= endRawMonth)) {
-    months.push(`${year}-${String(month).padStart(2, '0')}`)
-    month += 1
-
-    if (month > 12) {
-      year += 1
-      month = 1
-    }
-  }
-
-  return months
-}
-
 function formatMonthLabel(value) {
   if (!value) return ''
 
@@ -91,69 +55,24 @@ function formatMonthLabel(value) {
 }
 
 function formatScore(value) {
-  if (typeof value !== 'number' || !Number.isFinite(value)) return '-'
-
-  if (props.category === 'price') {
-    return `$${value.toFixed(2)}`
-  }
-
-  return value.toFixed(1)
+  return formatCategoryValue(props.category, value)
 }
 
-const monthlyLeaders = computed(() => {
-  const leadersByMonth = new Map()
-
-  props.models.forEach((model) => {
-    const month = getReleaseMonth(model)
-    const score = getScore(model)
-
-    if (!month || score === null) return
-    if (props.category === 'price' && score <= 0) return
-
-    const current = leadersByMonth.get(month) ?? null
-
-    if (!current || isBetterScore(score, current.score)) {
-      leadersByMonth.set(month, {
-        month,
-        modelId: model.id,
-        modelName: model.name,
-        score,
-      })
-    }
-  })
-
-  const months = Array.from(leadersByMonth.keys()).sort((a, b) => a.localeCompare(b))
-  if (!months.length) return []
-
-  let bestSoFar = null
-
-  return buildMonthRange(months[0], months[months.length - 1]).map((month) => {
-    const monthlyLeader = leadersByMonth.get(month) ?? null
-
-    if (monthlyLeader && (!bestSoFar || isBetterScore(monthlyLeader.score, bestSoFar.score))) {
-      bestSoFar = monthlyLeader
-    }
-
-    return {
-      month,
-      label: formatMonthLabel(month),
-      modelId: bestSoFar?.modelId ?? '',
-      modelName: bestSoFar?.modelName ?? '',
-      score: bestSoFar?.score ?? null,
-    }
-  })
-})
+const monthlyLeaders = computed(() => buildMonthlyLeaders(props.models, props.category).map(entry => ({
+  ...entry,
+  label: formatMonthLabel(entry.month),
+})))
 
 const chartConfig = computed(() => {
   const entries = monthlyLeaders.value
-  const scoredEntries = entries.filter(entry => typeof entry.score === 'number')
+  const scoredEntries = entries.filter(entry => isFiniteMetric(entry.score))
 
   if (!scoredEntries.length) {
     return {
       width: 720,
       height: 260,
-      axisTop: '-',
-      axisBottom: '-',
+      axisTop: 'N/A',
+      axisBottom: 'N/A',
       entries,
       path: '',
       gridLines: [],
@@ -190,7 +109,7 @@ const chartConfig = computed(() => {
     ...entry,
     index,
     x: getX(index),
-    y: typeof entry.score === 'number' ? getY(entry.score) : null,
+    y: isFiniteMetric(entry.score) ? getY(entry.score) : null,
     showLabel: index % labelStep === 0 || index === entries.length - 1,
   }))
 
@@ -257,6 +176,7 @@ onBeforeUnmount(() => {
 watch(
   () => [props.models, props.category, props.embedded],
   async () => {
+    clearHoveredPoint()
     await nextTick()
     updateChartContainerWidth()
     if (chartScrollElement.value) {
@@ -280,7 +200,7 @@ watch(
       </div>
     </div>
 
-    <div v-if="!chartConfig.entries.some((entry) => typeof entry.score === 'number')" class="trend-empty">
+    <div v-if="!chartConfig.entries.some((entry) => isFiniteMetric(entry.score))" class="trend-empty">
       {{ t('hero.trendEmpty') }}
     </div>
 

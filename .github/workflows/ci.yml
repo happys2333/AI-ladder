@@ -1,0 +1,48 @@
+name: AI Ladder CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'codex/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-ladder-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate data, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: api/requirements.txt
+      - name: Install dependencies
+        run: |
+          npm ci
+          pip install -r api/requirements.txt
+      - name: Validate committed Radar snapshot (no network fetch)
+        run: npm run validate:codex-radar
+      - name: Test data adapters and components
+        run: npm test
+      - name: Build GitHub Pages subpath without deploying
+        env:
+          VITE_APP_BASE_PATH: /AI-ladder/
+        run: npm run build
+      - name: Check whitespace
+        run: git diff --check

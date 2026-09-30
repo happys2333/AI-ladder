@@ -100,6 +100,13 @@ onBeforeUnmount(() => {
         >
           {{ t('app.navCodingPlans') }}
         </button>
+        <button
+          class="top-nav-link"
+          :class="{ active: currentView === 'codexRadar' }"
+          @click="emit('navigate', 'codexRadar')"
+        >
+          {{ locale === 'zh-CN' ? '实战雷达' : 'Real-world Radar' }}
+        </button>
       </nav>
     </div>
 

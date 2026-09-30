@@ -1,9 +1,10 @@
-import { computed, onMounted, ref } from 'vue'
-import { defaultSelectedIds } from '../config/leaderboard'
-import { fetchLeaderboardData } from '../services/leaderboardService'
+import { computed, onMounted, ref, watch } from 'vue'
+import { defaultSelectedIds } from '../config/leaderboard.js'
+import { fetchLeaderboardData } from '../services/leaderboardService.js'
+import { getCategoryValue } from '../utils/metrics.js'
 
 export function useLeaderboard() {
-  const categories = ref([])
+  const categoryDefinitions = ref([])
   const regions = ref([])
   const models = ref([])
   const isLoading = ref(true)
@@ -18,9 +19,18 @@ export function useLeaderboard() {
   const search = ref('')
   const selectedIds = ref(defaultSelectedIds)
 
-  function getCategoryValue(model, category) {
-    return model.scores?.[category] ?? 0
+  const categories = computed(() => categoryDefinitions.value.map(category => ({
+    ...category,
+    available: models.value.some(model => getCategoryValue(model, category.key) !== null),
+  })))
+
+  function ensureAvailableCategory() {
+    if (categories.value.some(category => category.key === activeCategory.value && category.available)) return
+    const fallback = categories.value.find(category => category.available) ?? categories.value[0]
+    if (fallback && activeCategory.value !== fallback.key) activeCategory.value = fallback.key
   }
+
+  watch([categories, activeCategory], ensureAvailableCategory, { flush: 'sync' })
 
   function sortModels(items) {
     return [...items].sort((a, b) => {
@@ -43,7 +53,7 @@ export function useLeaderboard() {
 
     return sortModels(models.value
       .filter((model) => {
-        if (getCategoryValue(model, activeCategory.value) <= 0) {
+        if (getCategoryValue(model, activeCategory.value) === null) {
           return false
         }
         
@@ -109,6 +119,7 @@ export function useLeaderboard() {
 
   function updateModels(nextModels) {
     models.value = nextModels
+    ensureAvailableCategory()
   }
 
   async function loadLeaderboardData(loader = fetchLeaderboardData) {
@@ -116,7 +127,7 @@ export function useLeaderboard() {
 
     try {
       const payload = await loader()
-      categories.value = payload.categories ?? []
+      categoryDefinitions.value = payload.categories ?? []
       regions.value = payload.regions ?? []
       models.value = payload.models ?? []
       lastUpdated.value = payload.lastUpdated ?? ''
@@ -125,9 +136,7 @@ export function useLeaderboard() {
 
       selectedIds.value = selectedIds.value.filter((id) => models.value.some((model) => model.id === id))
 
-      if (!categories.value.some((category) => category.key === activeCategory.value)) {
-        activeCategory.value = categories.value[0]?.key ?? 'overall'
-      }
+      ensureAvailableCategory()
     } finally {
       isLoading.value = false
     }

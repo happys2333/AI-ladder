@@ -45,10 +45,12 @@ const { t, translateCategoryLabel } = useI18n()
         :key="category.key"
         class="side-nav-item"
         :class="{ active: activeCategory === category.key }"
+        :disabled="category.available === false"
+        :title="category.available === false ? t('sidebar.unavailable') : undefined"
         @click="emit('update:category', category.key)"
       >
         <span class="material-symbols-outlined cat-icon">{{ categoryIcon(category.key) }}</span>
-        {{ translateCategoryLabel(category.key, category.label) }}
+        {{ translateCategoryLabel(category.key, category.label) }}{{ category.available === false ? ' · N/A' : '' }}
       </button>
     </div>
 
@@ -83,10 +85,12 @@ const { t, translateCategoryLabel } = useI18n()
               :key="category.key"
               class="side-nav-item"
               :class="{ active: activeCategory === category.key }"
-             @click="emit('update:category', category.key)"
+              :disabled="category.available === false"
+              :title="category.available === false ? t('sidebar.unavailable') : undefined"
+              @click="emit('update:category', category.key)"
             >
               <span class="material-symbols-outlined cat-icon">{{ categoryIcon(category.key) }}</span>
-              {{ translateCategoryLabel(category.key, category.label) }}
+              {{ translateCategoryLabel(category.key, category.label) }}{{ category.available === false ? ' · N/A' : '' }}
             </button>
           </div>
 

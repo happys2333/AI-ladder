@@ -151,3 +151,52 @@ User-facing fields in `coding-plans.json` can be either plain strings or localiz
 jq . public/data/coding-plans.json >/dev/null
 npm run build
 ```
+
+## Artificial Analysis V2 migration
+
+The updater defaults to `/api/v2/language/models/free`, which accepts existing Free,
+Pro, and Commercial keys. The retired `/api/v2/data/*` route is no longer used.
+It fetches every page before applying the local model limit, validates pagination,
+and atomically replaces the snapshot only after successful ingestion. Invalid,
+empty, partial, or unmeasured responses fail without replacing the last good file.
+
+Free responses do not contain GPQA or blended prices. Missing measurements stay
+`null` and appear as `N/A`; unavailable ranking categories are omitted rather than
+calculated from unrelated fields. Input/output prices remain available in details.
+No blended price is inferred. Existing legacy-shaped model fixtures remain readable.
+New nested performance fields, `gpqa_diamond`, release dates, and creator-name
+aliases are normalized into the existing frontend schema.
+
+To explicitly use a Pro/Commercial subscription's full model endpoint, configure:
+
+```bash
+ARTIFICIAL_ANALYSIS_API_URL=https://artificialanalysis.ai/api/v2/language/models
+ARTIFICIAL_ANALYSIS_PROMPT_TYPE=long
+```
+
+These can also be GitHub repository variables. `ARTIFICIAL_ANALYSIS_PROMPT_LENGTH`
+and `ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES` have been replaced by `PROMPT_TYPE`.
+Supported presets: `medium`, `long`, `100k`, `vision_single_image`, `medium_coding`,
+`medium_parallel`. Free requests send only `page`; no performance preset is claimed
+for Free snapshots. Source tier and Intelligence Index version are retained in stats.
+Authentication/permission errors are not retried; transient failures use bounded
+backoff. A daily-quota Retry-After longer than 120 seconds fails safely for the next
+scheduled refresh instead of tying up CI.
+
+Run offline fixture tests (Python requires `requests` from `api/requirements.txt`):
+
+```bash
+npm test
+npm run build
+```
+
+Reference: [Artificial Analysis API documentation](https://artificialanalysis.ai/data-api/docs).
+
+## Manual Codex Radar refresh
+
+The independent `#/codex-radar` view uses a dated, source-backed public-page snapshot.
+To refresh: capture and review source evidence, run `npm run import:codex-radar -- snapshot.json`,
+then `npm run validate:codex-radar`, tests and build. Submit the data change on a new branch
+and draft PR; **AI Ladder CI** validates without fetching upstream data or deploying.
+See [the manual refresh guide](docs/codex-radar.md#manual-refresh-source-observation--reviewed-data-pr)
+for schema, provenance, GitHub UI steps and the default-branch limitation of Run workflow.

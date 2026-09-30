@@ -23,6 +23,7 @@ const messages = {
       title: 'Leaderboard',
       subtitle: '多维模型竞争力观察台',
       categories: '维度',
+      unavailable: '当前数据源未提供该维度的有效分数',
       compareMode: '对比视角',
       compareByRegion: '按国家',
       compareByOpenness: '按开源',
@@ -34,6 +35,8 @@ const messages = {
     empty: {
       noResults: '未找到匹配的模型',
       noResultsHint: '尝试更换关键词或清除搜索内容',
+      noMeasurements: '暂无可用分数',
+      noMeasurementsHint: '当前数据源未提供该维度的有效分数。',
     },
     hero: {
       board: '榜单',
@@ -129,6 +132,7 @@ const messages = {
       title: 'Leaderboard',
       subtitle: 'Multi-dimensional model benchmark console',
       categories: 'Categories',
+      unavailable: 'No measured scores are available for this category',
       compareMode: 'Compare Mode',
       compareByRegion: 'By Region',
       compareByOpenness: 'By Openness',
@@ -140,6 +144,8 @@ const messages = {
     empty: {
       noResults: 'No matching models found',
       noResultsHint: 'Try different keywords or clear the search',
+      noMeasurements: 'No measured scores available',
+      noMeasurementsHint: 'The current data source has no measured scores for this category.',
     },
     hero: {
       board: 'Board',

@@ -9,7 +9,11 @@
     "preview": "vite preview",
     "update:artificial-analysis": "python3 api/artificial_analysis.py",
     "update:exchange-rates": "node scripts/update-exchange-rates.mjs",
-    "update:coding-plans-timestamp": "node scripts/stamp-json-timestamp.mjs public/data/coding-plans.json"
+    "update:coding-plans-timestamp": "node scripts/stamp-json-timestamp.mjs public/data/coding-plans.json",
+    "test": "node --test tests/*.test.mjs && python3 -m unittest discover -s tests -p \"test_*.py\"",
+    "fetch:codex-radar": "node scripts/fetch-codex-radar.mjs",
+    "validate:codex-radar": "node scripts/validate-codex-radar.mjs",
+    "import:codex-radar": "node scripts/import-codex-radar.mjs"
   },
   "dependencies": {
     "playwright": "^1.60.0",

@@ -1,4 +1,5 @@
 <script setup>
+import { formatCategoryValue, formatMetric, metricBarWidth } from '../utils/metrics.js'
 import { useI18n } from '../composables/useI18n'
 
 defineProps({
@@ -12,30 +13,20 @@ const emit = defineEmits(['close'])
 
 const { locale, t, translateCategoryLabel, translateRegionLabel, localizeText } = useI18n()
 
-function barWidth(score) {
-  return `${Math.max(8, score)}%`
-}
-
 function regionLabel(regions, key) {
   return translateRegionLabel(key, regions.find((region) => region.key === key)?.label ?? key)
 }
 
 function formatPrice(value) {
-  return typeof value === 'number' && !Number.isNaN(value) ? `$${value.toFixed(2)} / 1M` : 'N/A'
+  return formatCategoryValue('price', value, { units: true })
 }
 
 function formatLatency(value) {
-  return typeof value === 'number' && !Number.isNaN(value) ? `${value.toFixed(2)}s` : 'N/A'
+  return formatMetric(value, { digits: 2, suffix: 's' })
 }
 
 function formatSpeed(value) {
-  return typeof value === 'number' && !Number.isNaN(value) ? `${value.toFixed(2)} tok/s` : 'N/A'
-}
-
-function formatCategoryValue(categoryKey, value) {
-  if (categoryKey === 'price') return `$${value.toFixed(2)} / 1M`
-  if (categoryKey === 'speed') return `${value.toFixed(2)} tok/s`
-  return value.toFixed(1)
+  return formatMetric(value, { digits: 2, suffix: ' tok/s' })
 }
 
 function displayModelSummary(summary) {
@@ -99,7 +90,7 @@ function displayModelSummary(summary) {
           </div>
           <div class="stat-card compact">
             <span>{{ t('detail.overallScore') }}</span>
-            <strong>{{ model.scores.overall?.toFixed(1) ?? '-' }}</strong>
+            <strong>{{ formatMetric(model.scores?.overall) }}</strong>
           </div>
         </div>
 
@@ -109,9 +100,9 @@ function displayModelSummary(summary) {
             <div v-for="category in categories" :key="category.key" class="benchmark-row">
               <span>{{ translateCategoryLabel(category.key, category.label) }}</span>
               <div class="bar-track">
-                <div class="bar-fill" :style="{ width: barWidth(model.scores[category.key]) }"></div>
+                <div class="bar-fill" :style="{ width: metricBarWidth(model.scores?.[category.key]) }"></div>
               </div>
-              <strong>{{ formatCategoryValue(category.key, model.scores[category.key]) }}</strong>
+              <strong>{{ formatCategoryValue(category.key, model.scores?.[category.key], { units: true }) }}</strong>
             </div>
           </div>
         </div>
