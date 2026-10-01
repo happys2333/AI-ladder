@@ -6,6 +6,7 @@ import CompareOverlay from './components/CompareOverlay.vue'
 import BottomActionBar from './components/BottomActionBar.vue'
 import ModelDetailDrawer from './components/ModelDetailDrawer.vue'
 import CodingPlansPage from './pages/CodingPlansPage.vue'
+import CodexRadarPage from './pages/CodexRadarPage.vue'
 import HeroPanel from './sections/HeroPanel.vue'
 import { useI18n } from './composables/useI18n'
 import { useLeaderboard } from './composables/useLeaderboard'
@@ -21,6 +22,7 @@ const BASE_PATH = (() => {
 const VIEW_HASHES = {
   leaderboard: '',
   codingPlans: '#/coding-plans',
+  codexRadar: '#/codex-radar',
 }
 
 const { t, translateCategoryLabel } = useI18n()
@@ -70,11 +72,14 @@ function normalizePathname(pathname) {
 function resolveViewFromLocation() {
   if (typeof window === 'undefined') return 'leaderboard'
 
+  if (window.location.hash === '#/codex-radar') return 'codexRadar'
+
   if (window.location.hash === '#/coding-plans') {
     return 'codingPlans'
   }
 
   const pathname = normalizePathname(window.location.pathname)
+  if (pathname === '/codex-radar') return 'codexRadar'
   if (pathname === '/coding-plans') {
     return 'codingPlans'
   }
@@ -137,7 +142,7 @@ function handleNavigate(nextView) {
   if (nextHash) {
     window.location.hash = nextHash
   } else {
-    const nextUrl = `${window.location.pathname}${window.location.search}`
+    const nextUrl = `${BASE_PATH || ''}/${window.location.search}`
     window.history.pushState({}, '', nextUrl)
   }
 
@@ -169,7 +174,7 @@ onBeforeUnmount(() => {
 
 watchEffect(() => {
   if (typeof document === 'undefined') return
-  document.title = isLeaderboardView.value ? t('app.pageTitle') : t('app.codingPlansTitle')
+  document.title = currentView.value === 'codexRadar' ? 'Codex Radar · AI Ladder' : isLeaderboardView.value ? t('app.pageTitle') : t('app.codingPlansTitle')
 })
 </script>
 
@@ -218,10 +223,10 @@ watchEffect(() => {
             <div class="skeleton-row"><div class="skeleton-block"></div><div class="skeleton-block short"></div></div>
           </div>
 
-          <div v-else-if="!filteredModels.length && search.trim()" class="empty-state fade-in-up">
+          <div v-else-if="!filteredModels.length" class="empty-state fade-in-up">
             <span class="material-symbols-outlined">search_off</span>
-            <h3>{{ t('empty.noResults') }}</h3>
-            <p>{{ t('empty.noResultsHint') }}</p>
+            <h3>{{ t(search.trim() ? 'empty.noResults' : 'empty.noMeasurements') }}</h3>
+            <p>{{ t(search.trim() ? 'empty.noResultsHint' : 'empty.noMeasurementsHint') }}</p>
           </div>
 
           <template v-else>
@@ -251,6 +256,7 @@ watchEffect(() => {
       <ModelDetailDrawer :model="activeModel" :categories="categories" :regions="regions" :visible="Boolean(activeModel)" @close="closeModelDetails" />
     </template>
 
+    <CodexRadarPage v-else-if="currentView === 'codexRadar'" />
     <CodingPlansPage v-else />
   </div>
 </template>

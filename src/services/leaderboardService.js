@@ -1,4 +1,6 @@
-const BASE_URL = import.meta.env.BASE_URL || '/'
+import { isFiniteMetric } from '../utils/metrics.js'
+
+const BASE_URL = import.meta.env?.BASE_URL || '/'
 
 function withBase(path) {
   const normalizedBase = BASE_URL.endsWith('/') ? BASE_URL : `${BASE_URL}/`
@@ -20,55 +22,48 @@ function sanitizeExternalUrl(value) {
   }
 }
 
-function validateAndNormalizeData(payload) {
+function validateAndNormalizeData(rawPayload) {
+  const payload = rawPayload && typeof rawPayload === 'object' ? rawPayload : {}
   const normalizedCategories = Array.isArray(payload.categories)
-    ? payload.categories.map(category => ({
+    ? payload.categories.filter(category => category && typeof category === 'object').map(category => ({
+      ...category,
       key: category.key || 'overall',
       label: category.label || 'Overall',
-      ...category
     }))
     : []
-
   const categoryKeys = normalizedCategories.map(category => category.key)
 
-  // 确保基本结构存在
-  const validatedPayload = {
+  // Apply normalized values last so malformed input cannot overwrite them.
+  return {
+    ...payload,
     categories: normalizedCategories,
-    regions: Array.isArray(payload.regions) ? payload.regions : [],
-    models: Array.isArray(payload.models) ? payload.models : [],
+    regions: Array.isArray(payload.regions)
+      ? payload.regions.filter(region => region && typeof region === 'object').map(region => ({
+        ...region,
+        key: region.key || 'global',
+        label: region.label || 'Global',
+      }))
+      : [],
+    models: Array.isArray(payload.models)
+      ? payload.models.filter(model => model && typeof model === 'object').map((model, index) => ({
+        ...model,
+        id: model.id || model.slug || `model-${index}`,
+        name: model.name || model.slug || 'Unknown Model',
+        region: model.region || 'global',
+        vendor: model.vendor || 'Unknown',
+        summary: model.summary || '',
+        tags: Array.isArray(model.tags) ? model.tags : [],
+        pricing: model.pricing || 'N/A',
+        latency: model.latency || 'N/A',
+        scores: validateScores(model.scores, categoryKeys),
+        openness: model.openness || 'other',
+        codingPlans: Array.isArray(model.codingPlans) ? model.codingPlans : [],
+      }))
+      : [],
     lastUpdated: payload.generatedAt || payload.lastUpdated || '',
     source: payload.source || null,
     stats: payload.stats || {},
-    ...payload
   }
-
-  // 验证和标准化模型数据
-  validatedPayload.models = validatedPayload.models.map(model => {
-    return {
-      id: model.id || model.slug || `model-${Math.random().toString(36).substr(2, 9)}`,
-      name: model.name || model.slug || 'Unknown Model',
-      region: model.region || 'global',
-      vendor: model.vendor || 'Unknown',
-      summary: model.summary || '',
-      tags: Array.isArray(model.tags) ? model.tags : [],
-      pricing: model.pricing || 'N/A',
-      latency: model.latency || 'N/A',
-      scores: validateScores(model.scores, categoryKeys),
-      openness: model.openness || 'other',
-      codingPlans: Array.isArray(model.codingPlans) ? model.codingPlans : [],
-      // 保留其他字段
-      ...model
-    }
-  })
-
-  // 验证和标准化区域数据
-  validatedPayload.regions = validatedPayload.regions.map(region => ({
-    key: region.key || 'global',
-    label: region.label || 'Global',
-    ...region
-  }))
-
-  return validatedPayload
 }
 
 function normalizeCodingPlans(payload) {
@@ -132,31 +127,12 @@ function attachCodingPlans(payload, codingPlansPayload) {
 }
 
 function validateScores(scores, expectedCategories = ['overall']) {
-  if (!scores || typeof scores !== 'object') {
-    return expectedCategories.reduce((acc, category) => {
-      acc[category] = 0
-      return acc
-    }, {})
-  }
+  const source = scores && typeof scores === 'object' && !Array.isArray(scores) ? scores : {}
+  const keys = new Set([...expectedCategories, ...Object.keys(source)])
 
-  const validatedScores = {}
-
-  expectedCategories.forEach(category => {
-    const score = scores[category]
-    validatedScores[category] = typeof score === 'number' && !isNaN(score) ? Number(score.toFixed(1)) : 0
-  })
-
-  // 保留其他未预期的分数字段
-  Object.keys(scores).forEach(key => {
-    if (!expectedCategories.includes(key)) {
-      const score = scores[key]
-      if (typeof score === 'number' && !isNaN(score)) {
-        validatedScores[key] = Number(score.toFixed(1))
-      }
-    }
-  })
-
-  return validatedScores
+  // Preserve precision (especially sub-dollar prices); rounding belongs in the UI.
+  // Missing measurements are null, while a reported zero is a real measurement.
+  return Object.fromEntries([...keys].map(key => [key, isFiniteMetric(source[key]) ? source[key] : null]))
 }
 
 export async function fetchLeaderboardData(fetcher = window.fetch) {

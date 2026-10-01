@@ -49,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Test frontend adapters and rendering
+        run: node --test tests/*.test.mjs
+
       - name: Build site for GitHub Pages
         env:
           VITE_APP_BASE_PATH: /AI-ladder/

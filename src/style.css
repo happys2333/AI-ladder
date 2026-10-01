@@ -1893,3 +1893,8 @@ a {
 .trend-chart-scroll.is-dragging * {
   cursor: grabbing !important;
 }
+
+.side-nav-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}

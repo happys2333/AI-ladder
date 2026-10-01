@@ -3,6 +3,10 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import math
+import tempfile
+from urllib.parse import urlparse
+from email.utils import parsedate_to_datetime
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -13,7 +17,7 @@ import requests
 from requests.exceptions import ConnectionError as RequestsConnectionError, ReadTimeout
 
 
-DEFAULT_API_URL = 'https://artificialanalysis.ai/api/v2/data/llms/models'
+DEFAULT_API_URL = 'https://artificialanalysis.ai/api/v2/language/models/free'
 DEFAULT_LLM_STATS_API_URL = 'https://api.llm-stats.com/stats/v1/models'
 DEFAULT_LLM_STATS_SCORES_API_URL = 'https://api.llm-stats.com/stats/v1/scores'
 DEFAULT_OUTPUT = Path('public/data/artificial-analysis-llms.json')
@@ -23,7 +27,7 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 SOURCE_INFO = {
     'id': 'artificial-analysis-llms',
     'label': 'Artificial Analysis + LLM Stats',
-    'url': 'https://artificialanalysis.ai/api-reference',
+    'url': 'https://artificialanalysis.ai/data-api/docs',
 }
 
 CATEGORIES = [
@@ -63,16 +67,10 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument('--output', default=os.getenv('ARTIFICIAL_ANALYSIS_OUTPUT', str(DEFAULT_OUTPUT)), help='Output JSON path')
     parser.add_argument(
-        '--prompt-length',
-        default=os.getenv('ARTIFICIAL_ANALYSIS_PROMPT_LENGTH', 'medium'),
-        choices=['short', 'medium', 'long'],
-        help='Prompt length option passed to the API',
-    )
-    parser.add_argument(
-        '--parallel-queries',
-        default=int(os.getenv('ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES', '1')),
-        type=int,
-        help='Parallel queries option passed to the API',
+        '--prompt-type',
+        default=os.getenv('ARTIFICIAL_ANALYSIS_PROMPT_TYPE', 'long'),
+        choices=['medium', 'long', '100k', 'vision_single_image', 'medium_coding', 'medium_parallel'],
+        help='Performance preset for the Pro endpoint only; Free accepts page only',
     )
     parser.add_argument(
         '--model-limit',
@@ -118,9 +116,12 @@ def _fetch_with_retry(
     for attempt in range(max_retries + 1):
         try:
             response = session.get(url, headers=headers, params=params, timeout=timeout)
-            if response.status_code in (401, 403, 429) or response.status_code >= 500:
+            if response.status_code == 429 or response.status_code >= 500:
                 if attempt < max_retries:
-                    retry_after = float(response.headers.get('Retry-After', base_delay * (2 ** attempt)))
+                    retry_after = retry_delay(response.headers.get('Retry-After'), base_delay * (2 ** attempt))
+                    # Daily quota exhaustion should fail safely, not stall CI for a day.
+                    if retry_after > 120:
+                        response.raise_for_status()
                     time.sleep(retry_after)
                     continue
             response.raise_for_status()
@@ -134,19 +135,86 @@ def _fetch_with_retry(
     raise last_exc  # type: ignore[misc]
 
 
-def fetch_models(api_url: str, api_key: str, prompt_length: str, parallel_queries: int) -> dict[str, Any]:
-    session = requests.Session()
-    session.trust_env = False
-    response = _fetch_with_retry(
-        session,
-        api_url,
-        headers={'x-api-key': api_key},
-        params={
-            'prompt_length': prompt_length,
-            'parallel_queries': parallel_queries,
-        },
-    )
-    return response.json()
+def retry_delay(value: Any, fallback: float) -> float:
+    try:
+        delay = float(value)
+        return max(0, delay) if math.isfinite(delay) else fallback
+    except (TypeError, ValueError):
+        try:
+            return max(0, (parsedate_to_datetime(value) - datetime.now(timezone.utc)).total_seconds())
+        except (TypeError, ValueError, OverflowError):
+            return fallback
+
+
+def validate_rows(payload: Any) -> list[dict[str, Any]]:
+    if not isinstance(payload, dict) or payload.get('error') or not isinstance(payload.get('data'), list):
+        raise ValueError('Invalid Artificial Analysis response envelope')
+    rows = payload['data']
+    if not rows:
+        raise ValueError('Empty Artificial Analysis response; preserving previous snapshot')
+    for row in rows:
+        if not isinstance(row, dict) or not (row.get('id') or row.get('slug')) or not row.get('name'):
+            raise ValueError('Invalid Artificial Analysis model identity')
+        if any(not isinstance(row.get(key), dict) for key in ('evaluations', 'model_creator')):
+            raise ValueError('Invalid Artificial Analysis model fields')
+        for key in ('pricing', 'performance'):
+            if row.get(key) is not None and not isinstance(row[key], dict):
+                raise ValueError(f'Invalid Artificial Analysis {key}')
+    return rows
+
+
+def fetch_models(api_url: str, api_key: str, prompt_type: str = 'long') -> dict[str, Any]:
+    path = urlparse(api_url).path.rstrip('/')
+    if path not in ('/api/v2/language/models/free', '/api/v2/language/models'):
+        raise ValueError('Use a supported /api/v2/language/models endpoint; legacy data endpoints are retired')
+    is_free = path.endswith('/free')
+    rows: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    envelope: dict[str, Any] = {}
+    total_pages = None
+    with requests.Session() as session:
+        session.trust_env = False
+        page = 1
+        while True:
+            params: dict[str, Any] = {'page': page}
+            if not is_free:
+                params['prompt_type'] = prompt_type
+            response = _fetch_with_retry(session, api_url, headers={'x-api-key': api_key}, params=params)
+            payload = response.json()
+            page_rows = validate_rows(payload)
+            if (payload.get('tier') not in {'free', 'pro', 'commercial'}
+                    or normalize_number(payload.get('intelligence_index_version')) is None):
+                raise ValueError('Missing Artificial Analysis tier/index version')
+            pagination = payload.get('pagination')
+            if not isinstance(pagination, dict):
+                raise ValueError('Missing Artificial Analysis pagination')
+            count = pagination.get('total_pages')
+            size = pagination.get('page_size')
+            if (type(count) is not int or not 1 <= count <= 1000
+                    or type(size) is not int or size <= 0
+                    or type(pagination.get('page')) is not int or pagination['page'] != page
+                    or type(pagination.get('has_more')) is not bool
+                    or pagination['has_more'] != (page < count) or len(page_rows) > size
+                    or (pagination['has_more'] and len(page_rows) != size)):
+                raise ValueError('Inconsistent Artificial Analysis pagination')
+            if total_pages is not None and count != total_pages:
+                raise ValueError('Artificial Analysis page count changed during fetch')
+            total_pages = count
+            if page == 1:
+                envelope = {key: payload.get(key) for key in ('tier', 'intelligence_index_version')}
+            elif any(payload.get(key) != value for key, value in envelope.items()):
+                raise ValueError('Artificial Analysis version/tier changed during fetch')
+            for row in page_rows:
+                identity = str(row.get('id') or row['slug'])
+                if identity in seen_ids:
+                    raise ValueError('Duplicate Artificial Analysis model across pages')
+                seen_ids.add(identity)
+                rows.append(row)
+            if not pagination['has_more']:
+                break
+            page += 1
+    return {**envelope, 'data': rows, 'endpoint': api_url, 'pagesFetched': page,
+            'promptType': None if is_free else prompt_type}
 
 
 def fetch_llm_stats_models(api_url: str, api_key: str) -> list[dict[str, Any]]:
@@ -203,14 +271,40 @@ def fetch_llm_stats_scores(api_url: str, api_key: str, verified_only: bool) -> l
     return scores
 
 
-def normalize_number(value: Any, multiplier: float = 1.0) -> float:
-    if value is None:
-        return 0.0
-
+def normalize_number(value: Any, multiplier: float = 1.0) -> float | None:
+    if value is None or isinstance(value, bool):
+        return None
     try:
-        return round(float(value) * multiplier, 2)
-    except (TypeError, ValueError):
-        return 0.0
+        result = float(value) * multiplier
+        return result if math.isfinite(result) else None
+    except (TypeError, ValueError, OverflowError):
+        return None
+
+
+def performance_value(model: dict[str, Any], key: str) -> float | None:
+    performance = model.get('performance') or {}
+    # Explicit null in the new schema must not revive a stale legacy value.
+    if key in performance:
+        return normalize_number(performance[key])
+    legacy_key = 'median_time_to_first_answer_token' if key == 'median_time_to_first_answer_token_seconds' else key
+    return normalize_number(model.get(key, model.get(legacy_key)))
+
+
+def gpqa_value(evaluations: dict[str, Any]) -> float | None:
+    return normalize_number(evaluations.get('gpqa_diamond', evaluations.get('gpqa')), 100)
+
+
+def creator_slug(creator: dict[str, Any]) -> str:
+    aliases = {
+        'z ai': 'zhipu', 'zhipu ai': 'zhipu', 'zhipu': 'zhipu',
+        'moonshot ai': 'kimi', 'moonshot': 'kimi', 'kimi': 'kimi',
+        'alibaba cloud': 'alibaba', 'alibaba': 'alibaba', 'qwen': 'alibaba',
+        'bytedance': 'bytedance seed', 'bytedance seed': 'bytedance seed',
+        'tencent': 'tencent-cloud', 'tencent cloud': 'tencent-cloud',
+        'iflytek': 'iflytek-astron',
+    }
+    key = normalize_lookup_key(creator.get('slug') or creator.get('name'))
+    return aliases.get(key, key.replace(' ', '-'))
 
 
 def normalize_text(value: Any) -> str:
@@ -363,7 +457,10 @@ def match_llm_stats_model(model: dict[str, Any], llm_stats_index: dict[str, dict
 
 
 def detect_region(model: dict[str, Any]) -> str:
-    creator_name = (model.get('model_creator', {}) or {}).get('name', '')
+    creator = model.get('model_creator', {}) or {}
+    if creator.get('country'):
+        return 'cn' if creator['country'].lower() == 'cn' else 'global'
+    creator_name = creator.get('name', '')
     name = model.get('name', '')
     haystack = f'{creator_name} {name}'.lower()
     return 'cn' if any(keyword in haystack for keyword in CN_CREATOR_KEYWORDS) else 'global'
@@ -371,6 +468,7 @@ def detect_region(model: dict[str, Any]) -> str:
 
 def detect_openness(model: dict[str, Any]) -> str:
     direct_candidates = [
+        (model.get('licensing') or {}).get('is_open_weights'),
         model.get('openness'),
         model.get('open_weights'),
         model.get('open_source_categorization'),
@@ -424,10 +522,10 @@ def build_tags(model: dict[str, Any]) -> list[str]:
         tags.append('Reasoning')
 
     evaluations = model.get('evaluations', {}) or {}
-    if normalize_number(evaluations.get('artificial_analysis_coding_index')) >= 50:
+    if (normalize_number(evaluations.get('artificial_analysis_coding_index')) or 0) >= 50:
         tags.append('Coding+')
     pricing = model.get('pricing', {}) or {}
-    if normalize_number(pricing.get('price_1m_blended_3_to_1')) > 0:
+    if normalize_number(pricing.get('price_1m_blended_3_to_1')) is not None:
         tags.append(f"${normalize_number(pricing.get('price_1m_blended_3_to_1'))}/1M")
 
     return tags[:5]
@@ -436,8 +534,8 @@ def build_tags(model: dict[str, Any]) -> list[str]:
 def build_summary(model: dict[str, Any]) -> str:
     evaluations = model.get('evaluations', {}) or {}
     overall = normalize_number(evaluations.get('artificial_analysis_intelligence_index'))
-    speed = normalize_number(model.get('median_output_tokens_per_second'))
-    return f'AA 智能指数 {overall} · 输出速度 {speed} tok/s'
+    speed = performance_value(model, 'median_output_tokens_per_second')
+    return f"AA 智能指数 {overall if overall is not None else 'N/A'} · 输出速度 {speed if speed is not None else 'N/A'} tok/s"
 
 
 def infer_release_date_from_benchmarks(
@@ -463,7 +561,7 @@ def map_model(
     evaluations = model.get('evaluations', {}) or {}
     pricing = model.get('pricing', {}) or {}
     creator = model.get('model_creator', {}) or {}
-    llm_stats_release_date = (llm_stats_model or {}).get('release_date')
+    llm_stats_release_date = model.get('release_date') or (llm_stats_model or {}).get('release_date')
     llm_stats_license = (llm_stats_model or {}).get('license') or {}
     llm_stats_scores = (llm_stats_model or {}).get('top_scores') or {}
     llm_stats_open_weight = (llm_stats_model or {}).get('open_weight')
@@ -481,20 +579,20 @@ def map_model(
         'vendor': creator.get('name') or 'Unknown',
         'summary': build_summary(model),
         'tags': build_tags(model),
-        'pricing': f"${normalize_number(pricing.get('price_1m_blended_3_to_1'))} / 1M blended" if pricing else 'N/A',
-        'latency': f"{normalize_number(model.get('median_time_to_first_token_seconds'))}s TTFT",
+        'pricing': f"${normalize_number(pricing.get('price_1m_blended_3_to_1'))} / 1M blended" if normalize_number(pricing.get('price_1m_blended_3_to_1')) is not None else 'N/A',
+        'latency': f"{performance_value(model, 'median_time_to_first_token_seconds')}s TTFT" if performance_value(model, 'median_time_to_first_token_seconds') is not None else 'N/A',
         'scores': {
             'overall': normalize_number(evaluations.get('artificial_analysis_intelligence_index')),
             'coding': normalize_number(evaluations.get('artificial_analysis_coding_index')),
-            'reasoning': normalize_number(evaluations.get('gpqa'), 100),
+            'reasoning': gpqa_value(evaluations),
             'price': normalize_number(pricing.get('price_1m_blended_3_to_1')),
-            'speed': normalize_number(model.get('median_output_tokens_per_second')),
+            'speed': performance_value(model, 'median_output_tokens_per_second'),
         },
         'meta': {
             'rank': rank,
             'slug': model.get('slug', ''),
             'creatorId': creator.get('id', ''),
-            'creatorSlug': creator.get('slug', ''),
+            'creatorSlug': creator_slug(creator),
             'releaseDate': llm_stats_release_date,
             'releaseYearMonth': llm_stats_release_date[:7] if isinstance(llm_stats_release_date, str) and len(llm_stats_release_date) >= 7 else None,
             'llmStatsModelId': (llm_stats_model or {}).get('id'),
@@ -515,8 +613,9 @@ def map_model(
                 'artificialAnalysisIntelligenceIndex': normalize_number(evaluations.get('artificial_analysis_intelligence_index')),
                 'artificialAnalysisCodingIndex': normalize_number(evaluations.get('artificial_analysis_coding_index')),
                 'artificialAnalysisMathIndex': normalize_number(evaluations.get('artificial_analysis_math_index')),
+                'artificialAnalysisAgenticIndex': normalize_number(evaluations.get('artificial_analysis_agentic_index')),
                 'mmluPro': normalize_number(evaluations.get('mmlu_pro'), 100),
-                'gpqa': normalize_number(evaluations.get('gpqa'), 100),
+                'gpqa': gpqa_value(evaluations),
                 'hle': normalize_number(evaluations.get('hle'), 100),
                 'liveCodeBench': normalize_number(evaluations.get('livecodebench'), 100),
                 'sciCode': normalize_number(evaluations.get('scicode'), 100),
@@ -527,9 +626,9 @@ def map_model(
             'inputPrice': normalize_number(pricing.get('price_1m_input_tokens')),
             'outputPrice': normalize_number(pricing.get('price_1m_output_tokens')),
             'blendedPrice': normalize_number(pricing.get('price_1m_blended_3_to_1')),
-            'tokensPerSecond': normalize_number(model.get('median_output_tokens_per_second')),
-            'timeToFirstTokenSeconds': normalize_number(model.get('median_time_to_first_token_seconds')),
-            'timeToFirstAnswerTokenSeconds': normalize_number(model.get('median_time_to_first_answer_token')),
+            'tokensPerSecond': performance_value(model, 'median_output_tokens_per_second'),
+            'timeToFirstTokenSeconds': performance_value(model, 'median_time_to_first_token_seconds'),
+            'timeToFirstAnswerTokenSeconds': performance_value(model, 'median_time_to_first_answer_token_seconds'),
         },
     }
 
@@ -542,10 +641,13 @@ def build_payload(
     verified_only: bool,
 ) -> dict[str, Any]:
     generated_at = datetime.now(timezone.utc).isoformat()
-    rows = response_payload.get('data', []) or []
+    rows = validate_rows(response_payload)
+    if model_limit <= 0:
+        raise ValueError('Model limit must be positive')
     sorted_rows = sorted(
         rows,
-        key=lambda item: normalize_number((item.get('evaluations', {}) or {}).get('artificial_analysis_intelligence_index')),
+        key=lambda item: (normalize_number(item['evaluations'].get('artificial_analysis_intelligence_index')) is not None,
+                          normalize_number(item['evaluations'].get('artificial_analysis_intelligence_index')) or 0),
         reverse=True,
     )
 
@@ -565,11 +667,13 @@ def build_payload(
             matched_benchmark_count += 1
         models.append(map_model(model, llm_stats_model, llm_stats_benchmark_scores, rank))
 
-    prompt_options = response_payload.get('prompt_options', {}) or {}
+    if not any(model['scores']['overall'] is not None for model in models):
+        raise ValueError('No measured intelligence scores; preserving previous snapshot')
 
     return {
         'source': SOURCE_INFO,
-        'categories': CATEGORIES,
+        'categories': [category for category in CATEGORIES
+                       if any(model['scores'][category['key']] is not None for model in models)],
         'regions': [
             {'key': 'cn', 'label': '中国阵营'},
             {'key': 'global', 'label': '全球阵营'},
@@ -586,8 +690,11 @@ def build_payload(
             'llmStatsMatchedBenchmarkModels': matched_benchmark_count,
             'llmStatsVerifiedOnly': verified_only,
             'modelLimit': model_limit,
-            'promptLength': prompt_options.get('prompt_length', 'medium'),
-            'parallelQueries': prompt_options.get('parallel_queries', 1),
+            'endpoint': response_payload.get('endpoint'),
+            'tier': response_payload.get('tier'),
+            'intelligenceIndexVersion': response_payload.get('intelligence_index_version'),
+            'pagesFetched': response_payload.get('pagesFetched'),
+            'promptType': response_payload.get('promptType'),
         },
     }
 
@@ -595,14 +702,26 @@ def build_payload(
 def write_payload(output_path: Path, payload: dict[str, Any]) -> None:
     absolute_output = output_path if output_path.is_absolute() else ROOT_DIR / output_path
     absolute_output.parent.mkdir(parents=True, exist_ok=True)
-    absolute_output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    # Serialize before touching the last good snapshot, then atomically replace it.
+    content = json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + '\n'
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=absolute_output.parent, delete=False) as handle:
+            temporary = Path(handle.name)
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, absolute_output)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
 
 
 def main() -> None:
     args = parse_args()
     api_key = require_api_key(args.api_key)
     llm_stats_key = require_llm_stats_key(args.llm_stats_key)
-    response_payload = fetch_models(args.api_url, api_key, args.prompt_length, args.parallel_queries)
+    response_payload = fetch_models(args.api_url, api_key, args.prompt_type)
     llm_stats_models = fetch_llm_stats_models(args.llm_stats_api_url, llm_stats_key)
     llm_stats_scores = fetch_llm_stats_scores(args.llm_stats_scores_api_url, llm_stats_key, args.llm_stats_verified_only)
     payload = build_payload(
