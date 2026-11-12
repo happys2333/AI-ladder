@@ -64,3 +64,14 @@ export function buildMonthlyLeaders(models, category) {
   }
   return entries
 }
+
+// Do not infer a methodology for snapshots that predate source metadata.
+export function performanceMethodologyKey(meta) {
+  if (meta?.performanceSchema === 'performance_v3' && meta.performanceAggregation === 'mean') {
+    return 'performance.v3Mean'
+  }
+  if (['performance', 'legacy'].includes(meta?.performanceSchema) && meta.performanceAggregation === 'median') {
+    return 'performance.legacyMedian'
+  }
+  return ''
+}

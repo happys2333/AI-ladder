@@ -1,5 +1,5 @@
 <script setup>
-import { formatCategoryValue, formatMetric, metricBarWidth } from '../utils/metrics.js'
+import { formatCategoryValue, formatMetric, metricBarWidth, performanceMethodologyKey } from '../utils/metrics.js'
 import { useI18n } from '../composables/useI18n'
 
 defineProps({
@@ -92,6 +92,10 @@ function displayModelSummary(summary) {
             <span>{{ t('detail.overallScore') }}</span>
             <strong>{{ formatMetric(model.scores?.overall) }}</strong>
           </div>
+        </div>
+
+        <div v-if="performanceMethodologyKey(model.meta)" class="drawer-section">
+          <p class="drawer-summary performance-methodology">{{ t(performanceMethodologyKey(model.meta)) }}</p>
         </div>
 
         <div class="drawer-section">

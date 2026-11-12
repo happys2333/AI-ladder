@@ -53,6 +53,10 @@ const messages = {
       priceAsc: '价格: 低到高',
       priceDesc: '价格: 高到低',
     },
+    performance: {
+      v3Mean: '性能口径：v3 均值，汇总 5 天内各工作负载。速度包含首 token 等待时间（TTFT）及推理 token；不能与旧版中位数直接比较。',
+      legacyMedian: '性能口径：旧版中位数，不能与 v3 均值直接比较。',
+    },
     compare: {
       title: '多维横向对比',
       floatingTitle: '模型对比',
@@ -161,6 +165,10 @@ const messages = {
       notProvided: 'Not provided',
       priceAsc: 'Price: Low to High',
       priceDesc: 'Price: High to Low',
+    },
+    performance: {
+      v3Mean: 'Performance: v3 means across workloads over 5 days. Speed includes time to first token (TTFT) and reasoning tokens; not directly comparable with older medians.',
+      legacyMedian: 'Performance: legacy medians, not directly comparable with v3 means.',
     },
     compare: {
       title: 'Multi-dimensional Comparison',

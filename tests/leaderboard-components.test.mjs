@@ -133,3 +133,37 @@ test('sub-cent prices are never displayed as free', async () => {
   assert.match(detail, /\$1e-7 \/ 1M/)
   assert.doesNotMatch(detail, /\$0\.00<|\$0\.00 \/ 1M/)
 })
+
+for (const locale of ['en-US', 'zh-CN']) {
+  test(`performance methodology is explicit and metadata-gated in both drawers (${locale})`, async () => {
+    const { useI18n } = await vite.ssrLoadModule('/src/composables/useI18n.js')
+    useI18n().setLocale(locale)
+    try {
+      for (const component of ['ModelDetailDrawer', 'CompareDrawer']) {
+        const render = (meta) => {
+          const model = { ...emptyModel, meta: { ...emptyModel.meta, ...meta } }
+          return renderComponent(`/src/components/${component}.vue`, {
+            categories, regions,
+            ...(component === 'ModelDetailDrawer'
+              ? { model, visible: true }
+              : { models: [model], activeCategory: 'speed' }),
+          })
+        }
+        const v3 = await render({ performanceSchema: 'performance_v3', performanceAggregation: 'mean' })
+        assert.match(v3, /class="drawer-summary performance-methodology"/)
+        assert.match(v3, locale === 'en-US' ? /v3 means across workloads over 5 days/ : /v3 均值，汇总 5 天内各工作负载/)
+        assert.match(v3, locale === 'en-US' ? /Speed includes time to first token \(TTFT\) and reasoning tokens/ : /速度包含首 token 等待时间（TTFT）及推理 token/)
+        for (const performanceSchema of ['performance', 'legacy']) {
+          const legacy = await render({ performanceSchema, performanceAggregation: 'median' })
+          assert.match(legacy, locale === 'en-US' ? /legacy medians, not directly comparable with v3 means/ : /旧版中位数，不能与 v3 均值直接比较/)
+          assert.doesNotMatch(legacy, /5 days|5 天|TTFT\) and reasoning tokens/)
+        }
+        for (const meta of [{}, { performanceAggregation: 'mean' }, { performanceSchema: 'unknown', performanceAggregation: 'median' }]) {
+          assert.doesNotMatch(await render(meta), /performance-methodology/)
+        }
+      }
+    } finally {
+      useI18n().setLocale('en-US')
+    }
+  })
+}
