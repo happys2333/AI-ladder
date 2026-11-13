@@ -238,3 +238,11 @@ then `npm run validate:codex-radar`, tests and build. Submit the data change on 
 and draft PR; **AI Ladder CI** validates without fetching upstream data or deploying.
 See [the manual refresh guide](docs/codex-radar.md#manual-refresh-source-observation--reviewed-data-pr)
 for schema, provenance, GitHub UI steps and the default-branch limitation of Run workflow.
+
+Speed rankings and their average/spread now use one explicit methodology cohort:
+v3 means (preferred when measured), legacy medians, or unlabelled historical data.
+The speed selector lets readers inspect each separately; search never changes the
+selected cohort. Unlabelled snapshots retain their values with a comparability
+warning, not an inferred methodology. Mixed-schema inputs are covered by offline
+ranking/statistics and monthly-leader utility regressions. The main page still
+hides speed/price monthly charts; the utility also prevents mixed speed leaders.

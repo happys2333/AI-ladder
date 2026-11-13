@@ -32,7 +32,8 @@ export function metricBarWidth(value) {
 
 // Release dates are optional. Unknown dates and unavailable scores must not
 // create a trend point or make an unmeasured model the monthly leader.
-export function buildMonthlyLeaders(models, category) {
+export function buildMonthlyLeaders(models, category, speedMethodology) {
+  if (category === 'speed') models = selectSpeedModels(models, speedMethodology)
   const leadersByMonth = new Map()
   const isBetter = (next, current) => category === 'price' ? next < current : next > current
 
@@ -74,4 +75,21 @@ export function performanceMethodologyKey(meta) {
     return 'performance.legacyMedian'
   }
   return ''
+}
+
+// Keep known v3 means, known legacy medians and unlabelled snapshots separate.
+// Choose from the full dataset before search so filtering never switches methods.
+export function speedMethodology(meta) {
+  return performanceMethodologyKey(meta).split('.').at(-1) || 'unknown'
+}
+
+export function availableSpeedMethodologies(models) {
+  const measured = new Set(models.filter(model => getCategoryValue(model, 'speed') !== null)
+    .map(model => speedMethodology(model.meta)))
+  return ['v3Mean', 'legacyMedian', 'unknown'].filter(key => measured.has(key))
+}
+
+export function selectSpeedModels(models, methodology = availableSpeedMethodologies(models)[0]) {
+  return models.filter(model => getCategoryValue(model, 'speed') !== null
+    && speedMethodology(model.meta) === methodology)
 }

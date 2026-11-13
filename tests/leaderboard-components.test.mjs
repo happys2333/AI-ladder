@@ -167,3 +167,22 @@ for (const locale of ['en-US', 'zh-CN']) {
     }
   })
 }
+
+for (const locale of ['en-US', 'zh-CN']) {
+  test(`speed cohort control labels separate methods and warns about unlabelled data (${locale})`, async () => {
+    const { useI18n } = await vite.ssrLoadModule('/src/composables/useI18n.js')
+    useI18n().setLocale(locale)
+    try {
+      const props = { title: 'Speed', stats: {}, activeCategory: 'speed',
+        speedMethodologies: ['v3Mean', 'legacyMedian', 'unknown'], activeSpeedMethodology: 'v3Mean' }
+      const markup = await renderComponent('/src/sections/HeroPanel.vue', props)
+      assert.match(markup, /<label for="speed-methodology"[^>]*>/)
+      assert.match(markup, /<option value="v3Mean" selected[^>]*>/)
+      assert.match(markup, locale === 'en-US' ? /Rankings, average and spread use only the selected methodology/ : /排名、均值和跨度仅使用所选口径/)
+      const unknown = await renderComponent('/src/sections/HeroPanel.vue', { ...props, activeSpeedMethodology: 'unknown' })
+      assert.match(unknown, locale === 'en-US' ? /comparability is unverified/ : /无法确认可比性/)
+      const other = await renderComponent('/src/sections/HeroPanel.vue', { ...props, activeCategory: 'overall' })
+      assert.doesNotMatch(other, /id="speed-methodology"/)
+    } finally { useI18n().setLocale('en-US') }
+  })
+}
