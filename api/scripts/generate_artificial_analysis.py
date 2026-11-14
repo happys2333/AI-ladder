@@ -68,9 +68,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--output', default=os.getenv('ARTIFICIAL_ANALYSIS_OUTPUT', str(DEFAULT_OUTPUT)), help='Output JSON path')
     parser.add_argument(
         '--prompt-type',
-        default=os.getenv('ARTIFICIAL_ANALYSIS_PROMPT_TYPE', 'long'),
-        choices=['medium', 'long', '100k', 'vision_single_image', 'medium_coding', 'medium_parallel'],
-        help='Performance preset for the Pro endpoint only; Free accepts page only',
+        default=os.getenv('ARTIFICIAL_ANALYSIS_PROMPT_TYPE'),
+        help='Deprecated compatibility option, ignored; Performance v3 is independent of prompt type',
     )
     parser.add_argument(
         '--model-limit',
@@ -157,17 +156,18 @@ def validate_rows(payload: Any) -> list[dict[str, Any]]:
             raise ValueError('Invalid Artificial Analysis model identity')
         if any(not isinstance(row.get(key), dict) for key in ('evaluations', 'model_creator')):
             raise ValueError('Invalid Artificial Analysis model fields')
-        for key in ('pricing', 'performance'):
+        for key in ('pricing', 'performance', 'performance_v3'):
             if row.get(key) is not None and not isinstance(row[key], dict):
                 raise ValueError(f'Invalid Artificial Analysis {key}')
     return rows
 
 
-def fetch_models(api_url: str, api_key: str, prompt_type: str = 'long') -> dict[str, Any]:
+def fetch_models(api_url: str, api_key: str, prompt_type: str | None = None) -> dict[str, Any]:
+    # Retain the argument for existing callers, but never apply a legacy preset
+    # to v3 metrics. The provider ignores prompt_type from 2026-12-10 onward.
     path = urlparse(api_url).path.rstrip('/')
     if path not in ('/api/v2/language/models/free', '/api/v2/language/models'):
         raise ValueError('Use a supported /api/v2/language/models endpoint; legacy data endpoints are retired')
-    is_free = path.endswith('/free')
     rows: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     envelope: dict[str, Any] = {}
@@ -177,8 +177,6 @@ def fetch_models(api_url: str, api_key: str, prompt_type: str = 'long') -> dict[
         page = 1
         while True:
             params: dict[str, Any] = {'page': page}
-            if not is_free:
-                params['prompt_type'] = prompt_type
             response = _fetch_with_retry(session, api_url, headers={'x-api-key': api_key}, params=params)
             payload = response.json()
             page_rows = validate_rows(payload)
@@ -214,7 +212,7 @@ def fetch_models(api_url: str, api_key: str, prompt_type: str = 'long') -> dict[
                 break
             page += 1
     return {**envelope, 'data': rows, 'endpoint': api_url, 'pagesFetched': page,
-            'promptType': None if is_free else prompt_type}
+            'promptType': None}
 
 
 def fetch_llm_stats_models(api_url: str, api_key: str) -> list[dict[str, Any]]:
@@ -281,13 +279,28 @@ def normalize_number(value: Any, multiplier: float = 1.0) -> float | None:
         return None
 
 
-def performance_value(model: dict[str, Any], key: str) -> float | None:
+def performance_value(model: dict[str, Any], metric: str) -> float | None:
+    # A present v3 block is authoritative, including null, missing measurements,
+    # and invalid numbers. Mixing its means with older medians is misleading.
+    if 'performance_v3' in model:
+        performance_v3 = model['performance_v3'] or {}
+        return normalize_number(performance_v3.get(f'mean_{metric}'))
+    key = f'median_{metric}'
     performance = model.get('performance') or {}
     # Explicit null in the new schema must not revive a stale legacy value.
     if key in performance:
         return normalize_number(performance[key])
     legacy_key = 'median_time_to_first_answer_token' if key == 'median_time_to_first_answer_token_seconds' else key
     return normalize_number(model.get(key, model.get(legacy_key)))
+
+
+def performance_metadata(model: dict[str, Any]) -> dict[str, Any]:
+    is_v3 = 'performance_v3' in model
+    return {
+        'performanceSchema': 'performance_v3' if is_v3 else 'performance' if 'performance' in model else 'legacy',
+        'performanceAggregation': 'mean' if is_v3 else 'median',
+        'performanceBucketDate': (model.get('performance_v3') or {}).get('bucket_date') if is_v3 else None,
+    }
 
 
 def gpqa_value(evaluations: dict[str, Any]) -> float | None:
@@ -534,7 +547,7 @@ def build_tags(model: dict[str, Any]) -> list[str]:
 def build_summary(model: dict[str, Any]) -> str:
     evaluations = model.get('evaluations', {}) or {}
     overall = normalize_number(evaluations.get('artificial_analysis_intelligence_index'))
-    speed = performance_value(model, 'median_output_tokens_per_second')
+    speed = performance_value(model, 'output_tokens_per_second')
     return f"AA 智能指数 {overall if overall is not None else 'N/A'} · 输出速度 {speed if speed is not None else 'N/A'} tok/s"
 
 
@@ -580,15 +593,16 @@ def map_model(
         'summary': build_summary(model),
         'tags': build_tags(model),
         'pricing': f"${normalize_number(pricing.get('price_1m_blended_3_to_1'))} / 1M blended" if normalize_number(pricing.get('price_1m_blended_3_to_1')) is not None else 'N/A',
-        'latency': f"{performance_value(model, 'median_time_to_first_token_seconds')}s TTFT" if performance_value(model, 'median_time_to_first_token_seconds') is not None else 'N/A',
+        'latency': f"{performance_value(model, 'time_to_first_token_seconds')}s TTFT" if performance_value(model, 'time_to_first_token_seconds') is not None else 'N/A',
         'scores': {
             'overall': normalize_number(evaluations.get('artificial_analysis_intelligence_index')),
             'coding': normalize_number(evaluations.get('artificial_analysis_coding_index')),
             'reasoning': gpqa_value(evaluations),
             'price': normalize_number(pricing.get('price_1m_blended_3_to_1')),
-            'speed': performance_value(model, 'median_output_tokens_per_second'),
+            'speed': performance_value(model, 'output_tokens_per_second'),
         },
         'meta': {
+            **performance_metadata(model),
             'rank': rank,
             'slug': model.get('slug', ''),
             'creatorId': creator.get('id', ''),
@@ -626,9 +640,9 @@ def map_model(
             'inputPrice': normalize_number(pricing.get('price_1m_input_tokens')),
             'outputPrice': normalize_number(pricing.get('price_1m_output_tokens')),
             'blendedPrice': normalize_number(pricing.get('price_1m_blended_3_to_1')),
-            'tokensPerSecond': performance_value(model, 'median_output_tokens_per_second'),
-            'timeToFirstTokenSeconds': performance_value(model, 'median_time_to_first_token_seconds'),
-            'timeToFirstAnswerTokenSeconds': performance_value(model, 'median_time_to_first_answer_token_seconds'),
+            'tokensPerSecond': performance_value(model, 'output_tokens_per_second'),
+            'timeToFirstTokenSeconds': performance_value(model, 'time_to_first_token_seconds'),
+            'timeToFirstAnswerTokenSeconds': performance_value(model, 'time_to_first_answer_token_seconds'),
         },
     }
 
@@ -694,7 +708,8 @@ def build_payload(
             'tier': response_payload.get('tier'),
             'intelligenceIndexVersion': response_payload.get('intelligence_index_version'),
             'pagesFetched': response_payload.get('pagesFetched'),
-            'promptType': response_payload.get('promptType'),
+            'promptType': None,
+            'performanceSchemas': sorted({model['meta']['performanceSchema'] for model in models}),
         },
     }
 

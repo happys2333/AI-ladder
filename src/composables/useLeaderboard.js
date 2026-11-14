@@ -1,7 +1,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { defaultSelectedIds } from '../config/leaderboard.js'
 import { fetchLeaderboardData } from '../services/leaderboardService.js'
-import { getCategoryValue } from '../utils/metrics.js'
+import { availableSpeedMethodologies, getCategoryValue, selectSpeedModels } from '../utils/metrics.js'
 
 export function useLeaderboard() {
   const categoryDefinitions = ref([])
@@ -14,6 +14,13 @@ export function useLeaderboard() {
   const stats = ref({})
 
   const activeCategory = ref('overall')
+  const requestedSpeedMethodology = ref('')
+  const speedMethodologies = computed(() => availableSpeedMethodologies(models.value))
+  const activeSpeedMethodology = computed({
+    get: () => speedMethodologies.value.includes(requestedSpeedMethodology.value)
+      ? requestedSpeedMethodology.value : speedMethodologies.value[0] ?? '',
+    set: value => { requestedSpeedMethodology.value = value },
+  })
   const compareMode = ref('region')
   const isPriceAscending = ref(true)
   const search = ref('')
@@ -51,7 +58,9 @@ export function useLeaderboard() {
     const threeMonthsAgo = new Date()
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
 
-    return sortModels(models.value
+    const comparable = activeCategory.value === 'speed'
+      ? selectSpeedModels(models.value, activeSpeedMethodology.value) : models.value
+    return sortModels(comparable
       .filter((model) => {
         if (getCategoryValue(model, activeCategory.value) === null) {
           return false
@@ -156,6 +165,8 @@ export function useLeaderboard() {
     stats,
     activeModel,
     activeCategory,
+    speedMethodologies,
+    activeSpeedMethodology,
     compareMode,
     isPriceAscending,
     search,

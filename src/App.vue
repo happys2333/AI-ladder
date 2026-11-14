@@ -37,6 +37,8 @@ const {
   stats,
   activeModel,
   activeCategory,
+  speedMethodologies,
+  activeSpeedMethodology,
   compareMode,
   isPriceAscending,
   search,
@@ -211,6 +213,9 @@ watchEffect(() => {
             :source="source"
             :leaderboard-stats="stats"
             :active-category="activeCategory"
+            :speed-methodologies="speedMethodologies"
+            :active-speed-methodology="activeSpeedMethodology"
+            @update:speed-methodology="activeSpeedMethodology = $event"
             :is-price-ascending="isPriceAscending"
             :models="filteredModels"
             :is-loading="isLoading"

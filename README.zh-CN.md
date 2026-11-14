@@ -157,12 +157,8 @@ Free 不提供 GPQA 和混合价格。缺失值保留为 `null`，界面显示 `
 
 ```bash
 ARTIFICIAL_ANALYSIS_API_URL=https://artificialanalysis.ai/api/v2/language/models
-ARTIFICIAL_ANALYSIS_PROMPT_TYPE=long
 ```
 
-旧 `ARTIFICIAL_ANALYSIS_PROMPT_LENGTH`、`ARTIFICIAL_ANALYSIS_PARALLEL_QUERIES`
-改为 `PROMPT_TYPE`，支持 `medium`、`long`、`100k`、`vision_single_image`、
-`medium_coding`、`medium_parallel`。Free 仅发送 `page`，不声称使用某个性能预设。
 快照记录返回的套餐及智能指数版本。认证/权限错误不重试；临时错误有界退避重试；
 每日配额要求等待超过 120 秒时安全失败，留待下次定时更新。
 
@@ -175,6 +171,40 @@ npm run build
 
 参考：[Artificial Analysis API 文档](https://artificialanalysis.ai/data-api/docs)。
 
+### Performance v3（2026 年 12 月 10 日切换）
+
+上游将在 2026 年 12 月 10 日把旧 `performance` 字段置空，并忽略 `prompt_type`。
+脚本现已在 Free、Pro/Commercial 响应中优先读取 `performance_v3` 的三项均值：
+
+- `mean_output_tokens_per_second` → 速度排行、摘要和 `meta.tokensPerSecond`
+- `mean_time_to_first_token_seconds` → TTFT 和 `meta.timeToFirstTokenSeconds`
+- `mean_time_to_first_answer_token_seconds` → `meta.timeToFirstAnswerTokenSeconds`
+
+这不是给旧中位数改名。v3 速度包含首 token 等待时间及推理 token，采用五天窗口内
+已测工作负载的等权平均；模型数据通常来自代表性端点，必要时使用上游规定的跨端点
+回退。因此，切换前后快照的数值变化不能直接当作性能提升或退步。详情及对比卡片
+注明测量口径，每个模型的 `meta` 保留 `performanceSchema`、`performanceAggregation`
+以及 Pro 可选的 `performanceBucketDate`，快照统计列出使用的 `performanceSchemas`。
+
+只要存在 v3 字段，就以它为准：空对象、空字段、缺失字段或无效数值均保留为缺测，
+真实的零值仍为零。仅完全没有 v3 字段时兼容旧嵌套或平铺字段；不会用旧数据填补
+v3 缺测，也不会用单工作负载、单任务耗时替代整体均值，或从速度估算首答案延迟。
+格式错误会使更新失败，并保留上次有效文件。
+
+两个端点现在都只发送 `page`，`stats.promptType` 始终为空。为兼容旧调用，
+`--prompt-type` / `ARTIFICIAL_ANALYSIS_PROMPT_TYPE` 仍可传入，但不再生效；
+可从本地及 CI 配置中移除。定时工作流已不再设置性能预设。
+
+`tests/test_artificial_analysis.py` 覆盖契约、缺测、零值及兼容场景，但离线测试不能
+代替携带 API key 的真实抓取。现有已提交快照不会被伪装成 v3 或用旧中位数重算。
+迁移合并后，下次成功的定时更新将使用 v3。如需手动核验，请先用两个 API key
+运行更新脚本，并将 `--output` 指向仓库快照以外的临时路径，检查速度、延迟及
+`meta.performanceSchema` 后再替换正式数据。
+
+参考：[接口契约](https://artificialanalysis.ai/data-api/docs/reference)、
+[停用说明](https://artificialanalysis.ai/data-api/docs#deprecations)及
+[性能测量方法](https://artificialanalysis.ai/methodology/performance-benchmarking)。
+
 ## 手动更新 Codex Radar
 
 独立页面 `#/codex-radar` 使用注明时间与来源的公开页面快照。
@@ -183,3 +213,9 @@ npm run build
 **AI Ladder CI** 只校验数据、运行测试和构建，不访问上游接口，也不部署。
 详见[手动更新指南](docs/codex-radar.md#manual-refresh-source-observation--reviewed-data-pr)，
 其中包括数据格式、来源核验、GitHub 界面操作，以及 Run workflow 需工作流先进入默认分支的限制。
+
+速度排名及均值、跨度按统计口径分组显示：v3 均值（有测量值时默认）、
+旧版中位数、未标注口径的历史数据。可在速度榜切换查看，搜索不会自动
+改变口径。未标注的历史数值保留，但明确提示可比性未知，不推断其口径。
+混合数据的排名、统计与月度领跑工具均有离线回归测试。主页仍不显示速度
+或价格月度图；月度工具本身也防止混合速度口径。
