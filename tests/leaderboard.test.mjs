@@ -139,3 +139,44 @@ test('monthly trends exclude missing metrics and dates, but preserve zero measur
   assert.deepEqual(buildMonthlyLeaders(input, 'price').map(entry => entry.score), [2, 2, 0])
   assert.deepEqual(buildMonthlyLeaders(input, 'coding'), [])
 })
+
+test('speed cohorts keep rankings and statistics separate before search, including zero and unknown metadata', async () => {
+  const state = await leaderboardFor({ categories, models: [
+    model('legacy-fast', { overall: 10, speed: 120 }, { performanceSchema: 'performance', performanceAggregation: 'median' }),
+    model('flat-legacy', { overall: 10, speed: 80 }, { performanceSchema: 'legacy', performanceAggregation: 'median' }),
+    model('v3', { overall: 20, speed: 100 }, { performanceSchema: 'performance_v3', performanceAggregation: 'mean' }),
+    model('v3-zero', { overall: 20, speed: 0 }, { performanceSchema: 'performance_v3', performanceAggregation: 'mean' }),
+    model('unlabelled', { overall: 30, speed: 999 }),
+    model('null-v3', { speed: null }, { performanceSchema: 'performance_v3', performanceAggregation: 'mean' }),
+  ] })
+  state.activeCategory.value = 'speed'
+  assert.deepEqual(state.speedMethodologies.value, ['v3Mean', 'legacyMedian', 'unknown'])
+  assert.equal(state.activeSpeedMethodology.value, 'v3Mean')
+  assert.deepEqual(state.filteredModels.value.map(m => m.id), ['v3', 'v3-zero'])
+  assert.deepEqual(state.overviewStats.value, { leader: 'v3', avg: '50.0', spread: '100.0' })
+  state.search.value = 'legacy'
+  assert.deepEqual(state.filteredModels.value, [], 'search does not silently change methodology')
+  state.activeSpeedMethodology.value = 'legacyMedian'
+  assert.deepEqual(state.filteredModels.value.map(m => m.id), ['legacy-fast', 'flat-legacy'])
+  assert.deepEqual(state.overviewStats.value, { leader: 'legacy-fast', avg: '100.0', spread: '40.0' })
+  state.search.value = ''
+  state.activeSpeedMethodology.value = 'unknown'
+  assert.deepEqual(state.filteredModels.value.map(m => m.id), ['unlabelled'])
+  state.activeCategory.value = 'overall'
+  assert.equal(state.filteredModels.value.length, 5, 'other rankings retain all methods')
+  state.updateModels([model('new-v3', { speed: 0 }, { performanceSchema: 'performance_v3', performanceAggregation: 'mean' })])
+  assert.equal(state.activeSpeedMethodology.value, 'v3Mean', 'refresh falls back when selected method disappears')
+  assert.equal(state.filteredModels.value[0].id, 'new-v3')
+})
+
+test('monthly speed utility cannot mix methodologies or carry a legacy leader into v3 data', () => {
+  const rows = [
+    model('old', { speed: 120 }, { releaseYearMonth: '2026-01', performanceSchema: 'performance', performanceAggregation: 'median' }),
+    model('new', { speed: 100 }, { releaseYearMonth: '2026-02', performanceSchema: 'performance_v3', performanceAggregation: 'mean' }),
+    model('unknown', { speed: 900 }, { releaseYearMonth: '2026-03' }),
+  ]
+  assert.deepEqual(buildMonthlyLeaders(rows, 'speed'), [{ month: '2026-02', modelId: 'new', modelName: 'new', score: 100 }])
+  assert.deepEqual(buildMonthlyLeaders(rows, 'speed', 'legacyMedian'), [{ month: '2026-01', modelId: 'old', modelName: 'old', score: 120 }])
+  assert.deepEqual(buildMonthlyLeaders(rows, 'speed', 'unknown'), [{ month: '2026-03', modelId: 'unknown', modelName: 'unknown', score: 900 }])
+  assert.deepEqual(buildMonthlyLeaders(rows, 'speed', 'invalid'), [])
+})
