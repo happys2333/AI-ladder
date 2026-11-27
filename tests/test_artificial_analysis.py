@@ -1,5 +1,6 @@
 import copy
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -17,6 +18,15 @@ FREE_MODEL = {
                     'median_time_to_first_answer_token_seconds': 2.5},
 }
 
+# Headline fields from the provider's Free/Pro reference examples. Legacy values
+# deliberately disagree so precedence and semantic changes cannot go unnoticed.
+# https://artificialanalysis.ai/data-api/docs/reference
+V3_METRICS = {
+    'mean_output_tokens_per_second': 62.36,
+    'mean_time_to_first_token_seconds': 3.45,
+    'mean_time_to_first_answer_token_seconds': 79.11,
+}
+
 
 def page(number=1, total=1, model=None):
     return {'tier': 'free', 'intelligence_index_version': 4.1,
@@ -25,6 +35,104 @@ def page(number=1, total=1, model=None):
 
 
 class NormalizationTests(unittest.TestCase):
+    def test_v3_means_win_everywhere_over_legacy_medians(self):
+        raw = copy.deepcopy(FREE_MODEL)
+        raw['performance_v3'] = V3_METRICS.copy()
+        raw['median_output_tokens_per_second'] = 999
+        payload = aa.build_payload(page(model=raw), [], [], 700, False)
+        model = payload['models'][0]
+        self.assertEqual(model['scores']['speed'], 62.36)
+        self.assertEqual(model['meta']['tokensPerSecond'], 62.36)
+        self.assertEqual(model['meta']['timeToFirstTokenSeconds'], 3.45)
+        self.assertEqual(model['meta']['timeToFirstAnswerTokenSeconds'], 79.11)
+        self.assertIn('62.36 tok/s', model['summary'])
+        self.assertEqual(model['latency'], '3.45s TTFT')
+        self.assertEqual(model['meta']['performanceSchema'], 'performance_v3')
+        self.assertEqual(model['meta']['performanceAggregation'], 'mean')
+        self.assertIsNone(model['meta']['performanceBucketDate'])
+        self.assertEqual(payload['stats']['performanceSchemas'], ['performance_v3'])
+
+    def test_v3_survives_sunset_or_removal_of_legacy_fields(self):
+        for legacy in (None, {key: None for key in FREE_MODEL['performance']}):
+            with self.subTest(legacy=legacy):
+                raw = copy.deepcopy(FREE_MODEL)
+                raw['performance'] = legacy
+                raw['performance_v3'] = V3_METRICS.copy()
+                payload = aa.build_payload(page(model=raw), [], [], 700, False)
+                self.assertEqual(payload['models'][0]['scores']['speed'], 62.36)
+                self.assertIn('speed', [c['key'] for c in payload['categories']])
+        del raw['performance']
+        self.assertEqual(aa.map_model(raw, None, None, 1)['scores']['speed'], 62.36)
+
+    def test_present_null_or_empty_v3_never_revives_legacy_values(self):
+        for block in (None, {}, {key: None for key in V3_METRICS}):
+            with self.subTest(block=block):
+                raw = copy.deepcopy(FREE_MODEL)
+                raw['performance_v3'] = block
+                raw['median_output_tokens_per_second'] = 999
+                payload = aa.build_payload(page(model=raw), [], [], 700, False)
+                model = payload['models'][0]
+                for field in ('tokensPerSecond', 'timeToFirstTokenSeconds', 'timeToFirstAnswerTokenSeconds'):
+                    self.assertIsNone(model['meta'][field])
+                self.assertIsNone(model['scores']['speed'])
+                self.assertEqual(model['latency'], 'N/A')
+                self.assertNotIn('speed', [c['key'] for c in payload['categories']])
+                self.assertEqual(model['meta']['performanceSchema'], 'performance_v3')
+
+    def test_v3_missing_or_invalid_field_does_not_fall_back(self):
+        raw = copy.deepcopy(FREE_MODEL)
+        for value in (None, '', 'invalid', True, [], {}, float('nan'), float('inf')):
+            with self.subTest(value=value):
+                raw['performance_v3'] = {**V3_METRICS, 'mean_output_tokens_per_second': value}
+                model = aa.map_model(raw, None, None, 1)
+                self.assertIsNone(model['scores']['speed'])
+                self.assertEqual(model['meta']['timeToFirstAnswerTokenSeconds'], 79.11)
+        del raw['performance_v3']['mean_output_tokens_per_second']
+        self.assertIsNone(aa.map_model(raw, None, None, 1)['scores']['speed'])
+
+    def test_v3_zero_is_a_real_measurement(self):
+        raw = copy.deepcopy(FREE_MODEL)
+        raw['performance_v3'] = {key: 0 for key in V3_METRICS}
+        payload = aa.build_payload(page(model=raw), [], [], 700, False)
+        model = payload['models'][0]
+        self.assertEqual(model['scores']['speed'], 0)
+        self.assertEqual(model['latency'], '0.0s TTFT')
+        self.assertEqual(model['meta']['timeToFirstAnswerTokenSeconds'], 0)
+        self.assertIn('speed', [c['key'] for c in payload['categories']])
+
+    def test_pro_v3_metadata_does_not_substitute_task_or_workload_metrics(self):
+        raw = copy.deepcopy(FREE_MODEL)
+        raw['performance_v3'] = {
+            **V3_METRICS, 'time_per_task_seconds': 1907.94, 'bucket_date': '2026-10-30',
+            'workloads': {'1k': {'mean_time_to_first_token_seconds': 1.96}},
+        }
+        payload = page(model=raw)
+        payload.update(tier='pro', promptType='long')
+        mapped = aa.build_payload(payload, [], [], 700, False)
+        self.assertEqual(mapped['models'][0]['meta']['performanceBucketDate'], '2026-10-30')
+        self.assertIsNone(mapped['stats']['promptType'])
+        for key in V3_METRICS:
+            del raw['performance_v3'][key]
+        model = aa.map_model(raw, None, None, 1)
+        self.assertIsNone(model['scores']['speed'])
+        self.assertIsNone(model['meta']['timeToFirstTokenSeconds'])
+        self.assertIsNone(model['meta']['timeToFirstAnswerTokenSeconds'])
+
+    def test_malformed_v3_block_fails_validation(self):
+        for block in ([], '', 'invalid', 42, False):
+            with self.subTest(block=block):
+                raw = copy.deepcopy(FREE_MODEL)
+                raw['performance_v3'] = block
+                with self.assertRaisesRegex(ValueError, 'performance_v3'):
+                    aa.build_payload(page(model=raw), [], [], 700, False)
+
+    def test_mixed_payload_retains_each_models_methodology(self):
+        new, old = copy.deepcopy(FREE_MODEL), copy.deepcopy(FREE_MODEL)
+        new.update(id='v3-model', performance_v3=V3_METRICS.copy())
+        payload = aa.build_payload({'data': [old, new]}, [], [], 700, False)
+        self.assertEqual(payload['stats']['performanceSchemas'], ['performance', 'performance_v3'])
+        self.assertEqual([m['meta']['performanceAggregation'] for m in payload['models']], ['median', 'mean'])
+
     def test_free_nulls_and_provider_alias(self):
         payload = aa.build_payload(page(), [], [], 700, False)
         model = payload['models'][0]
@@ -37,6 +145,8 @@ class NormalizationTests(unittest.TestCase):
         self.assertEqual(model['pricing'], 'N/A')
         self.assertEqual([c['key'] for c in payload['categories']], ['overall', 'speed'])
         self.assertIsNone(payload['stats']['promptType'])
+        self.assertEqual(model['meta']['performanceSchema'], 'performance')
+        self.assertEqual(model['meta']['performanceAggregation'], 'median')
 
     def test_pro_gpqa_and_legacy_compatibility(self):
         model = copy.deepcopy(FREE_MODEL)
@@ -59,6 +169,7 @@ class NormalizationTests(unittest.TestCase):
         self.assertEqual(mapped['scores']['speed'], 99)
         self.assertEqual(mapped['scores']['reasoning'], 20)
         self.assertEqual(mapped['meta']['timeToFirstAnswerTokenSeconds'], 3)
+        self.assertEqual(mapped['meta']['performanceSchema'], 'legacy')
 
     def test_invalid_numbers_remain_missing(self):
         for value in (None, '', 'invalid', True, float('nan'), float('inf')):
@@ -116,10 +227,21 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(result['intelligence_index_version'], 4.1)
         self.assertEqual([call.kwargs['params'] for call in fetch.call_args_list], [{'page': 1}, {'page': 2}])
 
-    def test_pro_sends_prompt_type(self):
-        result, fetch = self.fetch([page()], aa.DEFAULT_API_URL.removesuffix('/free'))
-        self.assertEqual(fetch.call_args.kwargs['params'], {'page': 1, 'prompt_type': 'medium'})
-        self.assertEqual(result['promptType'], 'medium')
+    def test_pro_no_longer_sends_or_claims_prompt_type(self):
+        pro_page = page()
+        pro_page['tier'] = 'pro'
+        result, fetch = self.fetch([pro_page], aa.DEFAULT_API_URL.removesuffix('/free'))
+        self.assertEqual(fetch.call_args.kwargs['params'], {'page': 1})
+        self.assertIsNone(result['promptType'])
+
+    def test_old_prompt_type_option_remains_an_ignored_compatibility_argument(self):
+        with patch.object(sys, 'argv', ['updater', '--prompt-type', 'medium_coding']):
+            args = aa.parse_args()
+        response = Mock(json=Mock(return_value=page()))
+        with patch.object(aa, '_fetch_with_retry', return_value=response) as fetch:
+            result = aa.fetch_models(aa.DEFAULT_API_URL.removesuffix('/free'), 'fixture-key', args.prompt_type)
+        self.assertEqual(fetch.call_args.kwargs['params'], {'page': 1})
+        self.assertIsNone(result['promptType'])
 
     def test_repeated_missing_and_inconsistent_pages_fail(self):
         invalid = page()
@@ -175,6 +297,41 @@ class FetchTests(unittest.TestCase):
             with self.assertRaises(aa.requests.HTTPError):
                 aa._fetch_with_retry(session, 'url', headers={}, params={})
         sleep.assert_not_called()
+
+
+class PipelineTests(unittest.TestCase):
+    def run_updater(self, output, response_payload):
+        argv = ['updater', '--api-key', 'fixture-key', '--llm-stats-key', 'fixture-key',
+                '--output', str(output)]
+        response = Mock(json=Mock(return_value=response_payload))
+        with (patch.object(sys, 'argv', argv),
+              patch.object(aa, '_fetch_with_retry', return_value=response),
+              patch.object(aa, 'fetch_llm_stats_models', return_value=[]),
+              patch.object(aa, 'fetch_llm_stats_scores', return_value=[])):
+            aa.main()
+
+    def test_post_cutoff_response_writes_v3_snapshot(self):
+        raw = copy.deepcopy(FREE_MODEL)
+        raw['performance'] = {key: None for key in raw['performance']}
+        raw['performance_v3'] = V3_METRICS.copy()
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / 'snapshot.json'
+            target.write_text('last good')
+            self.run_updater(target, page(model=raw))
+            payload = json.loads(target.read_text())
+            self.assertEqual(payload['models'][0]['scores']['speed'], 62.36)
+            self.assertEqual(payload['stats']['performanceSchemas'], ['performance_v3'])
+            self.assertIsNone(payload['stats']['promptType'])
+
+    def test_malformed_v3_never_overwrites_previous_snapshot(self):
+        raw = copy.deepcopy(FREE_MODEL)
+        raw['performance_v3'] = []
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / 'snapshot.json'
+            target.write_text('last good')
+            with self.assertRaisesRegex(ValueError, 'performance_v3'):
+                self.run_updater(target, page(model=raw))
+            self.assertEqual(target.read_text(), 'last good')
 
 
 if __name__ == '__main__':

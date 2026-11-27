@@ -1,5 +1,5 @@
 <script setup>
-import { formatCategoryValue, formatMetric, metricBarWidth } from '../utils/metrics.js'
+import { formatCategoryValue, formatMetric, metricBarWidth, performanceMethodologyKey } from '../utils/metrics.js'
 import { useI18n } from '../composables/useI18n'
 
 defineProps({
@@ -54,6 +54,10 @@ function regionLabel(regions, key) {
             <strong>{{ formatMetric(model.meta?.tokensPerSecond, { digits: 2, suffix: ' tok/s' }) }}</strong>
           </div>
         </div>
+
+        <p v-if="performanceMethodologyKey(model.meta)" class="drawer-summary performance-methodology">
+          {{ t(performanceMethodologyKey(model.meta)) }}
+        </p>
 
         <div class="benchmark-list">
           <div v-for="category in categories" :key="category.key" class="benchmark-row">

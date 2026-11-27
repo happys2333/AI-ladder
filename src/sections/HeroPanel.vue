@@ -9,12 +9,14 @@ defineProps({
   source: { type: Object, default: null },
   leaderboardStats: { type: Object, default: () => ({}) },
   activeCategory: { type: String, required: true },
+  speedMethodologies: { type: Array, default: () => [] },
+  activeSpeedMethodology: { type: String, default: '' },
   isPriceAscending: { type: Boolean, default: true },
   models: { type: Array, default: () => [] },
   isLoading: { type: Boolean, default: false },
 })
 
-defineEmits(['toggle-price-sort'])
+defineEmits(['toggle-price-sort', 'update:speed-methodology'])
 
 function formatUpdateTime(value) {
   if (!value) return '未提供'
@@ -46,6 +48,16 @@ const { locale, t } = useI18n()
     </div>
 
     <div class="hero-side">
+      <div v-if="activeCategory === 'speed' && speedMethodologies.length" class="speed-methodology-control">
+        <label for="speed-methodology">{{ t('performance.cohortLabel') }}</label>
+        <select id="speed-methodology" :value="activeSpeedMethodology"
+          @change="$emit('update:speed-methodology', $event.target.value)">
+          <option v-for="key in speedMethodologies" :key="key" :value="key" :selected="key === activeSpeedMethodology">
+            {{ t(`performance.cohort${key}`) }}
+          </option>
+        </select>
+        <p>{{ t(activeSpeedMethodology === 'unknown' ? 'performance.unknownWarning' : 'performance.cohortHint') }}</p>
+      </div>
       <div v-if="activeCategory === 'price'" class="hero-actions">
         <button class="ghost-action" @click="$emit('toggle-price-sort')">
           {{ isPriceAscending ? t('hero.priceAsc') : t('hero.priceDesc') }}
@@ -81,3 +93,10 @@ const { locale, t } = useI18n()
     />
   </section>
 </template>
+
+<style scoped>
+.speed-methodology-control { margin-bottom: 1rem; }
+.speed-methodology-control label { display: block; margin-bottom: 0.4rem; }
+.speed-methodology-control select { max-width: 100%; padding: 0.5rem; font: inherit; }
+.speed-methodology-control p { margin: 0.5rem 0; font-size: 0.85rem; line-height: 1.5; }
+</style>
